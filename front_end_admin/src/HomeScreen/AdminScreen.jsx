@@ -13,21 +13,6 @@ export const AdminScreen = () => {
 
     return (
         <>
-            {/* <Grid container>
-                <Grid item sm={1} md={2} >
-                    
-                    <AdminSideBar />
-                </Grid>
-                <Grid item xs={12} sm={11} md={10} >
-                    <Routes>
-                        
-                        <Route path="order" element={<AdminOrderScreen />} />
-                        <Route path="user" element={<AdminUserScreen />} />
-                        <Route path="dashboard" element={<AdminDashboardScreen />} />
-                        <Route path="product" element={<AdminProductScreen />} />
-                    </Routes>
-                </Grid>
-            </Grid> */}
 
             <Box sx={{
                 position: 'fixed',
@@ -46,15 +31,12 @@ export const AdminScreen = () => {
                 marginRight: '13px'
             }}>
                 <Routes>
-
                     <Route path="order" element={<AdminOrderScreen />} />
                     <Route path="user" element={<AdminUserScreen />} />
                     <Route path="dashboard" element={<AdminDashboardScreen />} />
                     <Route path="product" element={<AdminProductScreen />} />
                 </Routes>
             </Box>
-
-
 
         </>
     )

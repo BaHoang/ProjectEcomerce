@@ -12,22 +12,25 @@ import { styled } from '@mui/system'
 const CustomLink = styled(NavLink)({
     color: 'white',
     textDecoration: 'none',
-    display: 'flex',
+    display: 'block',
     height: '50px',
-   
+
+    '&:hover': {
+        backgroundColor: 'rgba(71, 98, 130, 0.3)',
+    },
 });
 
 const CustomListItemButton = styled(ListItemButton)({
     padding: 0,
     justifyContent: 'center',
     
-    '&:hover': {
-        backgroundColor: 'rgba(71, 98, 130, 0.3)',
-    },
+    
 });
 
 const CustomListItemIcon = styled(ListItemIcon)(({ theme }) => ({
     justifyContent: 'center',
+    height: '50px',
+    alignItems: 'center',
    
     [theme.breakpoints.up('xs')]: {
         minWidth: '50px',
@@ -50,21 +53,26 @@ const CustomListItemText = styled(ListItemText)(({ theme }) => ({
     },
 }))
 
-const LabelTooltip = styled(({ className, ...props }) => (
+const CustomTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({
     [`& .${tooltipClasses.tooltip}`]: {
         backgroundColor: 'black',
-        position: 'relative',
         padding: '6px',
-        top: '-25px',
-        left: '40px'
+        [theme.breakpoints.up('xs')]: {
+            display: 'block',
+        },
+    
+        [theme.breakpoints.up('md')]: {
+            display: 'none',
+        },
+       
     },
 }));
 
 export const AdminSideBar = () => {
     return (
-        <Box>
+        
             <List
                 sx={{ width: '100%', maxWidth: 360 }}
                 component="nav"
@@ -72,70 +80,70 @@ export const AdminSideBar = () => {
 
                 <CustomLink to='/admin/dashboard'>
                     <CustomListItemButton>
-                        <LabelTooltip title="Dashboard" >
+                        <CustomTooltip title="Dashboard" placement='right'>
                             <CustomListItemIcon >
 
                                 <DashboardIcon sx={{ color: 'white', fontSize: '24px' }} />
 
                             </CustomListItemIcon>
-                        </LabelTooltip>
+                        </CustomTooltip>
                         <CustomListItemText primary="Dashboard" primaryTypographyProps={{ fontSize: '18px' }} />
                     </CustomListItemButton>
                 </CustomLink>
 
                 <CustomLink to='/admin/product'>
                     <CustomListItemButton>
-                        <LabelTooltip title="Product" >
+                        <CustomTooltip title="Product" placement='right'>
                             <CustomListItemIcon >
 
                                 <DraftsIcon sx={{ color: 'white', fontSize: '24px' }} />
 
                             </CustomListItemIcon>
-                        </LabelTooltip>
+                        </CustomTooltip>
                         <CustomListItemText primary="Product" primaryTypographyProps={{ fontSize: '18px' }} />
                     </CustomListItemButton>
                 </CustomLink>
 
                 <CustomLink to='/admin/user'>
                     <CustomListItemButton>
-                        <LabelTooltip title="User" >
+                        <CustomTooltip title="User"  placement='right'>
                             <CustomListItemIcon >
 
                                 <PeopleAltIcon sx={{ color: 'white', fontSize: '24px' }} />
 
                             </CustomListItemIcon>
-                        </LabelTooltip>
+                        </CustomTooltip>
                         <CustomListItemText primary="User" primaryTypographyProps={{ fontSize: '18px' }} />
                     </CustomListItemButton>
                 </CustomLink>
 
                 <CustomLink to='/admin/order'>
                     <CustomListItemButton>
-                        <LabelTooltip title="Order" >
+                        <CustomTooltip title="Order" placement='right'>
                             <CustomListItemIcon >
 
                                 <ShoppingCartIcon sx={{ color: 'white', fontSize: '24px' }} />
 
                             </CustomListItemIcon>
-                        </LabelTooltip>
+                        </CustomTooltip>
                         <CustomListItemText primary="Order" primaryTypographyProps={{ fontSize: '18px' }} />
                     </CustomListItemButton>
                 </CustomLink>
 
                 <CustomLink to='/admin/logout'>
                     <CustomListItemButton>
-                        <LabelTooltip title="Logout" >
+                        <CustomTooltip title="Logout" placement='right'>
                             <CustomListItemIcon >
 
                                 <LogoutIcon sx={{ color: 'white', fontSize: '24px' }} />
 
                             </CustomListItemIcon>
-                        </LabelTooltip>
+                        </CustomTooltip>
                         <CustomListItemText primary="Logout" primaryTypographyProps={{ fontSize: '18px' }} />
                     </CustomListItemButton>
                 </CustomLink>
 
             </List>
-        </Box>
+        
     )
 }

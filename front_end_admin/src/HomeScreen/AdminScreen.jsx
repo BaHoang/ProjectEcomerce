@@ -27,21 +27,18 @@ const OverLay = styled(Box)({
 
 export const AdminScreen = () => {
 
-    const [anchorEl, setAnchorEl] = useState(null)
-
-    const [xsDisplay, setXsDisplay] = useState('none')
+    const [anchorEl, setAnchorEl] = useState(false)
 
     const displaySidebar = useSelector(state => state.displaySidebar)
-    console.log("hihihihih", displaySidebar)
-
+   
     const dispatch = useDispatch()
 
     const handleMenu = (event) => {
-        setAnchorEl(event.currentTarget);
+        setAnchorEl(!anchorEl);
     }
 
     const handleClose = () => {
-        setAnchorEl(null);
+        setAnchorEl(false);
     }
 
     const handleXsDisplay = () => {
@@ -54,7 +51,7 @@ export const AdminScreen = () => {
     }
 
     return (
-        <>
+        <Box onClick={handleMenu}>
             <Box sx={{
                 position: 'fixed',
                 top: '0',
@@ -101,7 +98,7 @@ export const AdminScreen = () => {
                     <MenuIcon sx={{ color: 'blue' }} />
                 </IconButton>
 
-                <Box sx={{ marginLeft: 'auto' }}>
+                <Box sx={{ marginLeft: 'auto', position:'relative' }}>
                     <IconButton
                         size="large"
                         aria-label="account of current user"
@@ -115,25 +112,11 @@ export const AdminScreen = () => {
                         <NotificationsNoneIcon  sx={{ color: 'blue' }} />
                     </IconButton>
 
-                    <Menu
-                        id="menu-appbar"
-                        anchorEl={anchorEl}
+                   
 
-
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'right',
-                        }}
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        open={Boolean(anchorEl)}
-                        onClose={handleClose}
-                    >
-                        <MenuItem onClick={handleClose}>Profile</MenuItem>
-                        <MenuItem onClick={handleClose}>Logout</MenuItem>
-                    </Menu>
+                    <Box sx={{height: '100px', width: '100px', position: 'absolute', right: '0', top: '110%', backgroundColor:'white', boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)', display: (anchorEl ? 'block' : 'none')}}>
+                        thong bao
+                    </Box>
                 </Box>
 
                 {/* <Box >
@@ -186,6 +169,6 @@ export const AdminScreen = () => {
                 </Routes>
             </Box>
 
-        </>
+        </Box>
     )
 }

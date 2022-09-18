@@ -1,13 +1,15 @@
 import { Box, List, ListItemButton, ListItemIcon, ListItemText, Tooltip, tooltipClasses } from '@mui/material'
-import SendIcon from '@mui/icons-material/Send';
-import DraftsIcon from '@mui/icons-material/Drafts';
-import React from 'react';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import LogoutIcon from '@mui/icons-material/Logout';
+import SendIcon from '@mui/icons-material/Send'
+import DraftsIcon from '@mui/icons-material/Drafts'
+import React from 'react'
+import DashboardIcon from '@mui/icons-material/Dashboard'
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
+import LogoutIcon from '@mui/icons-material/Logout'
 import { NavLink } from 'react-router-dom'
 import { styled } from '@mui/system'
+import { useDispatch, useSelector } from 'react-redux'
+import { hiddenSidebar } from '../Actions/sidebarAction'
 
 const CustomLink = styled(NavLink)({
     color: 'white',
@@ -18,14 +20,12 @@ const CustomLink = styled(NavLink)({
     '&:hover': {
         backgroundColor: 'rgba(71, 98, 130, 0.3)',
     },
-});
+})
 
 const CustomListItemButton = styled(ListItemButton)({
     padding: 0,
     justifyContent: 'center',
-    
-    
-});
+})
 
 const CustomListItemIcon = styled(ListItemIcon)(({ theme }) => ({
     justifyContent: 'center',
@@ -42,8 +42,6 @@ const CustomListItemIcon = styled(ListItemIcon)(({ theme }) => ({
 
 }))
 
-
-
 const CustomTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({
@@ -59,14 +57,16 @@ const CustomTooltip = styled(({ className, ...props }) => (
         },
        
     },
-}));
+}))
 
 export const AdminSideBar = (props) => {
+
+    const displaySidebar = useSelector(state => state.displaySidebar)
 
     const CustomListItemText = styled(ListItemText)(({ theme }) => ({
 
         [theme.breakpoints.up('xs')]: {
-            display: props.displaySidebar,
+            display: displaySidebar,
         },
 
         [theme.breakpoints.up('sm')]: {
@@ -78,6 +78,11 @@ export const AdminSideBar = (props) => {
         },
     }))
 
+    const dispatch = useDispatch()
+
+    const closeXsDisplay = () => {
+        dispatch(hiddenSidebar())
+    }
 
     return (
         
@@ -86,7 +91,7 @@ export const AdminSideBar = (props) => {
                 component="nav"
             >
 
-                <CustomLink to='/admin/dashboard' >
+                <CustomLink to='/admin/dashboard' onClick={closeXsDisplay}>
                     <CustomListItemButton>
                         <CustomTooltip title="Dashboard" placement='right'>
                             <CustomListItemIcon >
@@ -99,7 +104,7 @@ export const AdminSideBar = (props) => {
                     </CustomListItemButton>
                 </CustomLink>
 
-                <CustomLink to='/admin/product'>
+                <CustomLink to='/admin/product' onClick={closeXsDisplay}>
                     <CustomListItemButton>
                         <CustomTooltip title="Product" placement='right'>
                             <CustomListItemIcon >
@@ -112,7 +117,7 @@ export const AdminSideBar = (props) => {
                     </CustomListItemButton>
                 </CustomLink>
 
-                <CustomLink to='/admin/user'>
+                <CustomLink to='/admin/user' onClick={closeXsDisplay}>
                     <CustomListItemButton>
                         <CustomTooltip title="User"  placement='right'>
                             <CustomListItemIcon >
@@ -125,7 +130,7 @@ export const AdminSideBar = (props) => {
                     </CustomListItemButton>
                 </CustomLink>
 
-                <CustomLink to='/admin/order'>
+                <CustomLink to='/admin/order' onClick={closeXsDisplay}>
                     <CustomListItemButton>
                         <CustomTooltip title="Order" placement='right'>
                             <CustomListItemIcon >
@@ -138,7 +143,7 @@ export const AdminSideBar = (props) => {
                     </CustomListItemButton>
                 </CustomLink>
 
-                <CustomLink to='/admin/logout'>
+                <CustomLink to='/admin/logout' onClick={closeXsDisplay}>
                     <CustomListItemButton>
                         <CustomTooltip title="Logout" placement='right'>
                             <CustomListItemIcon >

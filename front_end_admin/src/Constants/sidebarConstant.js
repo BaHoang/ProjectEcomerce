@@ -1,0 +1,2 @@
+export const ACTIVE_SIDEBAR = 'ACTIVE_SIDEBAR'
+export const HIDDEN_SIDEBAR = 'HIDDEN_SIDEBAR'

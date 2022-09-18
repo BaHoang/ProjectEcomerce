@@ -12,6 +12,8 @@ import MenuIcon from '@mui/icons-material/Menu'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone'
 import { styled } from '@mui/system'
+import { useDispatch, useSelector } from 'react-redux'
+import { activeSidebar, hiddenSidebar } from '../Actions/sidebarAction'
 
 const OverLay = styled(Box)({
     backgroundColor: 'rgba(0, 0, 0, 0.2)',
@@ -29,21 +31,27 @@ export const AdminScreen = () => {
 
     const [xsDisplay, setXsDisplay] = useState('none')
 
+    const displaySidebar = useSelector(state => state.displaySidebar)
+    console.log("hihihihih", displaySidebar)
+
+    const dispatch = useDispatch()
+
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
-    };
+    }
 
     const handleClose = () => {
         setAnchorEl(null);
-    };
+    }
 
     const handleXsDisplay = () => {
-        setXsDisplay('block')
-    };
+        
+        dispatch(activeSidebar())
+    }
 
     const closeXsDisplay = () => {
-        setXsDisplay('none')
-    };
+        dispatch(hiddenSidebar())
+    }
 
     return (
         <>
@@ -51,34 +59,35 @@ export const AdminScreen = () => {
                 position: 'fixed',
                 top: '0',
                 bottom: '0',
-                display: { xs: xsDisplay, sm: "block", md: "block" },
-                width: { xs: '50%', sm: "8.33333333%", md: "16.66667%" },
+                display: { xs: displaySidebar, sm: "block", md: "block" },
+                width: { xs: '60%', sm: "8.33333333%", md: "16.66667%" },
                 backgroundColor: 'rgb(17, 25, 42)',
                 zIndex: '4'
             }}>
 
-                <AdminSideBar displaySidebar={xsDisplay} />
+                <AdminSideBar/>
 
             </Box>
 
-            <OverLay sx={{ display: { xs: xsDisplay, sm: 'none' } }} onClick={closeXsDisplay}> </OverLay>
+            <OverLay sx={{ display: { xs: displaySidebar, sm: 'none' } }} onClick={closeXsDisplay}> </OverLay>
 
             <Box
                 sx={{
                     position: 'fixed',
                     top: '0',
                     left: { xs: 0, sm: "8.33333333%", md: "16.66667%" },
-                    right: '0',
+                    right: '0px',
                     height: '80px',
                     boxSizing: 'border-box',
                     backgroundColor: 'rgba(255,255,255, 0.8)',
                     backdropFilter: 'blur(5px)',
                     zIndex: 2,
-                    // backgroundColor: 'red',
+                    
                     display: 'flex',
                     alignItems: 'center',
                     padding: '15px 30px',
-                    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)'
+                    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
+
                 }}
             >
                 <IconButton
@@ -86,7 +95,7 @@ export const AdminScreen = () => {
                     edge="start"
 
                     aria-label="menu"
-                    sx={{ mr: 2, display: { xs: "block", sm: "none" }, }}
+                    sx={{  display: { xs: "block", sm: "none" }, paddingLeft: '12px', paddingRight: '12px', paddingTop: '8px', paddingBottom: '8px', backgroundColor: 'rgba(55,55,215,0.1)', alignItems: 'center'}}
                     onClick={handleXsDisplay}
                 >
                     <MenuIcon sx={{ color: 'blue' }} />
@@ -98,11 +107,12 @@ export const AdminScreen = () => {
                         aria-label="account of current user"
                         aria-controls="menu-appbar"
                         aria-haspopup="true"
+                        
                         onClick={handleMenu}
                         sx={{ backgroundColor: 'rgba(55,55,215,0.1)' }}
 
                     >
-                        <NotificationsNoneIcon sx={{ color: 'blue' }} />
+                        <NotificationsNoneIcon  sx={{ color: 'blue' }} />
                     </IconButton>
 
                     <Menu
@@ -126,7 +136,7 @@ export const AdminScreen = () => {
                     </Menu>
                 </Box>
 
-                <Box >
+                {/* <Box >
                     <IconButton
                         size="large"
                         aria-label="account of current user"
@@ -158,7 +168,7 @@ export const AdminScreen = () => {
                         <MenuItem onClick={handleClose}>Profile</MenuItem>
                         <MenuItem onClick={handleClose}>Logout</MenuItem>
                     </Menu>
-                </Box>
+                </Box> */}
             </Box>
 
             <Box

@@ -1,7 +1,8 @@
+import { Box } from '@mui/material'
 import React from 'react'
 
 export const AdminUserScreen = () => {
   return (
-    <div>AdminUserScreen</div>
+    <Box sx={{height: '100vh'}}>AdminUserScreen</Box>
   )
 }

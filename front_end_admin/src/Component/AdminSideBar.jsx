@@ -42,16 +42,7 @@ const CustomListItemIcon = styled(ListItemIcon)(({ theme }) => ({
 
 }))
 
-const CustomListItemText = styled(ListItemText)(({ theme }) => ({
 
-    [theme.breakpoints.up('xs')]: {
-        display: 'none',
-    },
-
-    [theme.breakpoints.up('md')]: {
-        display: 'block',
-    },
-}))
 
 const CustomTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -70,7 +61,24 @@ const CustomTooltip = styled(({ className, ...props }) => (
     },
 }));
 
-export const AdminSideBar = () => {
+export const AdminSideBar = (props) => {
+
+    const CustomListItemText = styled(ListItemText)(({ theme }) => ({
+
+        [theme.breakpoints.up('xs')]: {
+            display: props.displaySidebar,
+        },
+
+        [theme.breakpoints.up('sm')]: {
+            display: 'none'
+        },
+    
+        [theme.breakpoints.up('md')]: {
+            display: 'block',
+        },
+    }))
+
+
     return (
         
             <List
@@ -78,16 +86,16 @@ export const AdminSideBar = () => {
                 component="nav"
             >
 
-                <CustomLink to='/admin/dashboard'>
+                <CustomLink to='/admin/dashboard' >
                     <CustomListItemButton>
                         <CustomTooltip title="Dashboard" placement='right'>
                             <CustomListItemIcon >
 
-                                <DashboardIcon sx={{ color: 'white', fontSize: '24px' }} />
+                                <DashboardIcon sx={{ color: 'white', fontSize: '20px' }} />
 
                             </CustomListItemIcon>
                         </CustomTooltip>
-                        <CustomListItemText primary="Dashboard" primaryTypographyProps={{ fontSize: '18px' }} />
+                        <CustomListItemText primary="Dashboard" primaryTypographyProps={{ fontSize: '16px' }} />
                     </CustomListItemButton>
                 </CustomLink>
 
@@ -96,11 +104,11 @@ export const AdminSideBar = () => {
                         <CustomTooltip title="Product" placement='right'>
                             <CustomListItemIcon >
 
-                                <DraftsIcon sx={{ color: 'white', fontSize: '24px' }} />
+                                <DraftsIcon sx={{ color: 'white', fontSize: '20px' }} />
 
                             </CustomListItemIcon>
                         </CustomTooltip>
-                        <CustomListItemText primary="Product" primaryTypographyProps={{ fontSize: '18px' }} />
+                        <CustomListItemText primary="Product" primaryTypographyProps={{ fontSize: '16px' }} />
                     </CustomListItemButton>
                 </CustomLink>
 
@@ -109,11 +117,11 @@ export const AdminSideBar = () => {
                         <CustomTooltip title="User"  placement='right'>
                             <CustomListItemIcon >
 
-                                <PeopleAltIcon sx={{ color: 'white', fontSize: '24px' }} />
+                                <PeopleAltIcon sx={{ color: 'white', fontSize: '20px' }} />
 
                             </CustomListItemIcon>
                         </CustomTooltip>
-                        <CustomListItemText primary="User" primaryTypographyProps={{ fontSize: '18px' }} />
+                        <CustomListItemText primary="User" primaryTypographyProps={{ fontSize: '16px' }} />
                     </CustomListItemButton>
                 </CustomLink>
 
@@ -122,11 +130,11 @@ export const AdminSideBar = () => {
                         <CustomTooltip title="Order" placement='right'>
                             <CustomListItemIcon >
 
-                                <ShoppingCartIcon sx={{ color: 'white', fontSize: '24px' }} />
+                                <ShoppingCartIcon sx={{ color: 'white', fontSize: '20px' }} />
 
                             </CustomListItemIcon>
                         </CustomTooltip>
-                        <CustomListItemText primary="Order" primaryTypographyProps={{ fontSize: '18px' }} />
+                        <CustomListItemText primary="Order" primaryTypographyProps={{ fontSize: '16px' }} />
                     </CustomListItemButton>
                 </CustomLink>
 
@@ -135,11 +143,11 @@ export const AdminSideBar = () => {
                         <CustomTooltip title="Logout" placement='right'>
                             <CustomListItemIcon >
 
-                                <LogoutIcon sx={{ color: 'white', fontSize: '24px' }} />
+                                <LogoutIcon sx={{ color: 'white', fontSize: '20px' }} />
 
                             </CustomListItemIcon>
                         </CustomTooltip>
-                        <CustomListItemText primary="Logout" primaryTypographyProps={{ fontSize: '18px' }} />
+                        <CustomListItemText primary="Logout" primaryTypographyProps={{ fontSize: '16px' }} />
                     </CustomListItemButton>
                 </CustomLink>
 

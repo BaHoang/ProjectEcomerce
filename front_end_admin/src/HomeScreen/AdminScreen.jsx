@@ -16,33 +16,45 @@ import { useDispatch, useSelector } from 'react-redux'
 import { activeSidebar, hiddenSidebar } from '../Actions/sidebarAction'
 
 const OverLay = styled(Box)({
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+
     position: 'fixed',
     left: 0,
     right: 0,
     top: 0,
     bottom: 0,
-    zIndex: 3,
+
 })
 
 export const AdminScreen = () => {
 
-    const [anchorEl, setAnchorEl] = useState(false)
+    const [openNotify, setOpenNotify] = useState(false)
+    const [openProfile, setOpenProfile] = useState(false)
 
     const displaySidebar = useSelector(state => state.displaySidebar)
-   
+
     const dispatch = useDispatch()
 
-    const handleMenu = (event) => {
-        setAnchorEl(!anchorEl);
+    const handleOpenNotify = (event) => {
+        setOpenNotify(!openNotify);
+        
+    }
+
+    const handleOpenProfile = (event) => {
+        setOpenProfile(!openProfile);
     }
 
     const handleClose = () => {
-        setAnchorEl(false);
+        if (openNotify) {
+            setOpenNotify(false);
+        }
+        if (openProfile) {
+            setOpenProfile(false);
+        }
+
     }
 
     const handleXsDisplay = () => {
-        
+
         dispatch(activeSidebar())
     }
 
@@ -51,7 +63,7 @@ export const AdminScreen = () => {
     }
 
     return (
-        <Box onClick={handleMenu}>
+        <Box >
             <Box sx={{
                 position: 'fixed',
                 top: '0',
@@ -59,14 +71,14 @@ export const AdminScreen = () => {
                 display: { xs: displaySidebar, sm: "block", md: "block" },
                 width: { xs: '60%', sm: "8.33333333%", md: "16.66667%" },
                 backgroundColor: 'rgb(17, 25, 42)',
-                zIndex: '4'
-            }}>
-
-                <AdminSideBar/>
-
+                zIndex: '3'
+            }}
+                onClick={handleClose}
+            >
+                <AdminSideBar />
             </Box>
 
-            <OverLay sx={{ display: { xs: displaySidebar, sm: 'none' } }} onClick={closeXsDisplay}> </OverLay>
+            <OverLay sx={{ backgroundColor: 'rgba(0, 0, 0, 0.2)', zIndex: 2, display: { xs: displaySidebar, sm: 'none' } }} onClick={closeXsDisplay}> </OverLay>
 
             <Box
                 sx={{
@@ -78,80 +90,60 @@ export const AdminScreen = () => {
                     boxSizing: 'border-box',
                     backgroundColor: 'rgba(255,255,255, 0.8)',
                     backdropFilter: 'blur(5px)',
-                    zIndex: 2,
-                    
+                    zIndex: 1,
                     display: 'flex',
                     alignItems: 'center',
                     padding: '15px 30px',
                     boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
-
                 }}
+                onClick={handleClose}
             >
                 <IconButton
                     size="large"
                     edge="start"
 
                     aria-label="menu"
-                    sx={{  display: { xs: "block", sm: "none" }, paddingLeft: '12px', paddingRight: '12px', paddingTop: '8px', paddingBottom: '8px', backgroundColor: 'rgba(55,55,215,0.1)', alignItems: 'center'}}
+                    sx={{ display: { xs: "block", sm: "none" }, paddingLeft: '12px', paddingRight: '12px', paddingTop: '8px', paddingBottom: '8px', backgroundColor: 'rgba(55,55,215,0.1)', alignItems: 'center' }}
                     onClick={handleXsDisplay}
                 >
                     <MenuIcon sx={{ color: 'blue' }} />
                 </IconButton>
 
-                <Box sx={{ marginLeft: 'auto', position:'relative' }}>
+                <Box sx={{ marginLeft: 'auto', position: 'relative' }}>
                     <IconButton
                         size="large"
                         aria-label="account of current user"
                         aria-controls="menu-appbar"
                         aria-haspopup="true"
-                        
-                        onClick={handleMenu}
                         sx={{ backgroundColor: 'rgba(55,55,215,0.1)' }}
-
+                        onClick={handleOpenNotify}
                     >
-                        <NotificationsNoneIcon  sx={{ color: 'blue' }} />
+                        <NotificationsNoneIcon sx={{ color: 'blue' }} />
                     </IconButton>
 
-                   
-
-                    <Box sx={{height: '100px', width: '100px', position: 'absolute', right: '0', top: '110%', backgroundColor:'white', boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)', display: (anchorEl ? 'block' : 'none')}}>
-                        thong bao
+                    <Box sx={{ height: '100px', width: '100px', position: 'absolute', right: '0', top: '110%', backgroundColor: 'white', boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)', display: (openNotify ? 'block' : 'none') }}>
+                        <a href="https://viblo.asia/p/hoc-react-redux-trong-15-phut-1Je5E7q0ZnL#_22-giai-phap-3">Thong bao</a>
                     </Box>
                 </Box>
 
-                {/* <Box >
+                <Box sx={{ marginLeft: '16px', position: 'relative' }}>
                     <IconButton
                         size="large"
                         aria-label="account of current user"
                         aria-controls="menu-appbar"
                         aria-haspopup="true"
-                        onClick={handleMenu}
-                        sx={{ backgroundColor: 'rgba(55,55,215,0.1)', marginLeft: '10px' }}
-
+                        sx={{ backgroundColor: 'rgba(55,55,215,0.1)' }}
+                        onClick={handleOpenProfile}
                     >
                         <AccountCircle sx={{ color: 'blue' }} />
                     </IconButton>
 
-                    <Menu
-                        id="menu-appbar"
-                        anchorEl={anchorEl}
+                    <Box sx={{ height: '100px', width: '100px', position: 'absolute', right: '0', top: '110%',  backgroundColor: 'white', boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)', display: (openProfile ? 'block' : 'none') }}>
+                        <a href="https://viblo.asia/p/hoc-react-redux-trong-15-phut-1Je5E7q0ZnL#_22-giai-phap-3">Profile ca nhan</a>
+                    </Box>
 
-                        keepMounted
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'right',
-                        }}
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        open={Boolean(anchorEl)}
-                        onClose={handleClose}
-                    >
-                        <MenuItem onClick={handleClose}>Profile</MenuItem>
-                        <MenuItem onClick={handleClose}>Logout</MenuItem>
-                    </Menu>
-                </Box> */}
+                </Box>
+
             </Box>
 
             <Box
@@ -160,6 +152,7 @@ export const AdminScreen = () => {
                     marginTop: '80px',
                     backgroundColor: '#f9f9f9',
                 }}
+                onClick={handleClose}
             >
                 <Routes>
                     <Route path="order" element={<AdminOrderScreen />} />

@@ -35,8 +35,7 @@ export const AdminScreen = () => {
     const dispatch = useDispatch()
 
     const handleOpenNotify = (event) => {
-        setOpenNotify(!openNotify);
-        
+        setOpenNotify(!openNotify)
     }
 
     const handleOpenProfile = (event) => {

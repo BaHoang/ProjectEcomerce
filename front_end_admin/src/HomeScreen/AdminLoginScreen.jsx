@@ -1,13 +1,16 @@
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { Box, Button, IconButton, InputAdornment, TextField } from '@mui/material'
+import { styled } from '@mui/system'
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
-import React, { useState } from 'react'
-import { styled } from '@mui/system'
 import { Form, Formik, Field, FastField, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
+import { userLogin } from '../Actions/userAction'
+import ErrorLogin from '../Component/ErrorLogin'
 
-const CustomBox = styled(Box)({
+const CustomBox = styled(Box)(({ theme }) => ({
   position: 'fixed',
   left: 0,
   right: 0,
@@ -17,14 +20,26 @@ const CustomBox = styled(Box)({
   justifyContent: 'center',
   alignItems: 'center',
   flexDirection: 'column',
-  backgroundImage: `url(${"/static/images/backgroundImage.jpg"})`, 
-  backgroundSize: "cover",
-  backgroundPosition: 'bottom',
- 
-})
+
+  [theme.breakpoints.up('xs')]: {
+    backgroundColor: '#f0f2f5'
+  },
+
+  [theme.breakpoints.up('sm')]: {
+    backgroundColor: '#f0f2f5'
+  },
+
+
+
+  [theme.breakpoints.up('md')]: {
+    backgroundImage: `url(${"/static/images/backgroundImage.jpg"})`,
+    backgroundSize: "cover",
+    backgroundPosition: 'bottom',
+  },
+
+}))
 
 const LoginBox = styled(Box)(({ theme }) => ({
-
   height: '400px',
   backgroundColor: 'rgba(255,255,255,0.1)',
   backdropFilter: 'blur(10px)',
@@ -61,6 +76,12 @@ export const AdminLoginScreen = () => {
 
   const [showPassword, setShowPassword] = useState(false)
 
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const user = useSelector(state => state.user)
+  var { loading, userInfor, error } = user
+
   const handleClickShowPassword = (event) => {
     setShowPassword(!showPassword)
   }
@@ -76,7 +97,7 @@ export const AdminLoginScreen = () => {
       .required('Email is required'),
     password: Yup
       .string('Enter your password')
-      .min(8, 'Password should be of minimum 8 characters length')
+      .min(2, 'Password should be of minimum 8 characters length')
       .required('Password is required'),
   })
 
@@ -86,19 +107,30 @@ export const AdminLoginScreen = () => {
   }
 
   const onSubmit = (values, props) => {
+    console.log(values)
     setTimeout(() => {
+      dispatch(userLogin(values.email, values.password))
       props.setSubmitting(false)
     }, 1000)
   }
 
+  useEffect(() => {
+    if (userInfor && Object.keys(userInfor).length !== 0) {
+      navigate('/admin/dashboard')
+    }
+  }, [dispatch, userInfor]);
+
   return (
+
     <CustomBox>
-      <Box sx={{ textAlign: 'center', fontSize: { xs: '40px', sm: '42px', md: '50px' }, color: 'white', mb: 5, fontWeight: '700' }}>ShopTelephone</Box>
+      <Box sx={{ textAlign: 'center', fontSize: { xs: '40px', sm: '42px', md: '50px' }, color: 'black', mb: 5, fontWeight: '700' }}>ShopTelephone</Box>
 
       <LoginBox>
 
         <Box sx={{ width: '80%', margin: 'auto' }}>
-
+          {
+            error && <ErrorLogin/>
+          }
           <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
             {(props) => (
               <Form>
@@ -109,7 +141,6 @@ export const AdminLoginScreen = () => {
                   name="email"
                   placeholder="Nhap vao email"
                   fullWidth
-
                   onBlur={props.handleBlur}
                   onChange={props.handleChange}
                   required

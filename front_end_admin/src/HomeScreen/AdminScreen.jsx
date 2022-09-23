@@ -1,28 +1,20 @@
 import React, { useState } from 'react'
-import { Route } from 'react-router-dom'
-import { Routes } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { AdminSideBar } from '../Component/AdminSideBar'
-import { AdminDashboardScreen } from './AdminDashboardScreen'
-import { AdminOrderScreen } from './AdminOrderScreen'
-import { AdminProductScreen } from './AdminProductScreen'
-import { AdminUserScreen } from './AdminUserScreen'
-import Grid from '@mui/material/Grid'
-import { Box, IconButton, Menu, MenuItem } from '@mui/material'
+import { Box, IconButton } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone'
 import { styled } from '@mui/system'
-import { useDispatch, useSelector } from 'react-redux'
 import { activeSidebar, hiddenSidebar } from '../Actions/sidebarAction'
 
 const OverLay = styled(Box)({
-
     position: 'fixed',
     left: 0,
     right: 0,
     top: 0,
     bottom: 0,
-
 })
 
 export const AdminScreen = () => {
@@ -49,11 +41,9 @@ export const AdminScreen = () => {
         if (openProfile) {
             setOpenProfile(false);
         }
-
     }
 
     const handleXsDisplay = () => {
-
         dispatch(activeSidebar())
     }
 
@@ -63,6 +53,7 @@ export const AdminScreen = () => {
 
     return (
         <Box >
+            {/* side bar */}
             <Box sx={{
                 position: 'fixed',
                 top: '0',
@@ -79,6 +70,7 @@ export const AdminScreen = () => {
 
             <OverLay sx={{ backgroundColor: 'rgba(0, 0, 0, 0.2)', zIndex: 2, display: { xs: displaySidebar, sm: 'none' } }} onClick={closeXsDisplay}> </OverLay>
 
+            {/* app bar */}
             <Box
                 sx={{
                     position: 'fixed',
@@ -137,7 +129,7 @@ export const AdminScreen = () => {
                         <AccountCircle sx={{ color: 'blue' }} />
                     </IconButton>
 
-                    <Box sx={{ height: '100px', width: '100px', position: 'absolute', right: '0', top: '110%',  backgroundColor: 'white', boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)', display: (openProfile ? 'block' : 'none') }}>
+                    <Box sx={{ height: '100px', width: '100px', position: 'absolute', right: '0', top: '110%', backgroundColor: 'white', boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)', display: (openProfile ? 'block' : 'none') }}>
                         <a href="https://viblo.asia/p/hoc-react-redux-trong-15-phut-1Je5E7q0ZnL#_22-giai-phap-3">Profile ca nhan</a>
                     </Box>
 
@@ -145,6 +137,7 @@ export const AdminScreen = () => {
 
             </Box>
 
+            {/* component tuong ung */}
             <Box
                 sx={{
                     marginLeft: { xs: 0, sm: "8.33333333%", md: "16.66667%" },
@@ -153,12 +146,7 @@ export const AdminScreen = () => {
                 }}
                 onClick={handleClose}
             >
-                <Routes>
-                    <Route path="order" element={<AdminOrderScreen />} />
-                    <Route path="user" element={<AdminUserScreen />} />
-                    <Route path="dashboard" element={<AdminDashboardScreen />} />
-                    <Route path="product" element={<AdminProductScreen />} />
-                </Routes>
+                <Outlet />
             </Box>
 
         </Box>

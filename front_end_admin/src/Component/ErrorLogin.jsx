@@ -9,14 +9,17 @@ const CustomBox = styled(Box)({
    marginBottom: '20px',
   })
 
-const ErrorLogin = () => {
+const ErrorLogin = (props) => {
     return (
         <CustomBox>
             <IconButton color="error" aria-label="add an warning">
                 <WarningIcon />
             </IconButton>
             <Box sx={{ color: 'red', fontSize: '16px' }}>
-                Please provide a valid email address and password.
+                {
+                    props.error
+                }
+                
             </Box>
 
         </CustomBox>

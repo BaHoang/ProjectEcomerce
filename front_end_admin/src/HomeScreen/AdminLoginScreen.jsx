@@ -76,6 +76,7 @@ export const AdminLoginScreen = () => {
 
   const [showPassword, setShowPassword] = useState(false)
 
+  const [checkError, setCheckError] = useState(false)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -110,13 +111,22 @@ export const AdminLoginScreen = () => {
     console.log(values)
     setTimeout(() => {
       dispatch(userLogin(values.email, values.password))
+      setCheckError(false)
       props.setSubmitting(false)
     }, 1000)
   }
 
   useEffect(() => {
     if (userInfor && Object.keys(userInfor).length !== 0) {
-      navigate('/admin/dashboard')
+
+      if (userInfor.isAdmin) {
+        setCheckError(false)
+        navigate('/admin/dashboard')
+      } else {
+        setCheckError(true) 
+        localStorage.removeItem('userInfor')
+      }
+      
     }
   }, [dispatch, userInfor]);
 
@@ -129,7 +139,11 @@ export const AdminLoginScreen = () => {
 
         <Box sx={{ width: '80%', margin: 'auto' }}>
           {
-            error && <ErrorLogin/>
+            error && <ErrorLogin error='Please provide a valid email address and password.' />
+          }
+
+          {
+            checkError && <ErrorLogin error='Account is not exist' />
           }
           <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
             {(props) => (

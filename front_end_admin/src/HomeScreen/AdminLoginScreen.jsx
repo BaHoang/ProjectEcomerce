@@ -29,8 +29,6 @@ const CustomBox = styled(Box)(({ theme }) => ({
     backgroundColor: '#f0f2f5'
   },
 
-
-
   [theme.breakpoints.up('md')]: {
     backgroundImage: `url(${"/static/images/backgroundImage.jpg"})`,
     backgroundSize: "cover",
@@ -108,12 +106,9 @@ export const AdminLoginScreen = () => {
   }
 
   const onSubmit = (values, props) => {
-    console.log(values)
-    setTimeout(() => {
-      dispatch(userLogin(values.email, values.password))
-      setCheckError(false)
-      props.setSubmitting(false)
-    }, 1000)
+    dispatch(userLogin(values.email, values.password))
+    setCheckError(false)
+    props.setSubmitting(false)
   }
 
   useEffect(() => {
@@ -123,10 +118,10 @@ export const AdminLoginScreen = () => {
         setCheckError(false)
         navigate('/admin/dashboard')
       } else {
-        setCheckError(true) 
+        setCheckError(true)
         localStorage.removeItem('userInfor')
       }
-      
+
     }
   }, [dispatch, userInfor]);
 

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import {  Route, Routes } from 'react-router-dom'
 import NotFound from './Component/NotFound';
 import PrivateRoutes from './Component/PrivateRoutes';
 import { AdminDashboardScreen } from './HomeScreen/AdminDashboardScreen';

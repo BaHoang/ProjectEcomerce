@@ -10,13 +10,13 @@ import { NavLink } from 'react-router-dom'
 import { styled } from '@mui/system'
 import { useDispatch, useSelector } from 'react-redux'
 import { hiddenSidebar } from '../Actions/sidebarAction'
+import { userLogout } from '../Actions/userAction'
 
 const CustomLink = styled(NavLink)({
     color: 'white',
     textDecoration: 'none',
     display: 'block',
     height: '50px',
-
     '&:hover': {
         backgroundColor: 'rgba(71, 98, 130, 0.3)',
     },
@@ -31,15 +31,12 @@ const CustomListItemIcon = styled(ListItemIcon)(({ theme }) => ({
     justifyContent: 'center',
     height: '50px',
     alignItems: 'center',
-   
     [theme.breakpoints.up('xs')]: {
         minWidth: '50px',
     },
-
     [theme.breakpoints.up('lg')]: {
         minWidth: '80px',
     },
-
 }))
 
 const CustomTooltip = styled(({ className, ...props }) => (
@@ -51,13 +48,22 @@ const CustomTooltip = styled(({ className, ...props }) => (
         [theme.breakpoints.up('xs')]: {
             display: 'block',
         },
-    
         [theme.breakpoints.up('md')]: {
             display: 'none',
         },
-       
     },
 }))
+
+const LogoutItemButton = styled(ListItemButton)({
+    color: 'white',
+    height: '50px',
+    display: 'flex',
+    padding: 0,
+    justifyContent: 'center',
+    '&:hover': {
+        backgroundColor: 'rgba(71, 98, 130, 0.3)',
+    },
+})
 
 export const AdminSideBar = (props) => {
 
@@ -72,7 +78,7 @@ export const AdminSideBar = (props) => {
         [theme.breakpoints.up('sm')]: {
             display: 'none'
         },
-    
+
         [theme.breakpoints.up('md')]: {
             display: 'block',
         },
@@ -80,83 +86,85 @@ export const AdminSideBar = (props) => {
 
     const dispatch = useDispatch()
 
-    const closeXsDisplay = () => {
+    const closeDisplaySidebar = () => {
         dispatch(hiddenSidebar())
     }
 
+    const logout = () => {
+        dispatch(userLogout())
+    }
+
     return (
-        
-            <List
-                sx={{ width: '100%', maxWidth: 360 }}
-                component="nav"
-            >
 
-                <CustomLink to='/admin/dashboard' onClick={closeXsDisplay}>
-                    <CustomListItemButton>
-                        <CustomTooltip title="Dashboard" placement='right'>
-                            <CustomListItemIcon >
+        <List
+            sx={{ width: '100%', maxWidth: 360 }}
+            component="nav"
+        >
 
-                                <DashboardIcon sx={{ color: 'white', fontSize: '20px' }} />
+            <CustomLink to='/admin/dashboard' onClick={closeDisplaySidebar}>
+                <CustomListItemButton>
+                    <CustomTooltip title="Dashboard" placement='right'>
+                        <CustomListItemIcon >
 
-                            </CustomListItemIcon>
-                        </CustomTooltip>
-                        <CustomListItemText primary="Dashboard" primaryTypographyProps={{ fontSize: '16px' }} />
-                    </CustomListItemButton>
-                </CustomLink>
+                            <DashboardIcon sx={{ color: 'white', fontSize: '20px' }} />
 
-                <CustomLink to='/admin/product' onClick={closeXsDisplay}>
-                    <CustomListItemButton>
-                        <CustomTooltip title="Product" placement='right'>
-                            <CustomListItemIcon >
+                        </CustomListItemIcon>
+                    </CustomTooltip>
+                    <CustomListItemText primary="Dashboard" primaryTypographyProps={{ fontSize: '16px' }} />
+                </CustomListItemButton>
+            </CustomLink>
 
-                                <DraftsIcon sx={{ color: 'white', fontSize: '20px' }} />
+            <CustomLink to='/admin/product' onClick={closeDisplaySidebar}>
+                <CustomListItemButton>
+                    <CustomTooltip title="Product" placement='right'>
+                        <CustomListItemIcon >
 
-                            </CustomListItemIcon>
-                        </CustomTooltip>
-                        <CustomListItemText primary="Product" primaryTypographyProps={{ fontSize: '16px' }} />
-                    </CustomListItemButton>
-                </CustomLink>
+                            <DraftsIcon sx={{ color: 'white', fontSize: '20px' }} />
 
-                <CustomLink to='/admin/user' onClick={closeXsDisplay}>
-                    <CustomListItemButton>
-                        <CustomTooltip title="User"  placement='right'>
-                            <CustomListItemIcon >
+                        </CustomListItemIcon>
+                    </CustomTooltip>
+                    <CustomListItemText primary="Product" primaryTypographyProps={{ fontSize: '16px' }} />
+                </CustomListItemButton>
+            </CustomLink>
 
-                                <PeopleAltIcon sx={{ color: 'white', fontSize: '20px' }} />
+            <CustomLink to='/admin/user' onClick={closeDisplaySidebar}>
+                <CustomListItemButton>
+                    <CustomTooltip title="User" placement='right'>
+                        <CustomListItemIcon >
 
-                            </CustomListItemIcon>
-                        </CustomTooltip>
-                        <CustomListItemText primary="User" primaryTypographyProps={{ fontSize: '16px' }} />
-                    </CustomListItemButton>
-                </CustomLink>
+                            <PeopleAltIcon sx={{ color: 'white', fontSize: '20px' }} />
 
-                <CustomLink to='/admin/order' onClick={closeXsDisplay}>
-                    <CustomListItemButton>
-                        <CustomTooltip title="Order" placement='right'>
-                            <CustomListItemIcon >
+                        </CustomListItemIcon>
+                    </CustomTooltip>
+                    <CustomListItemText primary="User" primaryTypographyProps={{ fontSize: '16px' }} />
+                </CustomListItemButton>
+            </CustomLink>
 
-                                <ShoppingCartIcon sx={{ color: 'white', fontSize: '20px' }} />
+            <CustomLink to='/admin/order' onClick={closeDisplaySidebar}>
+                <CustomListItemButton>
+                    <CustomTooltip title="Order" placement='right'>
+                        <CustomListItemIcon >
 
-                            </CustomListItemIcon>
-                        </CustomTooltip>
-                        <CustomListItemText primary="Order" primaryTypographyProps={{ fontSize: '16px' }} />
-                    </CustomListItemButton>
-                </CustomLink>
+                            <ShoppingCartIcon sx={{ color: 'white', fontSize: '20px' }} />
 
-                <CustomLink to='/admin/logout' onClick={closeXsDisplay}>
-                    <CustomListItemButton>
-                        <CustomTooltip title="Logout" placement='right'>
-                            <CustomListItemIcon >
+                        </CustomListItemIcon>
+                    </CustomTooltip>
+                    <CustomListItemText primary="Order" primaryTypographyProps={{ fontSize: '16px' }} />
+                </CustomListItemButton>
+            </CustomLink>
 
-                                <LogoutIcon sx={{ color: 'white', fontSize: '20px' }} />
+            <LogoutItemButton onClick={logout}>
+                <CustomTooltip title="Logout" placement='right'>
+                    <CustomListItemIcon >
 
-                            </CustomListItemIcon>
-                        </CustomTooltip>
-                        <CustomListItemText primary="Logout" primaryTypographyProps={{ fontSize: '16px' }} />
-                    </CustomListItemButton>
-                </CustomLink>
+                        <LogoutIcon sx={{ color: 'white', fontSize: '20px' }} />
 
-            </List>
-        
+                    </CustomListItemIcon>
+                </CustomTooltip>
+                <CustomListItemText primary="Logout" primaryTypographyProps={{ fontSize: '16px' }} />
+            </LogoutItemButton>
+
+        </List>
+
     )
 }

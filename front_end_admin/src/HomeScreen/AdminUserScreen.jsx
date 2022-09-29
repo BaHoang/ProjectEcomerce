@@ -194,7 +194,7 @@ export const AdminUserScreen = () => {
               backgroundColor: 'white',
               position: "relative",
               
-              //marginTop: '12px',
+              borderRadius: '5px',
               width: {lg: '10%',md: '20%', sm:'30%', xs: '50%'},
               margin: '12px auto 0px',
               boxShadow: '-1px -1px 4px 3px rgba(0,0,0,0.2)',

@@ -14,7 +14,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: {lg:'30%', md: '40%', xs: '80%', sm: '60%'},
   bgcolor: 'background.paper',
   borderRadius: '8px',
   boxShadow: 24,
@@ -165,7 +165,7 @@ export const AdminUserScreen = () => {
             aria-describedby={id}
             onClick={handleClickPopover}
             disabled={userDetail.isAdmin}
-            sx={{ margin: '20px auto 12px', display: 'block', width: '50%' }}
+            sx={{ margin: '20px auto 12px', display: 'block', width: {xs: '100%', sm: '70%'} }}
           >
             Accept Admin
           </Button>
@@ -177,18 +177,47 @@ export const AdminUserScreen = () => {
             onClose={handleClosePopover}
             anchorOrigin={{
               vertical: 'bottom',
-              horizontal: 'left',
+              horizontal: 'center',
             }}
-            sx={{ marginTop: '10px', marginLeft: '10px' }}
+            PaperProps={{
+              style: {
+                backgroundColor: "transparent",
+                boxShadow: "none",
+                width: '100%',
+                                
+              }
+            }}
+
           >
-            <Box sx={{ backgroundColor: 'rgba(0,0,0, 0.2)' }}>
-              <Typography sx={{ padding: '4px 4px 0px 4px' }}>Do you want to accept ?</Typography>
+            <Box sx={{
+
+              backgroundColor: 'white',
+              position: "relative",
+              
+              //marginTop: '12px',
+              width: {lg: '10%',md: '20%', sm:'30%', xs: '50%'},
+              margin: '12px auto 0px',
+              boxShadow: '-1px -1px 4px 3px rgba(0,0,0,0.2)',
+              "&::before": {
+                backgroundColor: "white",
+                content: '""',
+                display: "block",
+                position: "absolute",
+                width: 12,
+                height: 12,
+                top: -6,
+                transform: "rotate(225deg)",
+                left: "calc(50% - 6px)",
+                boxShadow: '1px 1px 4px -1px rgba(0,0,0,0.5)',
+                
+              }
+            }}>
+              <Typography sx={{ padding: '4px 4px 0px 4px' }}>Are you sure?</Typography>
               <Box sx={{ display: 'flex', justifyContent: 'space-around', marginTop: '10px', paddingBottom: '10px' }}>
                 <Button variant="contained" sx={{ fontSize: '10px' }} onClick={handleClosePopover}>Cancel</Button>
                 <Button variant="contained" sx={{ fontSize: '10px' }} onClick={() => handleAcceptAdmin(userDetail._id)}>Yes</Button>
               </Box>
             </Box>
-
 
           </Popover>
         </Box>

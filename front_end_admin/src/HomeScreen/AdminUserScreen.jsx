@@ -1,5 +1,5 @@
-import { Box, Button, IconButton, Modal, Paper, Popover, styled, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material'
-import { DataGrid } from '@mui/x-data-grid'
+import { Box, Button, IconButton, Modal, Popover, Typography } from '@mui/material'
+import { DataGrid, GridToolbar, GridToolbarColumnsButton, GridToolbarContainer } from '@mui/x-data-grid'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { detailUserByAdmin, listUserByAdmin, acceptAdminAction } from '../Actions/userAction'
@@ -7,23 +7,21 @@ import { formatDate } from '../Utils/FormatDate'
 import CloseIcon from '@mui/icons-material/Close'
 import TitleScreen from '../Component/TitleScreen';
 import { columns } from '../ColumnTable/userColumn.js'
-import TableUser from '../Component/TableUser';
+import TableUser from '../Component/TableUser'
+import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
+import ToolbarSearch from '../Component/ToolbarSearch';
 
 const style = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: {lg:'30%', md: '40%', xs: '80%', sm: '60%'},
+  width: { lg: '30%', md: '40%', xs: '80%', sm: '60%' },
   bgcolor: 'background.paper',
   borderRadius: '8px',
   boxShadow: 24,
   padding: '8px 32px 8px 32px',
 }
-
-
-
-
 
 export const AdminUserScreen = () => {
 
@@ -46,6 +44,12 @@ export const AdminUserScreen = () => {
     pageSize: 10
   })
 
+  const [searchText, setSearchText] = useState('')
+
+  const childToParent = (searchText) => {
+    setSearchText(searchText)
+  }
+
   const [open, setOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
 
@@ -60,7 +64,7 @@ export const AdminUserScreen = () => {
 
   const handleClickPopover = (event) => {
     setAnchorEl(event.currentTarget)
-  };
+  }
 
   const handleClosePopover = () => {
     setAnchorEl(null)
@@ -92,11 +96,19 @@ export const AdminUserScreen = () => {
           diaChi: user.address
         })
       })
-
       setPageState(old => ({ ...old, rows: tempRows, rowCountState: totalRow }))
+      setOpen(false)
     }
 
   }, [dispatch, listUser.listAllUser, listUser.totalRow, listUser])
+
+  const NewToolbar = () => {
+    return (
+      <GridToolbarContainer>
+        <ToolbarSearch page={pageState.page} pageSize={pageState.pageSize} searchText={searchText} childToParent={childToParent}/>
+      </GridToolbarContainer>
+    )
+  }
 
   return (
 
@@ -105,7 +117,8 @@ export const AdminUserScreen = () => {
       <TitleScreen title="Danh sach user va admin" />
 
       <Box sx={{ paddingBottom: '30px' }}>
-        <Paper elevation="1" sx={{ width: '100%', marginTop: '30px', borderRadius: '10px' }}>
+        <Box sx={{ width: '100%', marginTop: '30px', borderRadius: '15px', overflow: 'hidden', boxShadow: ' 0px 6px 16px 1px rgba(115, 82, 199, 0.2 )', backgroundColor: 'white' }}>
+
           <DataGrid
             autoHeight
             rows={pageState.rows}
@@ -122,13 +135,27 @@ export const AdminUserScreen = () => {
             onPageSizeChange={(newPageSize) => setPageState(old => ({ ...old, pageSize: newPageSize }))}
             columns={columns}
             onRowClick={handleOpenModal}
+            rowHeight={70}
+            
+            components={{
+              Toolbar: NewToolbar,
+            }}
+      
             sx={{
               '& .MuiDataGrid-row': {
                 cursor: 'pointer'
               },
+              '& .MuiDataGrid-columnSeparator': {
+                display: 'none',
+              },
+              '& .MuiDataGrid-columnHeaderTitleContainerContent': {
+                color: 'black',
+                fontWeight: 'bold',
+                fontSize: '18px'
+              }
             }}
           />
-        </Paper>
+        </Box>
       </Box>
 
       <Modal
@@ -155,7 +182,6 @@ export const AdminUserScreen = () => {
             >
               <CloseIcon />
             </IconButton>
-
           </Box>
 
           <TableUser inforUser={userDetail} />
@@ -165,7 +191,7 @@ export const AdminUserScreen = () => {
             aria-describedby={id}
             onClick={handleClickPopover}
             disabled={userDetail.isAdmin}
-            sx={{ margin: '20px auto 12px', display: 'block', width: {xs: '100%', sm: '70%'} }}
+            sx={{ margin: '20px auto 12px', display: 'block', width: { xs: '100%', sm: '70%' } }}
           >
             Accept Admin
           </Button>
@@ -176,7 +202,7 @@ export const AdminUserScreen = () => {
             anchorEl={anchorEl}
             onClose={handleClosePopover}
             anchorOrigin={{
-              vertical: 'bottom',
+              vertical: 'top',
               horizontal: 'center',
             }}
             PaperProps={{
@@ -184,20 +210,22 @@ export const AdminUserScreen = () => {
                 backgroundColor: "transparent",
                 boxShadow: "none",
                 width: '100%',
-                                
+
+
               }
             }}
-
+            sx={{ top: '-90px' }}
           >
             <Box sx={{
-
               backgroundColor: 'white',
               position: "relative",
-              
               borderRadius: '5px',
-              width: {lg: '10%',md: '20%', sm:'30%', xs: '50%'},
-              margin: '12px auto 0px',
-              boxShadow: '-1px -1px 4px 3px rgba(0,0,0,0.2)',
+              // width: { lg: '15%', md: '20%', sm: '30%', xs: '50%' },
+              // maxWidth: '200px',
+              // minWidth: '200px',
+              width: '200px',
+              margin: '2px auto 12px',
+              boxShadow: '1px 1px 3px 2px rgba(0,0,0, 0.3)',
               "&::before": {
                 backgroundColor: "white",
                 content: '""',
@@ -205,14 +233,16 @@ export const AdminUserScreen = () => {
                 position: "absolute",
                 width: 12,
                 height: 12,
-                top: -6,
+                bottom: -6,
                 transform: "rotate(225deg)",
                 left: "calc(50% - 6px)",
-                boxShadow: '1px 1px 4px -1px rgba(0,0,0,0.5)',
-                
+                boxShadow: '-2px -2px 4px -1px rgba(0,0,0,0.5)',
               }
             }}>
-              <Typography sx={{ padding: '4px 4px 0px 4px' }}>Are you sure?</Typography>
+              <Typography component='div' sx={{ padding: '4px 4px 0px 18px', display: 'flex', alignItems: 'center', color: 'red' }}>
+                <PriorityHighIcon sx={{ bgcolor: 'rgb(255, 204, 0)', color: 'white', fontSize: '12px', padding: '2px 2px', borderRadius: '12px', marginRight: '8px' }} />
+                Are you sure ?
+              </Typography>
               <Box sx={{ display: 'flex', justifyContent: 'space-around', marginTop: '10px', paddingBottom: '10px' }}>
                 <Button variant="contained" sx={{ fontSize: '10px' }} onClick={handleClosePopover}>Cancel</Button>
                 <Button variant="contained" sx={{ fontSize: '10px' }} onClick={() => handleAcceptAdmin(userDetail._id)}>Yes</Button>

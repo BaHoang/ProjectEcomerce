@@ -2,30 +2,40 @@ export const columns = [
     {
       field: 'id',
       headerName: 'ID',
-      width: 90
+      width: 90,
+      align: 'center',
+      headerAlign: 'center',
     },
     {
       field: 'name',
       headerName: 'Name',
       width: 250,
       editable: true,
+      align: 'center',
+      headerAlign: 'center',
     },
     {
       field: 'email',
       headerName: 'Email',
-      width: 300,
+      flex: 2,
       editable: true,
+      align: 'center',
+      headerAlign: 'center',
     },
     {
       field: 'quyen',
       headerName: 'Quyen',
       width: 200,
       editable: true,
+      align: 'center',
+      headerAlign: 'center',
     },
     {
       field: 'diaChi',
       headerName: 'Dia chi',
-      width: 200,
+      flex: 3,
       editable: true,
+      align: 'center',
+      headerAlign: 'center',
     },
   ]

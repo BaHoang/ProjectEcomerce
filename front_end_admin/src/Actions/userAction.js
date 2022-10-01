@@ -51,7 +51,7 @@ export const userLogout = () => async (dispatch) => {
     localStorage.removeItem('userInfor')
 }
 
-export const listUserByAdmin = (userInfor, page, pageSize) => async (dispatch) => {
+export const listUserByAdmin = (userInfor, page, pageSize, textSearch) => async (dispatch) => {
     try {
         dispatch({ type: LIST_USER_REQUEST })
 
@@ -60,8 +60,11 @@ export const listUserByAdmin = (userInfor, page, pageSize) => async (dispatch) =
                 'Authorization': `Bear ${userInfor.token}`,
             },
         }
-
-        const { data } = await axios.get(`http://localhost:5000/api/user?pageNumber=${page}&limit=${pageSize}`, config)
+        if (!textSearch) {
+            textSearch = ''
+        }
+        
+        const { data } = await axios.get(`http://localhost:5000/api/user?pageNumber=${page}&limit=${pageSize}&name=${textSearch}`, config)
         console.log(data)
         
         dispatch({

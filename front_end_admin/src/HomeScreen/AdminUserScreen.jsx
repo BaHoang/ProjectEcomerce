@@ -80,9 +80,13 @@ export const AdminUserScreen = () => {
 
   useEffect(() => {
     setPageState(old => ({ ...old, isLoading: true }))
-    dispatch(listUserByAdmin(userInfor, pageState.page, pageState.pageSize))
+    dispatch(listUserByAdmin(userInfor, pageState.page, pageState.pageSize, searchText))
     setPageState(old => ({ ...old, isLoading: false }))
   }, [pageState.page, pageState.pageSize])
+
+  useEffect(() => {
+    setPageState(old => ({ ...old, page: 1 }))
+  }, [searchText])
 
   useEffect(() => {
     let tempRows = []

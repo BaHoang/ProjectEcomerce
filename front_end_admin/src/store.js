@@ -1,5 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from "redux"
 import thunk from 'redux-thunk'
+import { productListReducer } from "./Reducers/productReducers"
 import { displaySidebarReducer } from "./Reducers/sidebarReducer"
 import { detailUserReducer, listUserReducer, userInforReducer } from "./Reducers/userReducer"
 
@@ -8,6 +9,7 @@ const reducer = combineReducers({
     user: userInforReducer,
     listUser: listUserReducer,
     detailUser: detailUserReducer,
+    productList: productListReducer
 })
 
 const userInfor = localStorage.getItem('userInfor') ? JSON.parse(localStorage.getItem('userInfor')) : {}

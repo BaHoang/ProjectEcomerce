@@ -50,13 +50,13 @@ export const AdminUserScreen = () => {
     setSearchText(searchText)
   }
 
-  const [open, setOpen] = useState(false)
+  const [openModal, setOpenModal] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
 
-  const handleCloseModal = () => setOpen(false)
+  const handleCloseModal = () => setOpenModal(false)
 
   const handleOpenModal = (params) => {
-    setOpen(true)
+    setOpenModal(true)
     const idRealUser = params.row.id - (pageState.page - 1) * pageState.pageSize - 1
     const userClicked = listAllUser[idRealUser]
     dispatch(detailUserByAdmin(userClicked._id, userInfor))
@@ -101,7 +101,7 @@ export const AdminUserScreen = () => {
         })
       })
       setPageState(old => ({ ...old, rows: tempRows, rowCountState: totalRow }))
-      setOpen(false)
+      setOpenModal(false)
     }
 
   }, [dispatch, listUser.listAllUser, listUser.totalRow, listUser])
@@ -163,7 +163,7 @@ export const AdminUserScreen = () => {
       </Box>
 
       <Modal
-        open={open}
+        open={openModal}
         onClose={handleCloseModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -181,7 +181,7 @@ export const AdminUserScreen = () => {
                 position: 'absolute',
                 right: 8,
                 top: 12,
-                color: (theme) => theme.palette.grey[500],
+                color: 'black',
               }}
             >
               <CloseIcon />

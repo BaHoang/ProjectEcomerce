@@ -1,4 +1,3 @@
-
 import { Box, Button, IconButton, Modal, Popover, Typography } from '@mui/material'
 import { DataGrid, GridToolbar, GridToolbarColumnsButton, GridToolbarContainer } from '@mui/x-data-grid'
 import React, { useEffect, useState } from 'react'
@@ -7,26 +6,17 @@ import { formatDate } from '../Utils/FormatDate'
 import CloseIcon from '@mui/icons-material/Close'
 import TitleScreen from '../Component/TitleScreen';
 import { columns } from '../ColumnTable/productColumn.js'
-import TableUser from '../Component/TableUser'
 import ToolbarSearch from '../Component/ToolbarSearch';
-import { listProducts } from '../Actions/productAction';
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: { lg: '30%', md: '40%', xs: '80%', sm: '60%' },
-  bgcolor: 'background.paper',
-  borderRadius: '8px',
-  boxShadow: 24,
-  padding: '8px 32px 8px 32px',
-}
+import { listProducts, productDetailAction } from '../Actions/productAction';
+import ProductTable from '../Component/Product/ProductTable';
+import ProductDetailModal from '../Component/Product/ProductDetailModal';
 
 export const AdminProductScreen = () => {
 
   const productList = useSelector(state => state.productList)
-  const { products, totalPage, totalRow, loading, error } = productList
+  const { products, totalRow, loading } = productList
+
+  const productDetail = useSelector(state => state.productDetail)
 
   const dispatch = useDispatch()
 
@@ -38,12 +28,32 @@ export const AdminProductScreen = () => {
     pageSize: 10
   })
 
+  const [openModal, setOpenModal] = useState(false)
+
+  const handleOpenModal = (params) => {
+    setOpenModal(true)
+    let idProductInList = params.row.id - (pageState.page - 1) * pageState.pageSize - 1
+    let productClicked = products[idProductInList]
+    dispatch(productDetailAction(productClicked._id))
+  }
+
+  const handleCloseModal = () => setOpenModal(false)
+
+  // luong thuc hien:
+  // effect 1 duoc thuc hien
+  // effect 1 duoc thuc hien dau tien sau do den ham dispatch lay du lieu tu server la ham bat dong bo
+  // nen no se tiep tuc thuc hien cau lenh phia duoi cho den khi het roi chuyen sang effect 2 sau do neu
+  // ham dong bo effect 1 tra ve ket qua thi se lay ket qua cua no
   useEffect(() => {
     setPageState(old => ({ ...old, isLoading: true }))
+    // ham dispatch la bat dong bo tuc la ham phia duoi se thuc hien ke ham dispatch co thuc hien xong hay khong
     dispatch(listProducts(pageState.page, pageState.pageSize))
+
     setPageState(old => ({ ...old, isLoading: false }))
+
   }, [pageState.page, pageState.pageSize])
-  
+
+  // effect 2
   useEffect(() => {
     let tempRows = []
     if (products) {
@@ -61,14 +71,14 @@ export const AdminProductScreen = () => {
       // setOpen(false)
     }
 
-  }, [dispatch, productList.products, productList.totalRow, productList])
+  }, [dispatch, productList.products, productList.totalRow])
 
   return (
 
     <Box sx={{ margin: 'auto', width: { xs: '92%', sm: '94%', md: '90%' }, minHeight: 'calc(100vh - 80px)' }}>
 
       <TitleScreen title="Danh sach san pham" />
-    
+
       <Box sx={{ paddingBottom: '30px' }}>
         <Box sx={{ width: '100%', marginTop: '30px', borderRadius: '15px', overflow: 'hidden', boxShadow: ' 0px 6px 16px 1px rgba(115, 82, 199, 0.2 )', backgroundColor: 'white' }}>
 
@@ -87,13 +97,13 @@ export const AdminProductScreen = () => {
             }}
             onPageSizeChange={(newPageSize) => setPageState(old => ({ ...old, pageSize: newPageSize }))}
             columns={columns}
-            //onRowClick={handleOpenModal}
+            onRowClick={handleOpenModal}
             rowHeight={70}
 
             // components={{
             //   Toolbar: NewToolbar,
             // }}
-      
+
             sx={{
               '& .MuiDataGrid-row': {
                 cursor: 'pointer'
@@ -112,95 +122,7 @@ export const AdminProductScreen = () => {
         </Box>
       </Box>
 
-      {/* <Modal
-        open={open}
-        onClose={handleCloseModal}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Box>
-            <Typography id="modal-modal-title" variant="h5" component="h2" sx={{ marginTop: '12px', fontWeight: '600' }}>
-              Detail User
-            </Typography>
-
-            <IconButton
-              aria-label="close"
-              onClick={handleCloseModal}
-              sx={{
-                position: 'absolute',
-                right: 8,
-                top: 12,
-                color: (theme) => theme.palette.grey[500],
-              }}
-            >
-              <CloseIcon />
-            </IconButton>
-          </Box>
-
-          <TableUser inforUser={userDetail} />
-
-          <Button
-            variant="contained"
-            aria-describedby={id}
-            onClick={handleClickPopover}
-            disabled={userDetail.isAdmin}
-            sx={{ margin: '20px auto 12px', display: 'block', width: { xs: '100%', sm: '70%' } }}
-          >
-            Accept Admin
-          </Button>
-
-          <Popover
-            id={id}
-            open={openPopover}
-            anchorEl={anchorEl}
-            onClose={handleClosePopover}
-            anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'center',
-            }}
-            PaperProps={{
-              style: {
-                backgroundColor: "transparent",
-                boxShadow: "none",
-                width: '100%',
-              }
-            }}
-            sx={{ top: '-90px' }}
-          >
-            <Box sx={{
-              backgroundColor: 'white',
-              position: "relative",
-              borderRadius: '5px',
-              width: '200px',
-              margin: '2px auto 12px',
-              boxShadow: '1px 1px 3px 2px rgba(0,0,0, 0.3)',
-              "&::before": {
-                backgroundColor: "white",
-                content: '""',
-                display: "block",
-                position: "absolute",
-                width: 12,
-                height: 12,
-                bottom: -6,
-                transform: "rotate(225deg)",
-                left: "calc(50% - 6px)",
-                boxShadow: '-2px -2px 4px -1px rgba(0,0,0,0.5)',
-              }
-            }}>
-              <Typography component='div' sx={{ padding: '4px 4px 0px 18px', display: 'flex', alignItems: 'center', color: 'red' }}>
-                <PriorityHighIcon sx={{ bgcolor: 'rgb(255, 204, 0)', color: 'white', fontSize: '12px', padding: '2px 2px', borderRadius: '12px', marginRight: '8px' }} />
-                Are you sure ?
-              </Typography>
-              <Box sx={{ display: 'flex', justifyContent: 'space-around', marginTop: '10px', paddingBottom: '10px' }}>
-                <Button variant="contained" sx={{ fontSize: '10px' }} onClick={handleClosePopover}>Cancel</Button>
-                <Button variant="contained" sx={{ fontSize: '10px' }} onClick={() => handleAcceptAdmin(userDetail._id)}>Yes</Button>
-              </Box>
-            </Box>
-
-          </Popover>
-        </Box>
-      </Modal> */}
+      <ProductDetailModal open={openModal} onClose={handleCloseModal} productInfor={productDetail.product} loading={productDetail.loading} />
 
     </Box>
   )

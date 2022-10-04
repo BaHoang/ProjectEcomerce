@@ -4,7 +4,8 @@ import { formatDate } from '../Utils/FormatDate'
 
 const CustomTableCellHeader = styled(TableCell)({
     paddingLeft: '0px',
-    color: 'rgba(0, 0, 0, 0.6)'
+    color: 'rgba(0, 0, 0)',
+    width: '20%',
 })
 
 const CustomTableCellContent = styled(TableCell)({

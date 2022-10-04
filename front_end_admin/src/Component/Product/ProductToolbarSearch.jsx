@@ -3,17 +3,15 @@ import React from 'react'
 import SearchIcon from '@mui/icons-material/Search'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { listUserByAdmin } from '../Actions/userAction'
+import { listUserByAdmin } from '../../Actions/userAction'
 import { useEffect } from 'react'
+import { listProducts } from '../../Actions/productAction'
 
-const ToolbarSearch = (props) => {
+const ProductToolbarSearch = (props) => {
     const page = props.page ? props.page : 1
     const pageSize = props.pageSize ? props.pageSize : 10
-    const searchText = props.searchText ? props.searchText : ''
+    const searchProduct = props.searchProduct ? props.searchProduct : ''
     const childToParent = props.childToParent
-
-    const user = useSelector(state => state.user)
-    const { userInfor } = user
 
     const [tempText, setTempText] = useState('')
 
@@ -25,17 +23,17 @@ const ToolbarSearch = (props) => {
     }
 
     const handleSubmit = () => {
-        dispatch(listUserByAdmin(userInfor, props.page, props.pageSize, tempText))
+        dispatch(listProducts(props.page, props.pageSize, tempText))
         childToParent(tempText)
     }
 
     useEffect(() => {
-        setTempText(searchText)
+        setTempText(searchProduct)
     }, [])
+
     return (
         <Box>
             <Box
-
                 sx={{
                     p: '2px 4px',
                     display: 'flex',
@@ -54,7 +52,6 @@ const ToolbarSearch = (props) => {
                         placeholder="Search"
                         onChange={handleChange}
                         value={tempText}
-
                     />
 
                     <IconButton sx={{ p: '10px' }} aria-label="menu" type='submit'>
@@ -63,10 +60,9 @@ const ToolbarSearch = (props) => {
 
                 </form>
 
-
             </Box>
         </Box>
     )
 }
 
-export default ToolbarSearch
+export default ProductToolbarSearch

@@ -1,11 +1,11 @@
 import { styled, Table, TableBody, TableCell, TableRow } from '@mui/material'
 import React from 'react'
-import { formatDate } from '../Utils/FormatDate'
+import { formatDate } from '../../Utils/FormatDate'
 
 const CustomTableCellHeader = styled(TableCell)({
     paddingLeft: '0px',
     color: 'rgba(0, 0, 0)',
-    width: '20%',
+    width: '40%',
 })
 
 const CustomTableCellContent = styled(TableCell)({

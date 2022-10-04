@@ -1,15 +1,12 @@
-import { Box, Button, IconButton, Modal, Popover, Typography } from '@mui/material'
-import { DataGrid, GridToolbar, GridToolbarColumnsButton, GridToolbarContainer } from '@mui/x-data-grid'
+import { Box } from '@mui/material'
+import { DataGrid, GridToolbarContainer } from '@mui/x-data-grid'
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { formatDate } from '../Utils/FormatDate'
-import CloseIcon from '@mui/icons-material/Close'
-import TitleScreen from '../Component/TitleScreen';
+import { useDispatch, useSelector } from 'react-redux'
+import TitleScreen from '../Component/Common/TitleScreen'
 import { columns } from '../ColumnTable/productColumn.js'
-import ToolbarSearch from '../Component/ToolbarSearch';
-import { listProducts, productDetailAction } from '../Actions/productAction';
-import ProductTable from '../Component/Product/ProductTable';
-import ProductDetailModal from '../Component/Product/ProductDetailModal';
+import { listProducts, productDetailAction } from '../Actions/productAction'
+import ProductDetailModal from '../Component/Product/ProductDetailModal'
+import ProductToolbarSearch from '../Component/Product/ProductToolbarSearch'
 
 export const AdminProductScreen = () => {
 
@@ -27,6 +24,12 @@ export const AdminProductScreen = () => {
     page: 1,
     pageSize: 10
   })
+
+  const [searchProduct, setSearchProduct] = useState('')
+
+  const childToParent = (searchProduct) => {
+    setSearchProduct(searchProduct)
+  }
 
   const [openModal, setOpenModal] = useState(false)
 
@@ -47,11 +50,13 @@ export const AdminProductScreen = () => {
   useEffect(() => {
     setPageState(old => ({ ...old, isLoading: true }))
     // ham dispatch la bat dong bo tuc la ham phia duoi se thuc hien ke ham dispatch co thuc hien xong hay khong
-    dispatch(listProducts(pageState.page, pageState.pageSize))
-
+    dispatch(listProducts(pageState.page, pageState.pageSize, searchProduct))
     setPageState(old => ({ ...old, isLoading: false }))
-
   }, [pageState.page, pageState.pageSize])
+
+  useEffect(() => {
+    setPageState(old => ({ ...old, page: 1 }))
+  }, [searchProduct])
 
   // effect 2
   useEffect(() => {
@@ -72,6 +77,14 @@ export const AdminProductScreen = () => {
     }
 
   }, [dispatch, productList.products, productList.totalRow])
+
+  const ProductToolbar = () => {
+    return (
+      <GridToolbarContainer>
+        <ProductToolbarSearch page={pageState.page} pageSize={pageState.pageSize} searchProduct={searchProduct} childToParent={childToParent} />
+      </GridToolbarContainer>
+    )
+  }
 
   return (
 
@@ -100,9 +113,9 @@ export const AdminProductScreen = () => {
             onRowClick={handleOpenModal}
             rowHeight={70}
 
-            // components={{
-            //   Toolbar: NewToolbar,
-            // }}
+            components={{
+              Toolbar: ProductToolbar,
+            }}
 
             sx={{
               '& .MuiDataGrid-row': {

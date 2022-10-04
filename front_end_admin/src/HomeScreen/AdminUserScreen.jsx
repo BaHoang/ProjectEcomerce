@@ -3,13 +3,12 @@ import { DataGrid, GridToolbar, GridToolbarColumnsButton, GridToolbarContainer }
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { detailUserByAdmin, listUserByAdmin, acceptAdminAction } from '../Actions/userAction'
-import { formatDate } from '../Utils/FormatDate'
 import CloseIcon from '@mui/icons-material/Close'
-import TitleScreen from '../Component/TitleScreen';
+import TitleScreen from '../Component/Common/TitleScreen';
 import { columns } from '../ColumnTable/userColumn.js'
-import TableUser from '../Component/TableUser'
-import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
-import ToolbarSearch from '../Component/ToolbarSearch';
+import TableUser from '../Component/User/TableUser'
+import PriorityHighIcon from '@mui/icons-material/PriorityHigh'
+import ToolbarSearch from '../Component/User/UserToolbarSearch'
 
 const style = {
   position: 'absolute',
@@ -106,7 +105,7 @@ export const AdminUserScreen = () => {
 
   }, [dispatch, listUser.listAllUser, listUser.totalRow, listUser])
 
-  const NewToolbar = () => {
+  const UserToolbar = () => {
     return (
       <GridToolbarContainer>
         <ToolbarSearch page={pageState.page} pageSize={pageState.pageSize} searchText={searchText} childToParent={childToParent}/>
@@ -142,7 +141,7 @@ export const AdminUserScreen = () => {
             rowHeight={70}
             
             components={{
-              Toolbar: NewToolbar,
+              Toolbar: UserToolbar,
             }}
       
             sx={{

@@ -27,11 +27,11 @@ export const AdminProductScreen = () => {
 
   const [searchProduct, setSearchProduct] = useState('')
 
+  const [openModal, setOpenModal] = useState(false)
+
   const childToParent = (searchProduct) => {
     setSearchProduct(searchProduct)
   }
-
-  const [openModal, setOpenModal] = useState(false)
 
   const handleOpenModal = (params) => {
     setOpenModal(true)
@@ -42,21 +42,33 @@ export const AdminProductScreen = () => {
 
   const handleCloseModal = () => setOpenModal(false)
 
+  const listsProductFunction = () => {
+    setPageState(old => ({ ...old, isLoading: true }))
+    // ham dispatch la bat dong bo tuc la ham phia duoi se thuc hien ke ham dispatch co thuc hien xong hay khong
+    dispatch(listProducts(pageState.page, pageState.pageSize, searchProduct))
+    setPageState(old => ({ ...old, isLoading: false }))
+  }
+
+  // tim kiem theo ten san pham
+  // cum tu tim kiem thay doi thi se load lai du lieu. Ta se mac dinh cho trang load lai len la trang so 1
+  // neu la trang 1 roi thi thuc hien viec lay du lieu tu server
+  // neu chua la trang 1 thi se dua ve page bang 1. Cai nay se kich hoat effect lang nghe page
+  useEffect(() => {
+    if (pageState.page == 1) {
+      listsProductFunction()
+    } else {
+      setPageState(old => ({ ...old, page: 1 }))
+    }
+  }, [searchProduct])
+
   // luong thuc hien:
   // effect 1 duoc thuc hien
   // effect 1 duoc thuc hien dau tien sau do den ham dispatch lay du lieu tu server la ham bat dong bo
   // nen no se tiep tuc thuc hien cau lenh phia duoi cho den khi het roi chuyen sang effect 2 sau do neu
   // ham dong bo effect 1 tra ve ket qua thi se lay ket qua cua no
   useEffect(() => {
-    setPageState(old => ({ ...old, isLoading: true }))
-    // ham dispatch la bat dong bo tuc la ham phia duoi se thuc hien ke ham dispatch co thuc hien xong hay khong
-    dispatch(listProducts(pageState.page, pageState.pageSize, searchProduct))
-    setPageState(old => ({ ...old, isLoading: false }))
+    listsProductFunction()
   }, [pageState.page, pageState.pageSize])
-
-  useEffect(() => {
-    setPageState(old => ({ ...old, page: 1 }))
-  }, [searchProduct])
 
   // effect 2
   useEffect(() => {
@@ -81,7 +93,7 @@ export const AdminProductScreen = () => {
   const ProductToolbar = () => {
     return (
       <GridToolbarContainer>
-        <ProductToolbarSearch page={pageState.page} pageSize={pageState.pageSize} searchProduct={searchProduct} childToParent={childToParent} />
+        <ProductToolbarSearch searchProduct={searchProduct} childToParent={childToParent} />
       </GridToolbarContainer>
     )
   }

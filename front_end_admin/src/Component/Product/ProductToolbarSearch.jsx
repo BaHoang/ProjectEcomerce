@@ -3,27 +3,22 @@ import React from 'react'
 import SearchIcon from '@mui/icons-material/Search'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { listUserByAdmin } from '../../Actions/userAction'
 import { useEffect } from 'react'
 import { listProducts } from '../../Actions/productAction'
 
 const ProductToolbarSearch = (props) => {
-    const page = props.page ? props.page : 1
-    const pageSize = props.pageSize ? props.pageSize : 10
+
     const searchProduct = props.searchProduct ? props.searchProduct : ''
     const childToParent = props.childToParent
 
     const [tempText, setTempText] = useState('')
 
-    const dispatch = useDispatch()
-
     const handleChange = (event) => {
-        event.preventDefault()
         setTempText(event.target.value)
     }
 
-    const handleSubmit = () => {
-        dispatch(listProducts(props.page, props.pageSize, tempText))
+    const handleSubmit = (event) => {
+        event.preventDefault()
         childToParent(tempText)
     }
 

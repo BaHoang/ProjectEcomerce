@@ -6,7 +6,7 @@ import TitleScreen from '../Component/Common/TitleScreen'
 import { columns } from '../ColumnTable/productColumn.js'
 import { listProducts, productDetailAction } from '../Actions/productAction'
 import ProductDetailModal from '../Component/Product/ProductDetailModal'
-import ProductToolbarSearch from '../Component/Product/ProductToolbarSearch'
+import ToolbarSearch from '../Component/Common/ToolbarSearch'
 
 export const AdminProductScreen = () => {
 
@@ -93,7 +93,7 @@ export const AdminProductScreen = () => {
   const ProductToolbar = () => {
     return (
       <GridToolbarContainer>
-        <ProductToolbarSearch searchProduct={searchProduct} childToParent={childToParent} />
+        <ToolbarSearch searchText={searchProduct} childToParent={childToParent} />
       </GridToolbarContainer>
     )
   }

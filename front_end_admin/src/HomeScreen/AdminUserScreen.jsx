@@ -8,7 +8,8 @@ import TitleScreen from '../Component/Common/TitleScreen';
 import { columns } from '../ColumnTable/userColumn.js'
 import TableUser from '../Component/User/TableUser'
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh'
-import ToolbarSearch from '../Component/User/UserToolbarSearch'
+import ToolbarSearch from '../Component/Common/ToolbarSearch';
+
 
 const style = {
   position: 'absolute',
@@ -77,14 +78,23 @@ export const AdminUserScreen = () => {
   const openPopover = Boolean(anchorEl)
   const id = openPopover ? 'simple-popover' : undefined
 
-  useEffect(() => {
+  const listsUserFunction = () => {
     setPageState(old => ({ ...old, isLoading: true }))
     dispatch(listUserByAdmin(userInfor, pageState.page, pageState.pageSize, searchText))
     setPageState(old => ({ ...old, isLoading: false }))
+  }
+
+  useEffect(() => {
+    listsUserFunction()
   }, [pageState.page, pageState.pageSize])
 
   useEffect(() => {
-    setPageState(old => ({ ...old, page: 1 }))
+   
+    if (pageState.page == 1) {
+      listsUserFunction()
+    } else {
+      setPageState(old => ({ ...old, page: 1 }))
+    }
   }, [searchText])
 
   useEffect(() => {
@@ -108,7 +118,7 @@ export const AdminUserScreen = () => {
   const UserToolbar = () => {
     return (
       <GridToolbarContainer>
-        <ToolbarSearch page={pageState.page} pageSize={pageState.pageSize} searchText={searchText} childToParent={childToParent}/>
+        <ToolbarSearch searchText={searchText} childToParent={childToParent}/>
       </GridToolbarContainer>
     )
   }

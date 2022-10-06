@@ -7,6 +7,8 @@ import { columns } from '../ColumnTable/productColumn.js'
 import { listProducts, productDetailAction } from '../Actions/productAction'
 import ProductDetailModal from '../Component/Product/ProductDetailModal'
 import ToolbarSearch from '../Component/Common/ToolbarSearch'
+import ProductAddToolbar from '../Component/Product/ProductAddToolbar'
+import Loading from '../Component/Common/Loading'
 
 export const AdminProductScreen = () => {
 
@@ -47,6 +49,7 @@ export const AdminProductScreen = () => {
     // ham dispatch la bat dong bo tuc la ham phia duoi se thuc hien ke ham dispatch co thuc hien xong hay khong
     dispatch(listProducts(pageState.page, pageState.pageSize, searchProduct))
     setPageState(old => ({ ...old, isLoading: false }))
+
   }
 
   // tim kiem theo ten san pham
@@ -56,9 +59,11 @@ export const AdminProductScreen = () => {
   useEffect(() => {
     if (pageState.page == 1) {
       listsProductFunction()
+
     } else {
       setPageState(old => ({ ...old, page: 1 }))
     }
+
   }, [searchProduct])
 
   // luong thuc hien:
@@ -66,8 +71,11 @@ export const AdminProductScreen = () => {
   // effect 1 duoc thuc hien dau tien sau do den ham dispatch lay du lieu tu server la ham bat dong bo
   // nen no se tiep tuc thuc hien cau lenh phia duoi cho den khi het roi chuyen sang effect 2 sau do neu
   // ham dong bo effect 1 tra ve ket qua thi se lay ket qua cua no
+
+  // neu co thoi gian thi se sua cai nay (lan dau tien render thi se khong thuc hien ham listsProductFunction vi no da thuc hien o effect phia tren roi)
   useEffect(() => {
     listsProductFunction()
+
   }, [pageState.page, pageState.pageSize])
 
   // effect 2
@@ -94,9 +102,11 @@ export const AdminProductScreen = () => {
     return (
       <GridToolbarContainer>
         <ToolbarSearch searchText={searchProduct} childToParent={childToParent} />
+        <ProductAddToolbar />
       </GridToolbarContainer>
     )
   }
+
 
   return (
 
@@ -105,46 +115,52 @@ export const AdminProductScreen = () => {
       <TitleScreen title="Danh sach san pham" />
 
       <Box sx={{ paddingBottom: '30px' }}>
-        <Box sx={{ width: '100%', marginTop: '30px', borderRadius: '15px', overflow: 'hidden', boxShadow: ' 0px 6px 16px 1px rgba(115, 82, 199, 0.2 )', backgroundColor: 'white' }}>
+        {
+          loading
+            ? <Loading />
+            : (
+              <Box sx={{ width: '100%', marginTop: '30px', borderRadius: '15px', overflow: 'hidden', boxShadow: ' 0px 6px 16px 1px rgba(115, 82, 199, 0.2 )', backgroundColor: 'white' }}>
 
-          <DataGrid
-            autoHeight
-            rows={pageState.rows}
-            rowCount={pageState.rowCountState}
-            loading={pageState.isLoading}
-            rowsPerPageOptions={[5, 10, 15]}
-            pagination
-            page={pageState.page - 1}
-            pageSize={pageState.pageSize}
-            paginationMode="server"
-            onPageChange={(newPage) => {
-              setPageState(old => ({ ...old, page: newPage + 1 }))
-            }}
-            onPageSizeChange={(newPageSize) => setPageState(old => ({ ...old, pageSize: newPageSize }))}
-            columns={columns}
-            onRowClick={handleOpenModal}
-            rowHeight={70}
+                <DataGrid
+                  autoHeight
+                  rows={pageState.rows}
+                  rowCount={pageState.rowCountState}
+                  loading={pageState.isLoading}
+                  rowsPerPageOptions={[5, 10, 15]}
+                  pagination
+                  page={pageState.page - 1}
+                  pageSize={pageState.pageSize}
+                  paginationMode="server"
+                  onPageChange={(newPage) => {
+                    setPageState(old => ({ ...old, page: newPage + 1 }))
+                  }}
+                  onPageSizeChange={(newPageSize) => setPageState(old => ({ ...old, pageSize: newPageSize }))}
+                  columns={columns}
+                  onRowClick={handleOpenModal}
+                  rowHeight={70}
 
-            components={{
-              Toolbar: ProductToolbar,
-            }}
+                  components={{
+                    Toolbar: ProductToolbar,
+                  }}
 
-            sx={{
-              '& .MuiDataGrid-row': {
-                cursor: 'pointer'
-              },
-              '& .MuiDataGrid-columnSeparator': {
-                display: 'none',
-              },
-              '& .MuiDataGrid-columnHeaderTitleContainerContent': {
-                color: 'black',
-                fontWeight: 'bold',
-                fontSize: '18px'
-              }
-            }}
-          />
+                  sx={{
+                    '& .MuiDataGrid-row': {
+                      cursor: 'pointer'
+                    },
+                    '& .MuiDataGrid-columnSeparator': {
+                      display: 'none',
+                    },
+                    '& .MuiDataGrid-columnHeaderTitleContainerContent': {
+                      color: 'black',
+                      fontWeight: 'bold',
+                      fontSize: '18px'
+                    }
+                  }}
+                />
 
-        </Box>
+              </Box>
+            )
+        }
       </Box>
 
       <ProductDetailModal open={openModal} onClose={handleCloseModal} productInfor={productDetail.product} loading={productDetail.loading} />
@@ -152,3 +168,4 @@ export const AdminProductScreen = () => {
     </Box>
   )
 }
+

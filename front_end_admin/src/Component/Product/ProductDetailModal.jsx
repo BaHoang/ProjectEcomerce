@@ -2,7 +2,7 @@ import { Box, Button, IconButton, Modal, Typography } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import React from 'react'
 import ProductTable from './ProductTable'
-import EditIcon from '@mui/icons-material/Edit';
+import EditIcon from '@mui/icons-material/Edit'
 
 const style = {
   position: 'absolute',
@@ -13,7 +13,7 @@ const style = {
   bgcolor: 'background.paper',
   borderRadius: '8px',
   boxShadow: 24,
-  overflowY: 'scroll',
+  overflowY: 'auto',
   height: '70vh',
 }
 

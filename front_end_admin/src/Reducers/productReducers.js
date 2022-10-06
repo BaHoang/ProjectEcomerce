@@ -5,32 +5,30 @@ import {
     PRODUCT_DETAIL_REQUEST,
     PRODUCT_DETAIL_SUCCESS,
     PRODUCT_DETAIL_FAIL,
+    PRODUCT_ADD_REQUEST,
+    PRODUCT_ADD_SUCCESS,
+    PRODUCT_ADD_FAIL,
 } from '../Constants/productConstant'
 
-export const productListReducer = (state = { products: [], totalPage: 0, totalRow: 0 }, action) => {
+export const productListReducer = (state = { products: [], totalRow: 0 }, action) => {
 
     var { products } = state
     switch (action.type) {
         case PRODUCT_LIST_REQUEST:
             return { ...state, loading: true }
         case PRODUCT_LIST_SUCCESS:
-            return { loading: false, products: action.payload.someProduct, totalPage: action.payload.totalPage, totalRow: action.payload.totalRow }
+            return { loading: false, products: action.payload.someProduct, totalRow: action.payload.totalRow }
         case PRODUCT_LIST_FAIL:
             return { loading: false, error: action.payload }
 
-        // case PRODUCT_ADD_REQUEST:
-        //     return { ...state, loading: true }
-        // case PRODUCT_ADD_SUCCESS:
-        //     let { totalPage } = state
-        //     let lengthProducts = products.length
-        //     let numberProductPerPage = 10
-        //     if ((lengthProducts - numberProductPerPage * totalPage) === 0) {
-        //         totalPage = totalPage + 1
-        //     }
-        //     products.push(action.payload)
-        //     return { loading: false, products, totalPage }
-        // case PRODUCT_ADD_FAIL:
-        //     return { ...state, loading: false, error: action.payload }
+        case PRODUCT_ADD_REQUEST:
+            return { ...state, loading: true }
+        case PRODUCT_ADD_SUCCESS:
+            let { totalRow } = state
+            products.push(action.payload)
+            return { loading: false, products, totalRow: totalRow + 1 }
+        case PRODUCT_ADD_FAIL:
+            return { ...state, loading: false, error: action.payload }
 
         // case PRODUCT_UPDATE_REQUEST:
         //     return { ...state, loading: true }
@@ -50,7 +48,7 @@ export const productListReducer = (state = { products: [], totalPage: 0, totalRo
         //     return { loading: false, products: [], totalPage: 0 }
             
         default:
-            return state
+return state
     }
 }
 

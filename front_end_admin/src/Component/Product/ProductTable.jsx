@@ -18,7 +18,7 @@ const ProductTable = (props) => {
     var { productInfor } = props
 
     if (productInfor && Object.keys(productInfor).length !== 0) {
-        console.log("detail Product", productInfor)
+        
         var name = productInfor.name ? productInfor.name : ''
         var price = productInfor.price ? productInfor.price : ''
         var priceDiscount = productInfor.priceDiscount ? productInfor.priceDiscount : ''
@@ -35,7 +35,7 @@ const ProductTable = (props) => {
         var description = productInfor.description ? productInfor.description : ''
         var rating = productInfor.rating ? productInfor.rating : ''
         var image = productInfor.image ? productInfor.image : "../../../static/images/defaultImage.png"
-        console.log(image)
+      
 
     }
 
@@ -205,15 +205,6 @@ const ProductTable = (props) => {
                                         {description}
                                     </CustomTableCellContent>
                                 </TableRow>
-
-                                {/* <TableRow>
-                                    <CustomTableCellHeader component="th" scope="row">
-                                        Camera Sau
-                                    </CustomTableCellHeader>
-                                    <CustomTableCellContent align='left'>
-                                        {cameraSau}
-                                    </CustomTableCellContent>
-                                </TableRow> */}
 
                             </TableBody>
                         </Table>

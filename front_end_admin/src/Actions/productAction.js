@@ -39,9 +39,7 @@ export const productDetailAction = (id) => async (dispatch) => {
             type: PRODUCT_DETAIL_SUCCESS,
             payload: data,
         })
-
     } catch (error) {
-
         dispatch({
             type: PRODUCT_DETAIL_FAIL,
             payload: error.response.status ? error.response.status : 'Error',

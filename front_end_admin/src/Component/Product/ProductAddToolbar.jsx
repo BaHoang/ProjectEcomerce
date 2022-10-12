@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, FormControl, FormHelperText, IconButton, Input, InputLabel, Modal, OutlinedInput, styled, TextField, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add'
 import CloseIcon from '@mui/icons-material/Close'
 import { Form, Formik, ErrorMessage } from 'formik'
@@ -7,6 +7,10 @@ import * as Yup from 'yup'
 import { borderRadius } from '@mui/system'
 import { useDispatch, useSelector } from 'react-redux'
 import { addProductAdmin } from '../../Actions/productAction'
+import ProductAddError from './ProductAddError'
+import Loading from '../Common/Loading'
+import ProductAddSuccess from './ProductAddSuccess'
+import { PRODUCT_ADD_RESET } from '../../Constants/productConstant'
 
 const style = {
     position: 'absolute',
@@ -82,17 +86,32 @@ const CustomLabel = styled('label')({
 
 const ProductAddToolbar = () => {
 
+    const [openAddModal, setOpenAddModal] = useState(false)
+
     const user = useSelector(state => state.user)
     const { userInfor } = user
 
+    const productAdd = useSelector(state => state.productAdd)
+
+    const {
+        loading: loadingAdd,
+        error: errorAdd,
+        success: successAdd,
+        product: productNew,
+    } = productAdd
+
     const dispatch = useDispatch()
-    const [openAddModal, setOpenAddModal] = useState(false)
 
     const handleOpenAddModal = () => {
         setOpenAddModal(true)
     }
 
-    const handleCloseAddModal = () => setOpenAddModal(false)
+    const handleCloseAddModal = () => {
+        dispatch({
+            type: PRODUCT_ADD_RESET,
+        })
+        setOpenAddModal(false)
+    }
 
     const validationSchema = Yup.object().shape({
         file: Yup.mixed().required('Image is required'),
@@ -104,19 +123,10 @@ const ProductAddToolbar = () => {
         chipset: Yup.string('Enter chipset').required("Chipset is required"),
         rom: Yup.number('Enter rom').required("Rom is required").min(0, 'Min value 0.'),
         ram: Yup.number('Enter ram').required("Ram is required").min(0, 'Min value 0.'),
-        operating: Yup
-            .string('Enter operating')
-            .required("Operating is required"),
-        color: Yup
-            .string('Enter color')
-            .required("Color is required"),
-        pin: Yup
-            .string('Enter pin')
-            .required("Pin is required"),
-        description: Yup
-            .string('Enter description')
-            .required("Description is required"),
-
+        operating: Yup.string('Enter operating').required("Operating is required"),
+        color: Yup.string('Enter color').required("Color is required"),
+        pin: Yup.string('Enter pin').required("Pin is required"),
+        description: Yup.string('Enter description').required("Description is required"),
     })
 
     const initialValues = {
@@ -136,7 +146,6 @@ const ProductAddToolbar = () => {
         cameraTruoc: '',
         pin: '',
         description: '',
-
     }
 
     const onSubmit = (values, props) => {
@@ -164,8 +173,9 @@ const ProductAddToolbar = () => {
         )
 
         props.setSubmitting(false)
-        handleCloseAddModal()
+
     }
+
 
     return (
         <Box sx={{ marginLeft: 'auto', marginRight: '10px' }}>
@@ -196,270 +206,287 @@ const ProductAddToolbar = () => {
                     </Box>
 
                     <Box sx={styleBody}>
+
+                        {
+                            errorAdd && <ProductAddError statusError={errorAdd} />
+                        }
+
+                        {
+                            successAdd && <ProductAddSuccess />
+                        }
+
+                        {
+                            loadingAdd && <Loading />
+
+                        }
+
                         <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-                            {(props) => (
-                                <Form>
-                                    <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-                                        <Box sx={{ width: '100%', display: 'flex' }}>
-                                            <Box sx={{ width: '50%' }}>
-                                                {
-                                                    props.values.file ?
-                                                        <Box
-                                                            component="img"
-                                                            sx={{
-                                                                height: 150,
-                                                                width: 'auto',
-                                                                maxHeight: { xs: 100, sm: 130, md: 167 },
+                            {
+                                (props) => (
+                                    <Form>
+                                        <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+                                            <Box sx={{ width: '100%', display: 'flex' }}>
+                                                <Box sx={{ width: '50%' }}>
+                                                    {
+                                                        props.values.file ?
+                                                            <Box
+                                                                component="img"
+                                                                sx={{
+                                                                    height: 150,
+                                                                    width: 'auto',
+                                                                    maxHeight: { xs: 100, sm: 130, md: 167 },
 
-                                                            }}
-                                                            alt="Image"
-                                                            src={URL.createObjectURL(props.values.file)}
-                                                        /> : ""
-                                                }
+                                                                }}
+                                                                alt="Image"
+                                                                src={URL.createObjectURL(props.values.file)}
+                                                            /> : ""
+                                                    }
+                                                </Box>
+
+                                                <Box sx={{ width: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                    <FormControl>
+
+                                                        <Button variant='contained' >
+                                                            <CustomLabel htmlFor="file">
+                                                                Select Image
+                                                            </CustomLabel>
+                                                        </Button>
+
+                                                        <Input
+                                                            id="file"
+                                                            name="file"
+                                                            type="file"
+                                                            onChange={(event) => props.setFieldValue('file', event.currentTarget.files[0])}
+                                                            sx={{ display: 'none' }}
+                                                        />
+
+                                                        <FormHelperText sx={{ color: 'red' }}>
+                                                            {
+                                                                (Boolean(props.errors.file)) ? props.errors.file : ''
+                                                            }
+                                                        </FormHelperText>
+                                                    </FormControl>
+                                                </Box>
+
                                             </Box>
 
-                                            <Box sx={{ width: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                                <FormControl>
+                                            <CustomTextField
+                                                id="name"
+                                                label="Name"
+                                                name="name"
+                                                placeholder="Nhap vao ten san pham"
+                                                onBlur={props.handleBlur}
+                                                onChange={props.handleChange}
+                                                value={props.values.name}
+                                                required
+                                                error={Boolean(props.errors.name) && props.touched.name}
+                                                helperText={<ErrorMessage name='name' />}
+                                            />
 
-                                                    <Button variant='contained' >
-                                                        <CustomLabel htmlFor="file">
-                                                            Select Image
-                                                        </CustomLabel>
-                                                    </Button>
+                                            <CustomTextField
+                                                id="price"
+                                                label="Price"
+                                                name="price"
+                                                placeholder="Nhap vao gia san pham"
+                                                onBlur={props.handleBlur}
+                                                onChange={props.handleChange}
+                                                required
+                                                error={Boolean(props.errors.price) && props.touched.price}
+                                                helperText={<ErrorMessage name='price' />}
+                                                type='number'
+                                                InputProps={{
+                                                    inputProps: { min: 0 }
+                                                }}
+                                            />
 
-                                                    <Input
-                                                        id="file"
-                                                        name="file"
-                                                        type="file"
-                                                        onChange={(event) => props.setFieldValue('file', event.currentTarget.files[0])}
-                                                        sx={{ display: 'none' }}
-                                                    />
+                                            <CustomTextField
+                                                id="priceDiscount"
+                                                label="Price Discount"
+                                                name="priceDiscount"
+                                                placeholder="Nhap vao gia da giam"
+                                                onBlur={props.handleBlur}
+                                                onChange={props.handleChange}
+                                                error={Boolean(props.errors.priceDiscount) && props.touched.priceDiscount}
+                                                helperText={<ErrorMessage name='priceDiscount' />}
+                                                type='number'
+                                                InputProps={{
+                                                    inputProps: { min: 0 }
+                                                }}
+                                            />
 
-                                                    <FormHelperText sx={{ color: 'red' }}>
-                                                        {
-                                                            (Boolean(props.errors.file)) ? props.errors.file : ''
-                                                        }
-                                                    </FormHelperText>
-                                                </FormControl>
-                                            </Box>
+                                            <CustomTextField
+                                                id="brand"
+                                                label="Brand"
+                                                name="brand"
+                                                placeholder="Nhap vao gia da giam"
+                                                onBlur={props.handleBlur}
+                                                onChange={props.handleChange}
+                                                required
+                                                error={Boolean(props.errors.brand) && props.touched.brand}
+                                                helperText={<ErrorMessage name='brand' />}
+                                            />
+
+                                            <CustomTextField
+                                                id="countInStock"
+                                                label="Count In Stock"
+                                                name="countInStock"
+                                                placeholder="Nhap vao gia da giam"
+                                                onBlur={props.handleBlur}
+                                                onChange={props.handleChange}
+
+                                                required
+                                                error={Boolean(props.errors.countInStock) && props.touched.countInStock}
+                                                helperText={<ErrorMessage name='countInStock' />}
+                                                type='number'
+                                                InputProps={{
+                                                    inputProps: { min: 0 }
+                                                }}
+                                            />
+
+                                            <CustomTextField
+                                                id="chipset"
+                                                label="Chipset"
+                                                name="chipset"
+                                                placeholder="Nhap vao gia da giam"
+                                                onBlur={props.handleBlur}
+                                                onChange={props.handleChange}
+                                                required
+                                                error={Boolean(props.errors.chipset) && props.touched.chipset}
+                                                helperText={<ErrorMessage name='chipset' />}
+                                            />
+
+                                            <CustomTextField
+                                                id="rom"
+                                                label="Rom"
+                                                name="rom"
+                                                placeholder="Nhap vao gia da giam"
+                                                onBlur={props.handleBlur}
+                                                onChange={props.handleChange}
+                                                required
+                                                error={Boolean(props.errors.rom) && props.touched.rom}
+                                                helperText={<ErrorMessage name='rom' />}
+                                                type='number'
+                                                InputProps={{
+                                                    inputProps: { min: 0 }
+                                                }}
+                                            />
+
+                                            <CustomTextField
+                                                id="ram"
+                                                label="Ram"
+                                                name="ram"
+                                                placeholder="Nhap vao gia da giam"
+                                                onBlur={props.handleBlur}
+                                                onChange={props.handleChange}
+                                                required
+                                                error={Boolean(props.errors.ram) && props.touched.ram}
+                                                helperText={<ErrorMessage name='ram' />}
+                                                type='number'
+                                                InputProps={{
+                                                    inputProps: { min: 0 }
+                                                }}
+                                            />
+
+                                            <CustomTextField
+                                                id="operating"
+                                                label="Operating"
+                                                name="operating"
+                                                placeholder="Nhap vao gia da giam"
+                                                onBlur={props.handleBlur}
+                                                onChange={props.handleChange}
+                                                required
+                                                error={Boolean(props.errors.operating) && props.touched.operating}
+                                                helperText={<ErrorMessage name='operating' />}
+                                            />
+
+                                            <CustomTextField
+                                                id="color"
+                                                label="Color"
+                                                name="color"
+                                                placeholder="Nhap vao gia da giam"
+                                                onBlur={props.handleBlur}
+                                                onChange={props.handleChange}
+                                                required
+                                                error={Boolean(props.errors.color) && props.touched.color}
+                                                helperText={<ErrorMessage name='color' />}
+                                            />
+
+                                            <CustomTextField
+                                                id="pin"
+                                                label="Pin"
+                                                name="pin"
+                                                placeholder="Nhap vao dung luong pin"
+                                                onBlur={props.handleBlur}
+                                                onChange={props.handleChange}
+                                                required
+                                                error={Boolean(props.errors.pin) && props.touched.pin}
+                                                helperText={<ErrorMessage name='pin' />}
+                                            />
+
+                                            <CustomTextField
+                                                id="manHinh"
+                                                label="Man Hinh"
+                                                name="manHinh"
+                                                placeholder="Nhap vao gia da giam"
+                                                onBlur={props.handleBlur}
+                                                onChange={props.handleChange}
+
+                                                error={Boolean(props.errors.manHinh) && props.touched.manHinh}
+                                                helperText={<ErrorMessage name='manHinh' />}
+                                            />
+
+                                            <CustomTextField
+                                                id="cameraSau"
+                                                label="Camera sau"
+                                                name="cameraSau"
+                                                placeholder="Nhap vao gia da giam"
+                                                onBlur={props.handleBlur}
+                                                onChange={props.handleChange}
+                                                error={Boolean(props.errors.cameraSau) && props.touched.cameraSau}
+                                                helperText={<ErrorMessage name='cameraSau' />}
+                                            />
+
+                                            <CustomTextField
+                                                id="cameraTruoc"
+                                                label="Camera Truoc"
+                                                name="cameraTruoc"
+                                                placeholder="Nhap vao gia da giam"
+                                                onBlur={props.handleBlur}
+                                                onChange={props.handleChange}
+
+                                                error={Boolean(props.errors.cameraTruoc) && props.touched.cameraTruoc}
+                                                helperText={<ErrorMessage name='cameraTruoc' />}
+                                            />
+
+                                            <CustomTextField
+                                                id="description"
+                                                label="Description"
+                                                name="description"
+                                                placeholder="Nhap vao gia da giam"
+                                                onBlur={props.handleBlur}
+                                                onChange={props.handleChange}
+                                                required
+                                                error={Boolean(props.errors.description) && props.touched.description}
+                                                helperText={<ErrorMessage name='description' />}
+                                            />
 
                                         </Box>
 
-                                        <CustomTextField
-                                            id="name"
-                                            label="Name"
-                                            name="name"
-                                            placeholder="Nhap vao ten san pham"
-                                            onBlur={props.handleBlur}
-                                            onChange={props.handleChange}
-                                            required
-                                            error={Boolean(props.errors.name) && props.touched.name}
-                                            helperText={<ErrorMessage name='name' />}
-                                        />
+                                        <Box sx={styleFooter}>
+                                            <Button type="submit" variant="contained" size="large" disabled={props.isSubmitting}>
+                                                {props.isSubmitting ? 'Loading' : 'Add Product'}
+                                            </Button>
+                                        </Box>
 
-                                        <CustomTextField
-                                            id="price"
-                                            label="Price"
-                                            name="price"
-                                            placeholder="Nhap vao gia san pham"
-                                            onBlur={props.handleBlur}
-                                            onChange={props.handleChange}
-                                            required
-                                            error={Boolean(props.errors.price) && props.touched.price}
-                                            helperText={<ErrorMessage name='price' />}
-                                            type='number'
-                                            InputProps={{
-                                                inputProps: { min: 0 }
-                                            }}
-                                        />
-
-                                        <CustomTextField
-                                            id="priceDiscount"
-                                            label="Price Discount"
-                                            name="priceDiscount"
-                                            placeholder="Nhap vao gia da giam"
-                                            onBlur={props.handleBlur}
-                                            onChange={props.handleChange}
-                                            error={Boolean(props.errors.priceDiscount) && props.touched.priceDiscount}
-                                            helperText={<ErrorMessage name='priceDiscount' />}
-                                            type='number'
-                                            InputProps={{
-                                                inputProps: { min: 0 }
-                                            }}
-                                        />
-
-                                        <CustomTextField
-                                            id="brand"
-                                            label="Brand"
-                                            name="brand"
-                                            placeholder="Nhap vao gia da giam"
-                                            onBlur={props.handleBlur}
-                                            onChange={props.handleChange}
-                                            required
-                                            error={Boolean(props.errors.brand) && props.touched.brand}
-                                            helperText={<ErrorMessage name='brand' />}
-                                        />
-
-                                        <CustomTextField
-                                            id="countInStock"
-                                            label="Count In Stock"
-                                            name="countInStock"
-                                            placeholder="Nhap vao gia da giam"
-                                            onBlur={props.handleBlur}
-                                            onChange={props.handleChange}
-
-                                            required
-                                            error={Boolean(props.errors.countInStock) && props.touched.countInStock}
-                                            helperText={<ErrorMessage name='countInStock' />}
-                                            type='number'
-                                            InputProps={{
-                                                inputProps: { min: 0 }
-                                            }}
-                                        />
-
-                                        <CustomTextField
-                                            id="chipset"
-                                            label="Chipset"
-                                            name="chipset"
-                                            placeholder="Nhap vao gia da giam"
-                                            onBlur={props.handleBlur}
-                                            onChange={props.handleChange}
-                                            required
-                                            error={Boolean(props.errors.chipset) && props.touched.chipset}
-                                            helperText={<ErrorMessage name='chipset' />}
-                                        />
-
-                                        <CustomTextField
-                                            id="rom"
-                                            label="Rom"
-                                            name="rom"
-                                            placeholder="Nhap vao gia da giam"
-                                            onBlur={props.handleBlur}
-                                            onChange={props.handleChange}
-                                            required
-                                            error={Boolean(props.errors.rom) && props.touched.rom}
-                                            helperText={<ErrorMessage name='rom' />}
-                                            type='number'
-                                            InputProps={{
-                                                inputProps: { min: 0 }
-                                            }}
-                                        />
-
-                                        <CustomTextField
-                                            id="ram"
-                                            label="Ram"
-                                            name="ram"
-                                            placeholder="Nhap vao gia da giam"
-                                            onBlur={props.handleBlur}
-                                            onChange={props.handleChange}
-                                            required
-                                            error={Boolean(props.errors.ram) && props.touched.ram}
-                                            helperText={<ErrorMessage name='ram' />}
-                                            type='number'
-                                            InputProps={{
-                                                inputProps: { min: 0 }
-                                            }}
-                                        />
-
-                                        <CustomTextField
-                                            id="operating"
-                                            label="Operating"
-                                            name="operating"
-                                            placeholder="Nhap vao gia da giam"
-                                            onBlur={props.handleBlur}
-                                            onChange={props.handleChange}
-                                            required
-                                            error={Boolean(props.errors.operating) && props.touched.operating}
-                                            helperText={<ErrorMessage name='operating' />}
-                                        />
-
-                                        <CustomTextField
-                                            id="color"
-                                            label="Color"
-                                            name="color"
-                                            placeholder="Nhap vao gia da giam"
-                                            onBlur={props.handleBlur}
-                                            onChange={props.handleChange}
-                                            required
-                                            error={Boolean(props.errors.color) && props.touched.color}
-                                            helperText={<ErrorMessage name='color' />}
-                                        />
-
-                                        <CustomTextField
-                                            id="pin"
-                                            label="Pin"
-                                            name="pin"
-                                            placeholder="Nhap vao dung luong pin"
-                                            onBlur={props.handleBlur}
-                                            onChange={props.handleChange}
-                                            required
-                                            error={Boolean(props.errors.pin) && props.touched.pin}
-                                            helperText={<ErrorMessage name='pin' />}
-                                        />
-
-                                        <CustomTextField
-                                            id="manHinh"
-                                            label="Man Hinh"
-                                            name="manHinh"
-                                            placeholder="Nhap vao gia da giam"
-                                            onBlur={props.handleBlur}
-                                            onChange={props.handleChange}
-
-                                            error={Boolean(props.errors.manHinh) && props.touched.manHinh}
-                                            helperText={<ErrorMessage name='manHinh' />}
-                                        />
-
-                                        <CustomTextField
-                                            id="cameraSau"
-                                            label="Camera sau"
-                                            name="cameraSau"
-                                            placeholder="Nhap vao gia da giam"
-                                            onBlur={props.handleBlur}
-                                            onChange={props.handleChange}
-                                            error={Boolean(props.errors.cameraSau) && props.touched.cameraSau}
-                                            helperText={<ErrorMessage name='cameraSau' />}
-                                        />
-
-                                        <CustomTextField
-                                            id="cameraTruoc"
-                                            label="Camera Truoc"
-                                            name="cameraTruoc"
-                                            placeholder="Nhap vao gia da giam"
-                                            onBlur={props.handleBlur}
-                                            onChange={props.handleChange}
-
-                                            error={Boolean(props.errors.cameraTruoc) && props.touched.cameraTruoc}
-                                            helperText={<ErrorMessage name='cameraTruoc' />}
-                                        />
-
-                                        <CustomTextField
-                                            id="description"
-                                            label="Description"
-                                            name="description"
-                                            placeholder="Nhap vao gia da giam"
-                                            onBlur={props.handleBlur}
-                                            onChange={props.handleChange}
-                                            required
-                                            error={Boolean(props.errors.description) && props.touched.description}
-                                            helperText={<ErrorMessage name='description' />}
-                                        />
-
-                                    </Box>
-
-                                    <Box sx={styleFooter}>
-                                        <Button type="submit" variant="contained" size="large" disabled={props.isSubmitting}>
-                                            {props.isSubmitting ? 'Loading' : 'Add Product'}
-                                        </Button>
-                                    </Box>
-
-                                </Form>
-                            )}
+                                    </Form>
+                                )}
                         </Formik>
+
                     </Box>
 
-                </Box>
-            </Modal>
-        </Box>
+                </Box >
+            </Modal >
+        </Box >
 
     )
 }

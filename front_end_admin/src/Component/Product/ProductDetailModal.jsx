@@ -78,7 +78,7 @@ const ProductDetailModal = (props) => {
             startIcon={<EditIcon />}
             sx={{ fontSize: { xs: '10px', md: '14px' } }}
             onClick={handleUpdateProduct}
-            disabled={productInfor && Object.keys(productInfor).length !== 0}
+            disabled={!(productInfor && Object.keys(productInfor).length !== 0)}
           >
             Update
           </Button>

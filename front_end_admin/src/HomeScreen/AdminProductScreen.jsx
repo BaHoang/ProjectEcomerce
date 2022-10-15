@@ -9,6 +9,8 @@ import ProductDetailModal from '../Component/Product/ProductDetailModal'
 import ToolbarSearch from '../Component/Common/ToolbarSearch'
 import ProductAddToolbar from '../Component/Product/ProductAddToolbar'
 import Loading from '../Component/Common/Loading'
+import ProductUpdateModal from '../Component/Product/ProductUpdateModal'
+import { PRODUCT_UPDATE_RESET } from '../Constants/productConstant'
 
 export const AdminProductScreen = () => {
 
@@ -29,39 +31,55 @@ export const AdminProductScreen = () => {
 
   const [searchProduct, setSearchProduct] = useState('')
 
-  const [openModal, setOpenModal] = useState(false)
+  const [idProductClicked, setIdProductClicked ] = useState('')
 
-  const childToParent = (searchProduct) => {
-    setSearchProduct(searchProduct)
-  }
+  const [openModal, setOpenModal] = useState(false)
 
   const handleOpenModal = (params) => {
     setOpenModal(true)
     let idProductInList = params.row.id - (pageState.page - 1) * pageState.pageSize - 1
     let productClicked = products[idProductInList]
+    setIdProductClicked(productClicked._id)
     dispatch(productDetailAction(productClicked._id))
   }
 
   const handleCloseModal = () => setOpenModal(false)
 
-  const listsProductFunction = (page) => {
+  const [openUpdateModal, setOpenUpdateModal] = useState(false)
+
+  const handleOpenUpdateModal = (params) => {
+    setOpenUpdateModal(true)
+  }
+
+  const handleCloseUpdateModal = () => {
+    dispatch({
+      type: PRODUCT_UPDATE_RESET,
+    })
+    setOpenUpdateModal(false)
+    setOpenModal(true)
+    dispatch(productDetailAction(idProductClicked))
+  }
+
+  const childToParent = (searchProduct) => {
+    setSearchProduct(searchProduct)
+  }
+
+  const listsProductFunction = () => {
     setPageState(old => ({ ...old, isLoading: true }))
-    dispatch(listProducts(page, pageState.pageSize, searchProduct))
+    dispatch(listProducts(pageState.page, pageState.pageSize, searchProduct))
     setPageState(old => ({ ...old, isLoading: false }))
   }
 
   useEffect(() => {
     if (pageState.page == 1) {
-      listsProductFunction(pageState.page)
+      listsProductFunction()
     } else {
       setPageState(old => ({ ...old, page: 1 }))
     }
-
   }, [searchProduct])
 
   useEffect(() => {
-    listsProductFunction(pageState.page)
-
+    listsProductFunction()
   }, [pageState.page, pageState.pageSize])
 
   useEffect(() => {
@@ -90,7 +108,6 @@ export const AdminProductScreen = () => {
       </GridToolbarContainer>
     )
   }
-
 
   return (
 
@@ -147,7 +164,22 @@ export const AdminProductScreen = () => {
         }
       </Box>
 
-      <ProductDetailModal open={openModal} onClose={handleCloseModal} productInfor={productDetail.product} loading={productDetail.loading} />
+      <ProductDetailModal
+        open={openModal}
+        onClose={handleCloseModal}
+        handleOpenUpdateModal={handleOpenUpdateModal}
+        productInfor={productDetail.product}
+        loading={productDetail.loading}
+      />
+
+      <ProductUpdateModal
+        openUpdateModal={openUpdateModal}
+        productInfor={productDetail.product}
+        handleCloseUpdateModal={handleCloseUpdateModal}
+        loading={productDetail.loading}
+        listsProductFunction={listsProductFunction}
+      />
+
 
     </Box>
   )

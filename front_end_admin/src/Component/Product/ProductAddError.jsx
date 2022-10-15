@@ -1,5 +1,5 @@
-import { Typography } from '@mui/material'
-import React from 'react'
+import { Alert, Box, Snackbar, Typography } from '@mui/material'
+import React, { useState } from 'react'
 
 const ProductAddError = (props) => {
     let status = props.statusError
@@ -11,10 +11,27 @@ const ProductAddError = (props) => {
     if (status === 400) {
         message = 'Create product failed, try again'
     }
+
+    const [openSnackbar, setOpenSnackbar] = useState(true)
+
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false)
+    }
+
     return (
-        <>
-            <Typography variant='h6' sx={{ color: 'red', mt: '20px', mb: '20px', textAlign: 'center' }}>{message}</Typography>
-        </>
+        <Box >
+            <Snackbar
+                open={openSnackbar}
+                sx={{
+                    position: 'sticky',
+                    top: '60px',
+                    zIndex: '1400',
+                    paddingBottom: '20px'
+                }}
+            >
+                <Alert sx={{width: '100%'}}  variant="filled" severity="error" onClose={handleCloseSnackbar} >{message}</Alert>
+            </Snackbar>
+        </Box>
     )
 }
 

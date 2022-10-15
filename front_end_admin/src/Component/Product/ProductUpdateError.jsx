@@ -1,7 +1,13 @@
 import { Alert, Box, Snackbar, Typography } from '@mui/material'
 import React, { useState } from 'react'
 
-const ProductAddSuccess = () => {
+const ProductUpdateError = (props) => {
+    let status = props.statusError
+    let message = ''
+
+    if (status === 400) {
+        message = 'Update product failed, try again'
+    }
 
     const [openSnackbar, setOpenSnackbar] = useState(true)
 
@@ -20,10 +26,10 @@ const ProductAddSuccess = () => {
                     paddingBottom: '20px'
                 }}
             >
-                <Alert sx={{width: '100%'}} variant="filled" severity="success" onClose={handleCloseSnackbar} >Add product success. Please go to page last for more detail</Alert>
+                <Alert sx={{width: '100%'}} variant="filled" severity="error" onClose={handleCloseSnackbar} >{message}</Alert>
             </Snackbar>
         </Box>
     )
 }
 
-export default ProductAddSuccess
+export default ProductUpdateError

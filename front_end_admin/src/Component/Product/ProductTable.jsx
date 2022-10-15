@@ -35,8 +35,6 @@ const ProductTable = (props) => {
         var description = productInfor.description ? productInfor.description : ''
         var rating = productInfor.rating ? productInfor.rating : ''
         var image = productInfor.image ? productInfor.image : "../../../static/images/defaultImage.png"
-      
-
     }
 
     if (props.loading) {
@@ -49,7 +47,6 @@ const ProductTable = (props) => {
                 {
                     (productInfor && Object.keys(productInfor).length !== 0) ? (
                         <Table>
-
                             <TableBody>
 
                                 <TableRow>
@@ -213,10 +210,8 @@ const ProductTable = (props) => {
                     )
                 }
             </Box>
-
         )
     }
-
 }
 
 export default ProductTable

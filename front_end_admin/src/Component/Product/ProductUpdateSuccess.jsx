@@ -1,7 +1,7 @@
 import { Alert, Box, Snackbar, Typography } from '@mui/material'
 import React, { useState } from 'react'
 
-const ProductAddSuccess = () => {
+const ProductUpdateSuccess = () => {
 
     const [openSnackbar, setOpenSnackbar] = useState(true)
 
@@ -10,20 +10,23 @@ const ProductAddSuccess = () => {
     }
 
     return (
-        <Box >
+        <Box
+            sx={{
+                paddingBottom: '20px',
+            }}
+        >
             <Snackbar
                 open={openSnackbar}
                 sx={{
                     position: 'sticky',
                     top: '60px',
-                    zIndex: '1400',
-                    paddingBottom: '20px'
+                    zIndex: '1400'
                 }}
             >
-                <Alert sx={{width: '100%'}} variant="filled" severity="success" onClose={handleCloseSnackbar} >Add product success. Please go to page last for more detail</Alert>
+                <Alert sx={{width: '100%'}} variant="filled" severity="success" onClose={handleCloseSnackbar} >Update product success</Alert>
             </Snackbar>
         </Box>
     )
 }
 
-export default ProductAddSuccess
+export default ProductUpdateSuccess

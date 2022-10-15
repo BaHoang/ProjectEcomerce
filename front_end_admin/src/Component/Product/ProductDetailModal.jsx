@@ -37,7 +37,12 @@ const styleFooter = {
 
 const ProductDetailModal = (props) => {
 
-  const { open, productInfor, loading, onClose } = props
+  const { open, productInfor, loading, onClose, handleOpenUpdateModal } = props
+
+  const handleUpdateProduct = () => {
+    onClose()
+    handleOpenUpdateModal()
+  }
 
   return (
 
@@ -68,7 +73,15 @@ const ProductDetailModal = (props) => {
         <ProductTable productInfor={productInfor} loading={loading} />
 
         <Box sx={styleFooter}>
-            <Button variant='contained' startIcon={<EditIcon />} sx={{fontSize: {xs:'10px', md: '14px'}}}>Update</Button>
+          <Button
+            variant='contained'
+            startIcon={<EditIcon />}
+            sx={{ fontSize: { xs: '10px', md: '14px' } }}
+            onClick={handleUpdateProduct}
+            disabled={productInfor && Object.keys(productInfor).length !== 0}
+          >
+            Update
+          </Button>
         </Box>
 
       </Box>

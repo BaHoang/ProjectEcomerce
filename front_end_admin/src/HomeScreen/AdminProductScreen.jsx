@@ -104,7 +104,7 @@ export const AdminProductScreen = () => {
     return (
       <GridToolbarContainer>
         <ToolbarSearch searchText={searchProduct} childToParent={childToParent} />
-        <ProductAddToolbar />
+        <ProductAddToolbar listsProductFunction={listsProductFunction}/>
       </GridToolbarContainer>
     )
   }

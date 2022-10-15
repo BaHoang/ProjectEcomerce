@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, FormControl, FormHelperText, IconButton, Input, InputLabel, Modal, OutlinedInput, styled, TextField, Typography } from '@mui/material'
+import { Avatar, Box, Button, FormControl, FormHelperText, IconButton, Input, InputLabel, Modal, OutlinedInput, Popover, styled, TextField, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add'
 import CloseIcon from '@mui/icons-material/Close'
@@ -11,6 +11,7 @@ import ProductAddError from './ProductAddError'
 import Loading from '../Common/Loading'
 import ProductAddSuccess from './ProductAddSuccess'
 import { PRODUCT_ADD_RESET } from '../../Constants/productConstant'
+import PriorityHighIcon from '@mui/icons-material/PriorityHigh'
 
 const style = {
     position: 'absolute',
@@ -84,7 +85,9 @@ const CustomLabel = styled('label')({
     cursor: 'pointer',
 })
 
-const ProductAddToolbar = () => {
+const ProductAddToolbar = (props) => {
+
+    const { listsProductFunction } = props
 
     const [openAddModal, setOpenAddModal] = useState(false)
 
@@ -100,6 +103,34 @@ const ProductAddToolbar = () => {
         product: productNew,
     } = productAdd
 
+    const [productInforAdd, setproductInforAdd] = useState({
+        file: null,
+        name: '',
+        price: '',
+        priceDiscount: '',
+        brand: '',
+        countInStock: '',
+        chipset: '',
+        rom: '',
+        ram: '',
+        operating: '',
+        color: '',
+        manHinh: '',
+        cameraSau: '',
+        cameraTruoc: '',
+        pin: '',
+        description: ''
+    })
+
+    const [anchorEl, setAnchorEl] = useState(null)
+    const openPopoverAdd = Boolean(anchorEl)
+    const id = openPopoverAdd ? 'simple-popover' : undefined
+
+    const handleClosePopoverAdd = () => {
+        setAnchorEl(null)
+        
+    }
+
     const dispatch = useDispatch()
 
     const handleOpenAddModal = () => {
@@ -111,6 +142,7 @@ const ProductAddToolbar = () => {
             type: PRODUCT_ADD_RESET,
         })
         setOpenAddModal(false)
+        listsProductFunction()
     }
 
     const validationSchema = Yup.object().shape({
@@ -150,33 +182,60 @@ const ProductAddToolbar = () => {
 
     const onSubmit = (values, props) => {
 
+        setproductInforAdd(old => ({
+            ...old,
+            file: values.file,
+            name: values.name,
+            price: values.price,
+            priceDiscount: values.priceDiscount,
+            brand: values.brand,
+            countInStock: values.countInStock,
+            chipset: values.chipset,
+            rom: values.rom,
+            ram: values.ram,
+            operating: values.operating,
+            color: values.color,
+            manHinh: values.manHinh,
+            cameraSau: values.cameraSau,
+            cameraTruoc: values.cameraTruoc,
+            pin: values.pin,
+            description: values.description
+        }))
+        props.setSubmitting(false)
+    }
+
+    const addProductSubmit = () => {
         dispatch(
             addProductAdmin(
                 userInfor,
-                values.file,
-                values.name,
-                values.price,
-                values.priceDiscount,
-                values.brand,
-                values.countInStock,
-                values.chipset,
-                values.rom,
-                values.ram,
-                values.operating,
-                values.color,
-                values.manHinh,
-                values.cameraSau,
-                values.cameraTruoc,
-                values.pin,
-                values.description
+                productInforAdd.file,
+                productInforAdd.name,
+                productInforAdd.price,
+                productInforAdd.priceDiscount,
+                productInforAdd.brand,
+                productInforAdd.countInStock,
+                productInforAdd.chipset,
+                productInforAdd.rom,
+                productInforAdd.ram,
+                productInforAdd.operating,
+                productInforAdd.color,
+                productInforAdd.manHinh,
+                productInforAdd.cameraSau,
+                productInforAdd.cameraTruoc,
+                productInforAdd.pin,
+                productInforAdd.description
             )
         )
-
-        props.setSubmitting(false)
-
+        setAnchorEl(null)
     }
 
+    const handleClickPopoverAdd = (event, errors) => {
+        if (!(errors && Object.keys(errors).length !== 0)) {
+            setAnchorEl(event.currentTarget)
+        }
+    }
 
+   
     return (
         <Box sx={{ marginLeft: 'auto', marginRight: '10px' }}>
             <Button variant='contained' startIcon={<AddIcon />} onClick={handleOpenAddModal}>Add</Button>
@@ -306,6 +365,7 @@ const ProductAddToolbar = () => {
                                                 placeholder="Nhap vao gia da giam"
                                                 onBlur={props.handleBlur}
                                                 onChange={props.handleChange}
+                                                required
                                                 error={Boolean(props.errors.priceDiscount) && props.touched.priceDiscount}
                                                 helperText={<ErrorMessage name='priceDiscount' />}
                                                 type='number'
@@ -473,9 +533,67 @@ const ProductAddToolbar = () => {
                                         </Box>
 
                                         <Box sx={styleFooter}>
-                                            <Button type="submit" variant="contained" size="large" disabled={props.isSubmitting}>
+                                            <Button
+                                                type="submit"
+                                                variant="contained"
+                                                size="large"
+                                                disabled={props.isSubmitting}
+                                                aria-describedby={id}
+                                                onClick={(event) => handleClickPopoverAdd(event, props.errors)}
+                                            >
                                                 {props.isSubmitting ? 'Loading' : 'Add Product'}
                                             </Button>
+
+                                            <Popover
+                                                id={id}
+                                                open={openPopoverAdd}
+                                                anchorEl={anchorEl}
+                                                onClose={handleClosePopoverAdd}
+                                                anchorOrigin={{
+                                                    vertical: 'top',
+                                                    horizontal: 'center',
+                                                }}
+                                                PaperProps={{
+                                                    style: {
+                                                        backgroundColor: "transparent",
+                                                        boxShadow: "none",
+                                                        width: '100%',
+                                                    }
+                                                }}
+                                                sx={{ top: '-90px' }}
+                                            >
+                                                <Box sx={{
+                                                    backgroundColor: 'white',
+                                                    position: "relative",
+                                                    borderRadius: '5px',
+                                                    width: '200px',
+                                                    margin: '2px auto 12px',
+                                                    boxShadow: '1px 1px 3px 2px rgba(0,0,0, 0.3)',
+                                                    "&::before": {
+                                                        backgroundColor: "white",
+                                                        content: '""',
+                                                        display: "block",
+                                                        position: "absolute",
+                                                        width: 12,
+                                                        height: 12,
+                                                        bottom: -6,
+                                                        transform: "rotate(225deg)",
+                                                        left: "calc(50% - 6px)",
+                                                        boxShadow: '-2px -2px 4px -1px rgba(0,0,0,0.5)',
+                                                    }
+                                                }}>
+                                                    <Typography component='div' sx={{ padding: '4px 4px 0px 18px', display: 'flex', alignItems: 'center', color: 'red' }}>
+                                                        <PriorityHighIcon sx={{ bgcolor: 'rgb(255, 204, 0)', color: 'white', fontSize: '12px', padding: '2px 2px', borderRadius: '12px', marginRight: '8px' }} />
+                                                        Are you sure ?
+                                                    </Typography>
+                                                    <Box sx={{ display: 'flex', justifyContent: 'space-around', marginTop: '10px', paddingBottom: '10px' }}>
+                                                        <Button variant="contained" sx={{ fontSize: '10px' }} onClick={handleClosePopoverAdd}>Cancel</Button>
+                                                        <Button onClick={addProductSubmit} variant="contained" sx={{ fontSize: '10px' }} >Yes</Button>
+                                                    </Box>
+                                                </Box>
+
+                                            </Popover>
+
                                         </Box>
 
                                     </Form>

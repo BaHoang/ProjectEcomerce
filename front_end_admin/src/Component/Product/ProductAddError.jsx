@@ -19,17 +19,19 @@ const ProductAddError = (props) => {
     }
 
     return (
-        <Box >
+        <Box>
+
             <Snackbar
                 open={openSnackbar}
                 sx={{
+                    position: '-webkit-sticky',
                     position: 'sticky',
-                    top: '60px',
+                    bottom: '0px',
                     zIndex: '1400',
-                    paddingBottom: '20px'
+                    paddingBottom: '20px',
                 }}
             >
-                <Alert sx={{width: '100%'}}  variant="filled" severity="error" onClose={handleCloseSnackbar} >{message}</Alert>
+                <Alert sx={{ width: '100%' }} variant="filled" severity="error" onClose={handleCloseSnackbar} >{message}</Alert>
             </Snackbar>
         </Box>
     )

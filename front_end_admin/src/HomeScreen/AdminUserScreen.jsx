@@ -117,7 +117,7 @@ export const AdminUserScreen = () => {
 
   const UserToolbar = () => {
     return (
-      <GridToolbarContainer>
+      <GridToolbarContainer sx={{paddingTop: '16px'}}>
         <ToolbarSearch searchText={searchText} childToParent={childToParent}/>
       </GridToolbarContainer>
     )

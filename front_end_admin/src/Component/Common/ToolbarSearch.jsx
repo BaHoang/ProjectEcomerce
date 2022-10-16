@@ -32,7 +32,7 @@ const ToolbarSearch = (props) => {
                     minWidth: 200,
                     backgroundColor: 'rgb(245, 245, 245)',
                     borderRadius: '50px',
-                    //marginTop: '20px',
+                   
                     marginLeft: '20px'
                 }}
             >

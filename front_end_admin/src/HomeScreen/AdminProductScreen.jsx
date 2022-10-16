@@ -30,10 +30,9 @@ export const AdminProductScreen = () => {
   })
 
   const [searchProduct, setSearchProduct] = useState('')
-
-  const [idProductClicked, setIdProductClicked ] = useState('')
-
+  const [idProductClicked, setIdProductClicked] = useState('')
   const [openModal, setOpenModal] = useState(false)
+  const [openUpdateModal, setOpenUpdateModal] = useState(false)
 
   const handleOpenModal = (params) => {
     setOpenModal(true)
@@ -44,8 +43,6 @@ export const AdminProductScreen = () => {
   }
 
   const handleCloseModal = () => setOpenModal(false)
-
-  const [openUpdateModal, setOpenUpdateModal] = useState(false)
 
   const handleOpenUpdateModal = (params) => {
     setOpenUpdateModal(true)
@@ -102,16 +99,22 @@ export const AdminProductScreen = () => {
 
   const ProductToolbar = () => {
     return (
-      <GridToolbarContainer>
+      <GridToolbarContainer sx={{paddingTop: '16px'}}>
         <ToolbarSearch searchText={searchProduct} childToParent={childToParent} />
-        <ProductAddToolbar listsProductFunction={listsProductFunction}/>
+        <ProductAddToolbar listsProductFunction={listsProductFunction} />
       </GridToolbarContainer>
     )
   }
 
   return (
 
-    <Box sx={{ margin: 'auto', width: { xs: '92%', sm: '94%', md: '90%' }, minHeight: 'calc(100vh - 80px)' }}>
+    <Box
+      sx={{
+        margin: 'auto',
+        width: { xs: '92%', sm: '94%', md: '90%' },
+        minHeight: 'calc(100vh - 80px)'
+      }}
+    >
 
       <TitleScreen title="Danh sach san pham" />
 
@@ -120,7 +123,15 @@ export const AdminProductScreen = () => {
           loading
             ? <Loading />
             : (
-              <Box sx={{ width: '100%', marginTop: '30px', borderRadius: '15px', overflow: 'hidden', boxShadow: ' 0px 6px 16px 1px rgba(115, 82, 199, 0.2 )', backgroundColor: 'white' }}>
+              <Box sx={{
+                width: '100%',
+                marginTop: '30px',
+                borderRadius: '15px',
+                overflow: 'hidden',
+                boxShadow: ' 0px 6px 16px 1px rgba(115, 82, 199, 0.2 )',
+                backgroundColor: 'white'
+              }}
+              >
 
                 <DataGrid
                   autoHeight
@@ -179,7 +190,6 @@ export const AdminProductScreen = () => {
         loading={productDetail.loading}
         listsProductFunction={listsProductFunction}
       />
-
 
     </Box>
   )

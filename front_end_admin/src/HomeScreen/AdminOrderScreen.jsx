@@ -9,6 +9,11 @@ import ToolbarSearch from '../Component/Common/ToolbarSearch'
 import Loading from '../Component/Common/Loading'
 // chua ok
 import { columns } from '../ColumnTable/orderColumn.js'
+import TabStatus from '../Component/Order/TabStatus'
+import { getNameStatus } from '../Utils/GetNameStatus'
+import { getNamePaymentMethod } from '../Utils/GetNamePaymentMethod'
+import { getNameTransportMethod } from '../Utils/GetNameTransportMethod'
+import { getNamePaid } from '../Utils/GetNamePaid'
 
 export const AdminOrderScreen = () => {
 
@@ -19,7 +24,7 @@ export const AdminOrderScreen = () => {
   const { userInfor } = user
 
   const dispatch = useDispatch()
-  
+
   const [pageState, setPageState] = useState({
     isLoading: false,
     rows: [],
@@ -29,24 +34,30 @@ export const AdminOrderScreen = () => {
   })
 
   const [searchOrder, setSearchOrder] = useState('')
-  
+
+  const [statusOrder, setStatusOrder] = React.useState("-1")
+
+  const handleChangeStatusOrder = (event, newStatus) => {
+    setStatusOrder(newStatus)
+  }
+
   const childToParent = (searchOrder) => {
     setSearchOrder(searchOrder)
   }
 
   const listsOrderFunction = () => {
     setPageState(old => ({ ...old, isLoading: true }))
-    dispatch(listOrders(userInfor, pageState.page, pageState.pageSize, searchOrder))
+    dispatch(listOrders(userInfor, pageState.page, pageState.pageSize, searchOrder, statusOrder))
     setPageState(old => ({ ...old, isLoading: false }))
   }
- 
+
   useEffect(() => {
     if (pageState.page == 1) {
       listsOrderFunction()
     } else {
       setPageState(old => ({ ...old, page: 1 }))
     }
-  }, [searchOrder])
+  }, [searchOrder, statusOrder])
 
 
   useEffect(() => {
@@ -61,10 +72,11 @@ export const AdminOrderScreen = () => {
         tempRows.push({
           id: ((pageState.page - 1) * pageState.pageSize + index + 1),
           name: order.orderProd.name,
-          numOfProd: order.numOfProd,
-          transportMethod: order.transportMethod,
-          paymentMethod: order.paymentMethod,
-          priceDiscount: order.orderProd.priceDiscount
+          transportMethod: getNameTransportMethod(order.transportMethod),
+          paymentMethod: getNamePaymentMethod(order.paymentMethod),
+          priceDiscount: order.orderProd.priceDiscount,
+          orderStatus: getNameStatus(order.orderStatus),
+          isPaid: getNamePaid(order.isPaid),
         })
       })
       setPageState(old => ({ ...old, rows: tempRows, rowCountState: totalRow }))
@@ -74,7 +86,7 @@ export const AdminOrderScreen = () => {
 
   const OrderToolbar = () => {
     return (
-      <GridToolbarContainer sx={{paddingTop: '16px'}}>
+      <GridToolbarContainer sx={{ paddingTop: '16px' }}>
         <ToolbarSearch searchText={searchOrder} childToParent={childToParent} />
       </GridToolbarContainer>
     )
@@ -91,7 +103,9 @@ export const AdminOrderScreen = () => {
     >
       <TitleScreen title="Danh sach don hang" />
 
-      <Box sx={{ paddingBottom: '30px' }}>
+      <TabStatus statusOrder={statusOrder} handleChangeStatusOrder={handleChangeStatusOrder} />
+
+      <Box sx={{ paddingBottom: '30px', marginTop: '12px', }}>
         {
           loading
             ? <Loading />
@@ -103,14 +117,14 @@ export const AdminOrderScreen = () => {
               // neu khong thi se hien thi list order
               <Box sx={{
                 width: '100%',
-                marginTop: '30px',
+
                 borderRadius: '15px',
                 overflow: 'hidden',
                 boxShadow: ' 0px 6px 16px 1px rgba(115, 82, 199, 0.2 )',
                 backgroundColor: 'white'
               }}
               >
-               
+
                 <DataGrid
                   autoHeight
                   rows={pageState.rows}

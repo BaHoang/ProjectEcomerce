@@ -6,7 +6,7 @@ import {
 
 import axios from 'axios'
 
-export const listOrders = (userInfor, page, pageSize, searchOrder) => async (dispatch) => {
+export const listOrders = (userInfor, page, pageSize, searchOrder, statusOrder) => async (dispatch) => {
     try {
         dispatch({
             type: ORDER_LIST_REQUEST
@@ -19,7 +19,7 @@ export const listOrders = (userInfor, page, pageSize, searchOrder) => async (dis
         }
 
         const { data } = await axios.get(
-            `http://localhost:5000/api/orders?pageNumber=${page}&limit=${pageSize}&name=${searchOrder}`,
+            `http://localhost:5000/api/orders?pageNumber=${page}&limit=${pageSize}&name=${searchOrder}&type=${statusOrder}`,
             config
         )
 

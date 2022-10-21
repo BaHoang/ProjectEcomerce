@@ -48,7 +48,6 @@ export const productListReducer = (state = { products: [], totalRow: 0 }, action
     }
 }
 
-
 export const productAddReducer = (state = {}, action) => {
 
     var { products } = state
@@ -71,7 +70,7 @@ export const productAddReducer = (state = {}, action) => {
 
 export const productUpdateReducer = (state = {}, action) => {
 
-    var { products } = state
+   
     switch (action.type) {
 
         case PRODUCT_UPDATE_REQUEST:

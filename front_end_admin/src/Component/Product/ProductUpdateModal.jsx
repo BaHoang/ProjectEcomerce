@@ -154,8 +154,7 @@ const ProductUpdateModal = (props) => {
   }
 
   const onSubmit = (values, props) => {
-    console.log("hihihihihi")
-    console.log(values.name)
+    
     dispatch(
       updateProductAdmin(
         userInfor,

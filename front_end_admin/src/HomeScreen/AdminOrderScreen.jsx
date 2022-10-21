@@ -3,8 +3,7 @@ import { DataGrid, GridToolbarContainer } from '@mui/x-data-grid'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import TitleScreen from '../Component/Common/TitleScreen'
-
-import { listOrders } from '../Actions/orderAction'
+import { listOrders, orderDetailAction } from '../Actions/orderAction'
 import ToolbarSearch from '../Component/Common/ToolbarSearch'
 import Loading from '../Component/Common/Loading'
 // chua ok
@@ -14,11 +13,26 @@ import { getNameStatus } from '../Utils/GetNameStatus'
 import { getNamePaymentMethod } from '../Utils/GetNamePaymentMethod'
 import { getNameTransportMethod } from '../Utils/GetNameTransportMethod'
 import { getNamePaid } from '../Utils/GetNamePaid'
+import OrderDetailModal from '../Component/Order/OrderDetailModal'
+import OrderUpdateError from '../Component/Order/OrderUpdateError'
+import OrderUpdateSuccess from '../Component/Order/OrderUpdateSuccess'
+import OrderUpdateLoading from '../Component/Order/OrderUpdateLoading'
+import { ORDER_UPDATE_RESET } from '../Constants/orderConstant'
 
 export const AdminOrderScreen = () => {
 
   const orderList = useSelector(state => state.orderList)
   const { orders, totalRow, loading, error } = orderList
+
+  const orderDetail = useSelector(state => state.orderDetail)
+
+  const orderUpdate = useSelector(state => state.orderUpdate)
+  const {
+    loading: loadingUpdate,
+    error: errorUpdate,
+    success: successUpdate,
+    order: orderNew,
+  } = orderUpdate
 
   const user = useSelector(state => state.user)
   const { userInfor } = user
@@ -35,10 +49,24 @@ export const AdminOrderScreen = () => {
 
   const [searchOrder, setSearchOrder] = useState('')
 
-  const [statusOrder, setStatusOrder] = React.useState("-1")
+  const [statusOrder, setStatusOrder] = useState("-1")
 
-  const handleChangeStatusOrder = (event, newStatus) => {
+  const [openModalDetailOrder, setOpenModalDetailOrder] = useState(false)
+
+  const handleOpenModalDetailOrder = (params) => {
+    setOpenModalDetailOrder(true)
+    let idOrderInList = params.row.id - (pageState.page - 1) * pageState.pageSize - 1
+    let orderClicked = orders[idOrderInList]
+    dispatch(orderDetailAction(userInfor, orderClicked._id))
+  }
+
+  const handleCloseModalDetailOrder = () => setOpenModalDetailOrder(false)
+
+  const handleChangeStatusOrder = (newStatus) => {
     setStatusOrder(newStatus)
+    dispatch({
+      type: ORDER_UPDATE_RESET,
+    })
   }
 
   const childToParent = (searchOrder) => {
@@ -50,6 +78,12 @@ export const AdminOrderScreen = () => {
     dispatch(listOrders(userInfor, pageState.page, pageState.pageSize, searchOrder, statusOrder))
     setPageState(old => ({ ...old, isLoading: false }))
   }
+
+  useEffect(() => {
+    dispatch({
+      type: ORDER_UPDATE_RESET,
+    })
+  }, [])
 
   useEffect(() => {
     if (pageState.page == 1) {
@@ -103,6 +137,19 @@ export const AdminOrderScreen = () => {
     >
       <TitleScreen title="Danh sach don hang" />
 
+      {
+        errorUpdate && <OrderUpdateError statusError={errorUpdate} orderId={orderDetail.order._id} />
+      }
+
+      {
+        successUpdate && <OrderUpdateSuccess orderId={orderDetail.order._id} />
+      }
+
+      {
+        loadingUpdate && <OrderUpdateLoading orderId={orderDetail.order._id} />
+
+      }
+
       <TabStatus statusOrder={statusOrder} handleChangeStatusOrder={handleChangeStatusOrder} />
 
       <Box sx={{ paddingBottom: '30px', marginTop: '12px', }}>
@@ -110,21 +157,14 @@ export const AdminOrderScreen = () => {
           loading
             ? <Loading />
             : (
-              // o day bo sung them check co error trong luc tai du liej danh sach don hang khong (the hien thong 
-              // qua bien error)
-
-              // neu co error thi se in ra commponet hien thi error voi status tuong ung
-              // neu khong thi se hien thi list order
               <Box sx={{
                 width: '100%',
-
                 borderRadius: '15px',
                 overflow: 'hidden',
                 boxShadow: ' 0px 6px 16px 1px rgba(115, 82, 199, 0.2 )',
                 backgroundColor: 'white'
               }}
               >
-
                 <DataGrid
                   autoHeight
                   rows={pageState.rows}
@@ -140,7 +180,7 @@ export const AdminOrderScreen = () => {
                   }}
                   onPageSizeChange={(newPageSize) => setPageState(old => ({ ...old, pageSize: newPageSize }))}
                   columns={columns}
-                  //onRowClick={handleOpenModal}
+                  onRowClick={handleOpenModalDetailOrder}
                   rowHeight={70}
                   components={{
                     Toolbar: OrderToolbar,
@@ -164,6 +204,14 @@ export const AdminOrderScreen = () => {
             )
         }
       </Box>
+
+      <OrderDetailModal
+        open={openModalDetailOrder}
+        onCloseModalDetailOrder={handleCloseModalDetailOrder}
+        orderInfor={orderDetail.order}
+        loading={orderDetail.loading}
+        handleChangeStatusOrder={handleChangeStatusOrder}
+      />
     </Box>
   )
 }

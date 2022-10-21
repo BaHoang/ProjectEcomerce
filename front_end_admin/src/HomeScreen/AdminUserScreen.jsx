@@ -10,7 +10,6 @@ import TableUser from '../Component/User/TableUser'
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh'
 import ToolbarSearch from '../Component/Common/ToolbarSearch';
 
-
 const style = {
   position: 'absolute',
   top: '50%',
@@ -149,7 +148,6 @@ export const AdminUserScreen = () => {
             columns={columns}
             onRowClick={handleOpenModal}
             rowHeight={70}
-            
             components={{
               Toolbar: UserToolbar,
             }}

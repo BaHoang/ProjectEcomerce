@@ -13,6 +13,14 @@ const CustomTab = styled(Tab)({
 
 })
 
+const CustomTabs = styled(Tabs)(({ theme }) => ({
+    [theme.breakpoints.up('xl')]: {
+        '& .MuiTabs-flexContainer': {
+            justifyContent: 'center',
+        }
+    },
+}))
+
 const TabStatus = (props) => {
     var { statusOrder, handleChangeStatusOrder } = props
 
@@ -25,32 +33,32 @@ const TabStatus = (props) => {
             mt: '36px',
 
         }}>
-            <Tabs
+            <CustomTabs
                 value={statusOrder}
-                onChange={handleChangeStatusOrder}
+                onChange={(event, newValue) => handleChangeStatusOrder(newValue)}
+                variant="scrollable"
+                scrollButtons
+                allowScrollButtonsMobile
                 aria-label="order"
-                centered
                 sx={{
                     '& .MuiButtonBase-root ': {
                         textTransform: 'none',
-                        fontSize: '16px',
+                        fontSize: '18px',
                         pt: '16px',
                         pb: '16px',
                         color: 'rgb(0,0,0,0.8)'
                     },
-
                 }}
             >
-                <CustomTab label="Tất cả" value="-1" />
-                <CustomTab label="Chờ xác nhận" value="0" />
-                <CustomTab label="Đã xác nhận" value="1" />
-                <CustomTab label="Chuẩn bị hàng" value="2" />
-                <CustomTab label="Bàn giao vận chuyển" value="3" />
-                <CustomTab label="Đang giao" value="4" />
-                <CustomTab label="Đã giao" value="5" />
-                <CustomTab label="Đã hủy" value="6" />
-
-            </Tabs>
+                <CustomTab label="Tất cả" value={-1} />
+                <CustomTab label="Chờ xác nhận" value={0} />
+                <CustomTab label="Đã xác nhận" value={1} />
+                <CustomTab label="Chuẩn bị hàng" value={2} />
+                <CustomTab label="Bàn giao vận chuyển" value={3} />
+                <CustomTab label="Đang giao" value={4} />
+                <CustomTab label="Đã giao" value={5} />
+                <CustomTab label="Đã hủy" value={6} />
+            </CustomTabs>
         </Box>
     )
 }

@@ -2,16 +2,25 @@ import {
     LOGIN_FAIL,
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
+
     LOGOUT,
+
     LIST_USER_REQUEST,
     LIST_USER_SUCCESS,
     LIST_USER_FAIL,
+
     DETAIL_USER_REQUEST,
     DETAIL_USER_SUCCESS,
     DETAIL_USER_FAIL,
+
     ACCEPT_ADMIN_REQUEST,
     ACCEPT_ADMIN_SUCCESS,
     ACCEPT_ADMIN_FAIL,
+
+    PROFILE_REQUEST,
+    PROFILE_SUCCESS, 
+    PROFILE_FAIL
+
 } from "../Constants/userConstant"
 
 import axios from 'axios'
@@ -129,6 +138,31 @@ export const acceptAdminAction = (id, userInfor) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: ACCEPT_ADMIN_FAIL,
+            payload: error.response && error.message ? error.response.status : error.response,
+        })
+    }
+}
+
+export const myProfile = (userInfor) => async (dispatch, getState) => {
+    try {
+        dispatch({ type: PROFILE_REQUEST })
+
+        const config = {
+            headers: {
+                'Authorization': `Bear ${userInfor.token}`,
+            },
+        }
+
+        const { data } = await axios.get(`http://localhost:5000/api/user/profile`, config)
+
+        dispatch({
+            type: PROFILE_SUCCESS,
+            payload: data,
+        })
+
+    } catch (error) {
+        dispatch({
+            type: PROFILE_FAIL,
             payload: error.response && error.message ? error.response.status : error.response,
         })
     }

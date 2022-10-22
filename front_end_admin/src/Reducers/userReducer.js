@@ -11,7 +11,10 @@ import {
     DETAIL_USER_FAIL,
     ACCEPT_ADMIN_REQUEST,
     ACCEPT_ADMIN_SUCCESS,
-    ACCEPT_ADMIN_FAIL
+    ACCEPT_ADMIN_FAIL,
+    PROFILE_REQUEST,
+    PROFILE_SUCCESS,
+    PROFILE_FAIL
 } from "../Constants/userConstant"
 
 export const userInforReducer = (state = { userInfor: {} }, action) => {
@@ -76,3 +79,24 @@ export const listUserReducer = (state = { listAllUser: [] }, action) => {
     }
 }
 
+
+export const profileUserReducer = (state = { userProfile: {} }, action) => {
+
+    switch (action.type) {
+        case PROFILE_REQUEST:
+            return { loading: true }
+        case PROFILE_SUCCESS:
+            return { loading: false, userProfile: action.payload }
+        case PROFILE_FAIL:
+            return { loading: false, error: action.payload }
+
+        // case UPDATE_REQUEST:
+        //     return { loading: true }
+        // case UPDATE_SUCCESS:
+        //     return { loading: false, userProfile: action.payload }
+        // case UPDATE_FAIL:
+        //     return { loading: false, error: action.payload }
+        default:
+            return state
+    }
+}

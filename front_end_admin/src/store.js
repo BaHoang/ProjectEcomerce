@@ -3,13 +3,14 @@ import thunk from 'redux-thunk'
 import { orderDetailReducer, orderListReducer, orderUpdateReducer } from "./Reducers/orderReducers"
 import { productAddReducer, productDetailReducer, productListReducer, productUpdateReducer } from "./Reducers/productReducers"
 import { displaySidebarReducer } from "./Reducers/sidebarReducer"
-import { detailUserReducer, listUserReducer, userInforReducer } from "./Reducers/userReducer"
+import { detailUserReducer, listUserReducer, profileUserReducer, userInforReducer } from "./Reducers/userReducer"
 
 const reducer = combineReducers({
     displaySidebar: displaySidebarReducer,
     user: userInforReducer,
     listUser: listUserReducer,
     detailUser: detailUserReducer,
+    profileUser: profileUserReducer,
     
     productList: productListReducer,
     productDetail: productDetailReducer,
@@ -18,7 +19,8 @@ const reducer = combineReducers({
 
     orderList: orderListReducer,
     orderDetail: orderDetailReducer,
-    orderUpdate: orderUpdateReducer
+    orderUpdate: orderUpdateReducer,
+    
 })
 
 const userInfor = localStorage.getItem('userInfor') ? JSON.parse(localStorage.getItem('userInfor')) : {}

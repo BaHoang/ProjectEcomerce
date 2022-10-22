@@ -126,7 +126,7 @@ export const AdminUserScreen = () => {
 
     <Box sx={{ margin: 'auto', width: { xs: '92%', sm: '94%', md: '90%' }, minHeight: 'calc(100vh - 80px)' }}>
 
-      <TitleScreen title="Danh sach user va admin" />
+      <TitleScreen title="Danh sách user và admin" />
 
       <Box sx={{ paddingBottom: '30px' }}>
         <Box sx={{ width: '100%', marginTop: '30px', borderRadius: '15px', overflow: 'hidden', boxShadow: ' 0px 6px 16px 1px rgba(115, 82, 199, 0.2 )', backgroundColor: 'white' }}>

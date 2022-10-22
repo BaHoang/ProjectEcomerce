@@ -31,7 +31,7 @@ const TableUser = (props) => {
 
                 <TableRow>
                     <CustomTableCellHeader component="th" scope="row">
-                        Name
+                        Tên
                     </CustomTableCellHeader>
                     <CustomTableCellContent align='left'>
                         {name}
@@ -49,7 +49,7 @@ const TableUser = (props) => {
 
                 <TableRow>
                     <CustomTableCellHeader component="th" scope="row">
-                        Gender
+                        Giới tính
                     </CustomTableCellHeader>
                     <CustomTableCellContent align='left'>
                         {gender}
@@ -58,7 +58,7 @@ const TableUser = (props) => {
 
                 <TableRow>
                     <CustomTableCellHeader component="th" scope="row">
-                        Address
+                        Địa chỉ
                     </CustomTableCellHeader>
                     <CustomTableCellContent align='left'>
                         {address}
@@ -67,7 +67,7 @@ const TableUser = (props) => {
 
                 <TableRow>
                     <CustomTableCellHeader component="th" scope="row">
-                        Quyen
+                        Quyền
                     </CustomTableCellHeader>
                     <CustomTableCellContent align='left'>
                         {role}
@@ -76,7 +76,7 @@ const TableUser = (props) => {
 
                 <TableRow>
                     <CustomTableCellHeader component="th" scope="row">
-                        Phone number
+                        Số điện thoại
                     </CustomTableCellHeader>
                     <CustomTableCellContent align='left'>
                         {phoneNumber}
@@ -85,7 +85,7 @@ const TableUser = (props) => {
 
                 <TableRow>
                     <CustomTableCellHeader component="th" scope="row">
-                        Ngay tham gia he thong
+                        Ngày tham gia hệ thống
                     </CustomTableCellHeader>
                     <CustomTableCellContent align='left'>
                         {dayInSys}

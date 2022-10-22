@@ -1,5 +1,4 @@
 import React from 'react'
-import EditIcon from '@mui/icons-material/Edit'
 import CloseIcon from '@mui/icons-material/Close'
 import { Box, Button, IconButton, Modal, Typography } from '@mui/material'
 import OrderInfor from './OrderInfor'
@@ -40,7 +39,7 @@ const styleFooter = {
 const OrderDetailModal = (props) => {
 
   const { open, onCloseModalDetailOrder, orderInfor, loading, handleChangeStatusOrder } = props
-
+  
   return (
 
     <Modal

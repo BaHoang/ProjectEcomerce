@@ -9,7 +9,9 @@ import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone'
 import { styled } from '@mui/system'
 import { activeSidebar, hiddenSidebar } from '../Actions/sidebarAction'
 import LogoutIcon from '@mui/icons-material/Logout'
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import { userLogout } from '../Actions/userAction'
+import MyProfileDetailModal from '../Component/User/MyProfileDetailModal'
 
 const OverLay = styled(Box)({
     position: 'fixed',
@@ -56,6 +58,16 @@ export const AdminScreen = () => {
     const logout = () => {
         dispatch(userLogout())
     }
+
+    const [openModalDetailMyProfile, setOpenModalDetailMyProfile] = useState(false)
+
+    const handleOpenModalDetailMyProfile = () => {
+        setOpenModalDetailMyProfile(true)
+
+    }
+
+    const handleCloseModalDetailMyProfile = () => setOpenModalDetailMyProfile(false)
+
     return (
         <Box >
             {/* side bar */}
@@ -73,8 +85,14 @@ export const AdminScreen = () => {
                 <AdminSideBar />
             </Box>
 
-
-            <OverLay sx={{ backgroundColor: 'rgba(0, 0, 0, 0.2)', zIndex: 2, display: { xs: displaySidebar, sm: 'none' } }} onClick={closeDisplaySidebar}> </OverLay>
+            <OverLay sx={{
+                backgroundColor: 'rgba(0, 0, 0, 0.2)',
+                zIndex: 2,
+                display: { xs: displaySidebar, sm: 'none' }
+            }}
+                onClick={closeDisplaySidebar}
+            >
+            </OverLay>
 
             {/* app bar */}
             <Box
@@ -98,9 +116,16 @@ export const AdminScreen = () => {
                 <IconButton
                     size="large"
                     edge="start"
-
                     aria-label="menu"
-                    sx={{ display: { xs: "block", sm: "none" }, paddingLeft: '12px', paddingRight: '12px', paddingTop: '8px', paddingBottom: '8px', backgroundColor: 'rgba(55,55,215,0.1)', alignItems: 'center' }}
+                    sx={{
+                        display: { xs: "block", sm: "none" },
+                        paddingLeft: '12px',
+                        paddingRight: '12px',
+                        paddingTop: '8px',
+                        paddingBottom: '8px',
+                        backgroundColor: 'rgba(55,55,215,0.1)',
+                        alignItems: 'center'
+                    }}
                     onClick={handledisplaySiderbar}
                 >
                     <MenuIcon sx={{ color: 'blue' }} />
@@ -118,8 +143,19 @@ export const AdminScreen = () => {
                         <NotificationsNoneIcon sx={{ color: 'blue' }} />
                     </IconButton>
 
-                    <Box sx={{ height: '100px', width: '100px', position: 'absolute', right: '0', top: '110%', backgroundColor: 'white', boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)', display: (openNotify ? 'block' : 'none') }}>
-                        <a href="https://viblo.asia/p/hoc-react-redux-trong-15-phut-1Je5E7q0ZnL#_22-giai-phap-3">Thong bao</a>
+                    <Box sx={{
+                        height: '100px',
+                        width: '100px',
+                        position: 'absolute',
+                        right: '0',
+                        top: '110%',
+                        backgroundColor: 'white',
+                        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
+                        display: (openNotify ? 'block' : 'none')
+                    }}>
+                        <a href="https://viblo.asia/p/hoc-react-redux-trong-15-phut-1Je5E7q0ZnL#_22-giai-phap-3">
+                            Thong bao
+                        </a>
                     </Box>
                 </Box>
 
@@ -135,14 +171,33 @@ export const AdminScreen = () => {
                         <AccountCircle sx={{ color: 'blue' }} />
                     </IconButton>
 
-                    <Box sx={{ height: '100px', width: '200px', position: 'absolute', right: '0', top: '110%', backgroundColor: 'white', boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)', display: (openProfile ? 'block' : 'none') }}>
+                    <Box sx={{
+                        minHeight: '100px',
+                        width: '200px',
+                        position: 'absolute',
+                        right: '0',
+                        top: '110%',
+                        backgroundColor: 'white',
+                        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
+                        display: (openProfile ? 'block' : 'none')
+                    }}>
                         <List>
-                            <ListItem sx={{width: '100%', paddingLeft: '0px', paddingRight: '0px' }}>
+
+                            <ListItem sx={{ width: '100%', padding: '0px' }}>
+                                <ListItemButton onClick={handleOpenModalDetailMyProfile}>
+                                    <ListItemIcon sx={{ minWidth: '40px' }}>
+                                        <PersonOutlineIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="Tài khoản của tôi" />
+                                </ListItemButton>
+                            </ListItem>
+
+                            <ListItem sx={{ width: '100%', padding: '0px' }}>
                                 <ListItemButton onClick={logout}>
-                                    <ListItemIcon sx={{minWidth: '40px'}}>
+                                    <ListItemIcon sx={{ minWidth: '40px' }}>
                                         <LogoutIcon />
                                     </ListItemIcon>
-                                    <ListItemText primary="Logout" />
+                                    <ListItemText primary="Đăng xuất" />
                                 </ListItemButton>
                             </ListItem>
 
@@ -164,6 +219,23 @@ export const AdminScreen = () => {
             >
                 <Outlet />
             </Box>
+
+            {/* Modal chi tiet profile  */}
+            {   
+            // ly do t de cai bien openModalDetailMyProfile o day:
+            // khi bien nay true thi bat dau moi gan component MyProfileDetailModal vao dom con false se go ra khoi dom
+            
+            // neu khong them bien nay vao thi component MyProfileDetailModal mac dinh se duoc gan 
+            // vao dom , dieu nay khien cho code cua man adminscreen tu nhien dai ra va se luon chay cac useEffect
+            // trong MyProfileDetailModal se render ra AdminScreen dieu nay se lam giam hieu nang di
+                openModalDetailMyProfile && (
+                    <MyProfileDetailModal
+                        open={openModalDetailMyProfile}
+                        onCloseModalDetailMyProfile={handleCloseModalDetailMyProfile}
+                    />
+                )
+
+            }
 
         </Box>
     )

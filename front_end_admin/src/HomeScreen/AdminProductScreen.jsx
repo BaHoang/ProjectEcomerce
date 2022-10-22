@@ -116,16 +116,16 @@ export const AdminProductScreen = () => {
       }}
     >
 
-      <TitleScreen title="Danh sach san pham" />
+      <TitleScreen title="Danh sách sản phẩm" />
 
-      <Box sx={{ paddingBottom: '30px' }}>
+      <Box sx={{ paddingBottom: '30px', marginTop: '30px', }}>
         {
           loading
             ? <Loading />
             : (
               <Box sx={{
                 width: '100%',
-                marginTop: '30px',
+                
                 borderRadius: '15px',
                 overflow: 'hidden',
                 boxShadow: ' 0px 6px 16px 1px rgba(115, 82, 199, 0.2 )',

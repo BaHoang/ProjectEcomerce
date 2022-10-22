@@ -8,7 +8,7 @@ export const columns = [
     },
     {
       field: 'name',
-      headerName: 'Name',
+      headerName: 'Tên',
       width: 250,
       editable: true,
       align: 'center',
@@ -24,7 +24,7 @@ export const columns = [
     },
     {
       field: 'quyen',
-      headerName: 'Quyen',
+      headerName: 'Quyền',
       width: 200,
       editable: true,
       align: 'center',
@@ -32,7 +32,7 @@ export const columns = [
     },
     {
       field: 'diaChi',
-      headerName: 'Dia chi',
+      headerName: 'Địa chỉ',
       flex: 3,
       editable: true,
       align: 'center',

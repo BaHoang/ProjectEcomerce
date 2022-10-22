@@ -135,7 +135,7 @@ export const AdminOrderScreen = () => {
         minHeight: 'calc(100vh - 80px)'
       }}
     >
-      <TitleScreen title="Danh sach don hang" />
+      <TitleScreen title="Danh sách đơn hàng" />
 
       {
         errorUpdate && <OrderUpdateError statusError={errorUpdate} orderId={orderDetail.order._id} />

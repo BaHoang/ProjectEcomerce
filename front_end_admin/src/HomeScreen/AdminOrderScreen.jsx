@@ -63,7 +63,7 @@ export const AdminOrderScreen = () => {
   const handleCloseModalDetailOrder = () => setOpenModalDetailOrder(false)
 
   const handleChangeStatusOrder = (newStatus) => {
-    setStatusOrder(newStatus)
+    setStatusOrder(parseInt(newStatus))
     dispatch({
       type: ORDER_UPDATE_RESET,
     })

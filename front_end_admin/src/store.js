@@ -3,6 +3,7 @@ import thunk from 'redux-thunk'
 import { orderDetailReducer, orderListReducer, orderUpdateReducer } from "./Reducers/orderReducers"
 import { productAddReducer, productDetailReducer, productListReducer, productUpdateReducer } from "./Reducers/productReducers"
 import { displaySidebarReducer } from "./Reducers/sidebarReducer"
+import { revenueMonthReducer } from "./Reducers/statisticReducers"
 import { detailUserReducer, listUserReducer, profileUserReducer, userInforReducer } from "./Reducers/userReducer"
 
 const reducer = combineReducers({
@@ -20,6 +21,8 @@ const reducer = combineReducers({
     orderList: orderListReducer,
     orderDetail: orderDetailReducer,
     orderUpdate: orderUpdateReducer,
+
+    revenueMonth: revenueMonthReducer
     
 })
 

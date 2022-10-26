@@ -1,8 +1,10 @@
 import { Box } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import TitleScreen from '../Component/Common/TitleScreen'
+import StatisticRevenueMonth from '../Component/Statistic/StatisticRevenueMonth'
 
 export const AdminDashboardScreen = () => {
+  
   return (
     <Box
       sx={{
@@ -12,7 +14,12 @@ export const AdminDashboardScreen = () => {
       }}
     >
       <TitleScreen title="Dashboard" />
-     
+
+      <Box sx={{ marginBottom: '30px', marginTop: '30px', }}>
+        <StatisticRevenueMonth  />
+        
+      </Box>
+
     </Box>
   )
 }

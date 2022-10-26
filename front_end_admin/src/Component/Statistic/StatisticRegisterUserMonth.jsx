@@ -1,66 +1,80 @@
 
-import { Box, IconButton, InputBase, styled, Typography } from '@mui/material'
+import { Box, IconButton, InputBase, Typography } from '@mui/material'
 import React, { useEffect } from 'react'
 import { useState } from 'react'
 import Chart from 'react-apexcharts'
 import { useDispatch, useSelector } from 'react-redux'
-import { getRevenueMonth } from '../../Actions/statisticAction'
+import { getNumberProductSuccessMonth, getNumberRegisterUserMonth } from '../../Actions/statisticAction'
 import SearchIcon from '@mui/icons-material/Search'
 
-const StatisticRevenueMonth = () => {
+const StatisticRegisterUserMonth = () => {
 
+    // ok
     const dispatch = useDispatch()
 
+    // ok
     const user = useSelector(state => state.user)
     const { userInfor } = user
 
-    const revenueMonth = useSelector(state => state.revenueMonth)
-    const { revenue, loading, error } = revenueMonth
+    // chua roi
+    const numberRegisterUserMonth = useSelector(state => state.numberRegisterUserMonth)
+    const {numRegisterUserMonth, loading, error } = numberRegisterUserMonth
 
+    // ok
     var d = new Date()
+    // ok
     var currentYear = d.getFullYear()
-
+    // ok
     const [year, setYear] = useState(currentYear)
+    // ok
     const [series, setSeries] = useState([])
+    // ok
     const [options, setOptions] = useState({})
+    // ok
     const [showChart, setShowChart] = useState(false)
 
+    // ok
     const handleShowChart = () => {
         setShowChart(!showChart)
     }
 
+    // ok
     const handleChange = (event) => {
         setYear(event.target.value)
     }
 
+    // chua roi
     const handleSubmit = (event) => {
         event.preventDefault()
-        dispatch(getRevenueMonth(Number(year), userInfor))
+        dispatch(getNumberRegisterUserMonth(Number(year), userInfor))
     }
 
+    // chua roi
     useEffect(() => {
-        dispatch(getRevenueMonth(Number(year), userInfor))
+        dispatch(getNumberRegisterUserMonth(Number(year), userInfor))
     }, [])
 
+
+    // chua roi
     useEffect(() => {
 
-        var dataRevenue = []
+        var dataNumRegisterUserMonth = []
         var categories = []
 
-        if (revenue) {
-            for (var key of Object.keys(revenue)) {
-                dataRevenue.push(revenue[key])
+        if (numRegisterUserMonth) {
+            for (var key of Object.keys(numRegisterUserMonth)) {
+                dataNumRegisterUserMonth.push(numRegisterUserMonth[key])
                 categories.push(key)
             }
 
             setSeries([{
-                name: 'Doanh thu theo tháng',
-                data: dataRevenue
+                name: 'Số User đăng ký tài khoản theo tháng',
+                data: dataNumRegisterUserMonth
             }])
 
             setOptions({
                 chart: {
-                    id: "simple-bar"
+                    id: "simple-bar-num-register-user-month"
                 },
                 xaxis: {
                     categories: categories
@@ -68,7 +82,7 @@ const StatisticRevenueMonth = () => {
             })
         }
 
-    }, [dispatch, revenueMonth.revenue])
+    }, [dispatch, numberRegisterUserMonth.numRegisterUserMonth])
 
     return (
         <Box
@@ -92,7 +106,7 @@ const StatisticRevenueMonth = () => {
                 }}
                 onClick={handleShowChart}
             >
-                Doanh thu theo tháng
+                Số User đăng ký tài khoản theo tháng
             </Typography>
 
             <Box
@@ -136,4 +150,4 @@ const StatisticRevenueMonth = () => {
     )
 }
 
-export default StatisticRevenueMonth
+export default StatisticRegisterUserMonth

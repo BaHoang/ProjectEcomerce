@@ -1,15 +1,30 @@
-import {  Route, Routes } from 'react-router-dom'
-// import NotFound from './Component/NotFound';
+import { Route, Routes } from 'react-router-dom'
+import Footer from './Component/Footer';
+import Header from './Component/Header';
+import HomeScreen from './HomeScreen/HomeScreen';
+import NotFound from './Component/NotFound';
+import { Box, Container } from '@mui/material';
 
 function App() {
   return (
 
-    <Routes>
-      {/* <Route path="/admin/login" element={<AdminLoginScreen />} /> */}
+    <>
+      <Header></Header>
+      <Box component="main" sx={{ backgroundColor: '#efefef' }}>
 
-      
+        <Container fixed >
+          <Routes>
 
-    </Routes>
+            <Route path="/" element={<HomeScreen />} />
+            <Route path="/*" element={<NotFound />} />
+
+          </Routes>
+        </Container>
+
+      </Box>
+      <Footer></Footer>
+    </>
+
   )
 }
 

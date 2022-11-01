@@ -221,13 +221,13 @@ export const AdminScreen = () => {
             </Box>
 
             {/* Modal chi tiet profile  */}
-            {   
-            // ly do t de cai bien openModalDetailMyProfile o day:
-            // khi bien nay true thi bat dau moi gan component MyProfileDetailModal vao dom con false se go ra khoi dom
-            
-            // neu khong them bien nay vao thi component MyProfileDetailModal mac dinh se duoc gan 
-            // vao dom , dieu nay khien cho code cua man adminscreen tu nhien dai ra va se luon chay cac useEffect
-            // trong MyProfileDetailModal se render ra AdminScreen dieu nay se lam giam hieu nang di
+            {
+                // ly do t de cai bien openModalDetailMyProfile o day:
+                // khi bien nay true thi bat dau moi gan component MyProfileDetailModal vao dom con false se go ra khoi dom
+
+                // neu khong them bien nay vao thi component MyProfileDetailModal mac dinh se duoc gan 
+                // vao dom , dieu nay khien cho code cua man adminscreen tu nhien dai ra va se luon chay cac useEffect
+                // trong MyProfileDetailModal se render ra AdminScreen dieu nay se lam giam hieu nang di
                 openModalDetailMyProfile && (
                     <MyProfileDetailModal
                         open={openModalDetailMyProfile}

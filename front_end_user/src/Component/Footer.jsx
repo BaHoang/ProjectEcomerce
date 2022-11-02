@@ -1,26 +1,44 @@
 import { Box, Container, styled, Typography } from '@mui/material'
 import React from 'react'
 
-const NameCompanyBox = styled(Box)({
-  fontSize: '20px',
+const CustomContainer = styled(Container)(({ theme }) => ({
  
+  [theme.breakpoints.down('sm')]: {
+    paddingLeft: '8px',
+    paddingRight: '8px'
+  },
+}))
+
+const NameCompanyBox = styled(Box)(({ theme }) =>({
+  fontSize: '20px',
   marginBottom: '24px',
   textAlign: 'center',
-  color: 'rgba(0, 0, 0, 0.65)'
-})
+  color: 'rgba(0, 0, 0, 0.65)',
 
-const CustomBox = styled(Box)({
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '18px',
+    marginBottom: '12px',
+  },
+}))
+
+const CustomBox = styled(Box)(({ theme }) =>({
   textAlign: 'center',
-  fontSize: '12px',
+  fontSize: '14px',
   lineHeight: 1.5,
   marginBottom: '4px',
-  color: 'rgba(0, 0, 0, 0.65)'
-})
+  color: 'rgba(0, 0, 0, 0.65)',
+
+  [theme.breakpoints.down('sm')]: {
+    textAlign: 'left',
+    fontSize: '12px',
+  },
+
+}))
 
 const Footer = () => {
   return (
-    <Box component="footer" sx={{paddingTop: '42px', paddingBottom: '36px'}}>
-      <Container fixed >
+    <Box component="footer" sx={{paddingTop: {xs: '24px', sm: '42px'}, paddingBottom: {xs: '20px', sm: '36px'}}}>
+      <CustomContainer fixed >
 
         <NameCompanyBox>
           Công ty cổ phần thương mại - dịch vụ shoptelephone
@@ -58,7 +76,7 @@ const Footer = () => {
           © 2015 - Bản quyền thuộc về Phan Bá Hoàng
         </CustomBox>
 
-      </Container>
+      </CustomContainer>
     </Box>
   )
 }

@@ -5,7 +5,7 @@ const HomeScreen = () => {
   return (
     <Box
       sx={{
-        marginTop: '100px',
+        
         height: '100vh'
       }}>
       HomeScreen

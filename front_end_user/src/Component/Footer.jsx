@@ -2,14 +2,19 @@ import { Box, Container, styled, Typography } from '@mui/material'
 import React from 'react'
 
 const CustomContainer = styled(Container)(({ theme }) => ({
- 
-  [theme.breakpoints.down('sm')]: {
+  [theme.breakpoints.down('lg')]: {
     paddingLeft: '8px',
     paddingRight: '8px'
   },
+
+
+  [theme.breakpoints.up('lg')]: {
+    paddingLeft: '0px',
+    paddingRight: '0px'
+  },
 }))
 
-const NameCompanyBox = styled(Box)(({ theme }) =>({
+const NameCompanyBox = styled(Box)(({ theme }) => ({
   fontSize: '20px',
   marginBottom: '24px',
   textAlign: 'center',
@@ -21,7 +26,7 @@ const NameCompanyBox = styled(Box)(({ theme }) =>({
   },
 }))
 
-const CustomBox = styled(Box)(({ theme }) =>({
+const CustomBox = styled(Box)(({ theme }) => ({
   textAlign: 'center',
   fontSize: '14px',
   lineHeight: 1.5,
@@ -37,7 +42,7 @@ const CustomBox = styled(Box)(({ theme }) =>({
 
 const Footer = () => {
   return (
-    <Box component="footer" sx={{paddingTop: {xs: '24px', sm: '42px'}, paddingBottom: {xs: '20px', sm: '36px'}}}>
+    <Box component="footer" sx={{ paddingTop: { xs: '24px', sm: '42px' }, paddingBottom: { xs: '20px', sm: '36px' } }}>
       <CustomContainer fixed >
 
         <NameCompanyBox>

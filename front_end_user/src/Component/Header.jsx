@@ -7,10 +7,17 @@ import { styled } from '@mui/system'
 
 const CustomContainer = styled(Container)(({ theme }) => ({
   height: '100%',
-  [theme.breakpoints.down('sm')]: {
+  [theme.breakpoints.down('lg')]: {
     paddingLeft: '8px',
     paddingRight: '8px'
   },
+
+
+  [theme.breakpoints.up('lg')]: {
+    paddingLeft: '0px',
+    paddingRight: '0px'
+  },
+
 }))
 
 const NameBox = styled(Box)(({ theme }) => ({
@@ -18,7 +25,7 @@ const NameBox = styled(Box)(({ theme }) => ({
   fontWeight: '800',
   color: 'white',
   width: '200px',
-  [theme.breakpoints.down('sm')]: {
+  [theme.breakpoints.down('md')]: {
     display: 'none'
   },
 }))
@@ -62,6 +69,10 @@ const WrapIconBox = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
     width: '100px',
   },
+
+  [theme.breakpoints.between('sm', 'md')]: {
+    width: '160px',
+  },
 }))
 
 const CustomIconButton = styled(IconButton)(({ theme }) => ({
@@ -73,8 +84,14 @@ const CustomIconButton = styled(IconButton)(({ theme }) => ({
     backgroundColor: 'transparent',
     color: 'rgba(255, 255, 255, 0.7)',
   },
+
   [theme.breakpoints.down('sm')]: {
     marginLeft: '4px',
+    padding: '4px'
+  },
+
+  [theme.breakpoints.between('sm', 'md')]: {
+    marginLeft: '10px',
     padding: '4px'
   },
 }))
@@ -88,7 +105,8 @@ const Header = () => {
         width: '100%',
         height: {xs: '90px', sm: '100px'},
         position: 'fixed',
-        top: 0
+        top: 0,
+        zIndex: '2000',
       }}
     >
 
@@ -124,15 +142,15 @@ const Header = () => {
           <WrapIconBox>
 
             <CustomIconButton aria-label="add to shopping cart" >
-              <ShoppingCartIcon />
-              <Typography variant="body2" sx={{ display: { xs: 'none', sm: 'block' } }}>
+              <ShoppingCartIcon sx={{ fontSize: {xs: 24, sm: 28, md: 24} }}/>
+              <Typography variant="body2" sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
                 Giỏ hàng
               </Typography>
             </CustomIconButton>
 
             <CustomIconButton aria-label="add to shopping cart" >
-              <PersonOutlineIcon />
-              <Typography variant="body2" sx={{ display: { xs: 'none', sm: 'block' } }}>
+              <PersonOutlineIcon sx={{ fontSize: {xs: 24, sm: 28, md: 24} }}/>
+              <Typography variant="body2" sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
                 Đăng nhập
               </Typography>
             </CustomIconButton>

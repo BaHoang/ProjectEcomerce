@@ -6,10 +6,16 @@ import NotFound from './Component/NotFound'
 import { Box, Container, styled } from '@mui/material'
 
 const CustomContainer = styled(Container)(({ theme }) => ({
- 
-  [theme.breakpoints.down('sm')]: {
+
+  [theme.breakpoints.down('lg')]: {
     paddingLeft: '8px',
     paddingRight: '8px'
+  },
+
+
+  [theme.breakpoints.up('lg')]: {
+    paddingLeft: '0px',
+    paddingRight: '0px'
   },
 }))
 
@@ -18,7 +24,8 @@ function App() {
 
     <>
       <Header></Header>
-      <Box component="main" sx={{ backgroundColor: '#F5F5F5', marginTop: {xs: '90px', sm: '100px'}, }}>
+
+      <Box component="main" sx={{ backgroundColor: '#F5F5F5', marginTop: { xs: '90px', sm: '100px' }, }}>
 
         <CustomContainer fixed >
           <Routes>
@@ -30,6 +37,7 @@ function App() {
         </CustomContainer>
 
       </Box>
+
       <Footer></Footer>
     </>
 

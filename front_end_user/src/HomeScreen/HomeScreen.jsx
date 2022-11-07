@@ -1,6 +1,8 @@
-import { Box, Grid, Paper } from '@mui/material'
+import { Box, Grid, Pagination, Paper } from '@mui/material'
 import { styled } from '@mui/system'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { listProducts } from '../Actions/productAction'
 import CartProduct from '../Component/CartProduct'
 
 const TitleBox = styled(Box)(({ theme }) => ({
@@ -11,7 +13,7 @@ const TitleBox = styled(Box)(({ theme }) => ({
   fontWeight: '400',
   color: 'rgb(26, 148, 255)',
   backgroundColor: 'white',
-  
+
   borderBottom: '4px solid rgb(26, 148, 255)',
   marginBottom: '10px',
   position: 'sticky',
@@ -24,23 +26,41 @@ const TitleBox = styled(Box)(({ theme }) => ({
   [theme.breakpoints.up('sm')]: {
     top: '100px',
   },
- 
+
   zIndex: '1000'
 }))
 
 const AllProductBox = styled(Box)(({ theme }) => ({
-  
+
 }))
 
-
-
 const HomeScreen = () => {
+
+  const dispatch = useDispatch()
+
+  const productList = useSelector(state => state.productList)
+  const { products, totalPage, loading, error } = productList
+
+  const [pageState, setPageState] = useState({
+    page: 1,
+    pageSize: 18
+  })
+
+  const [searchProduct, setSearchProduct] = useState('')
+
+  const handleChangePage = (event, value) => {
+    setPageState(old => ({ ...old, page: value }))
+  }
+
+  useEffect(() => {
+    dispatch(listProducts(pageState.page, pageState.pageSize, searchProduct))
+  }, [pageState.page])
+
   return (
     <Box
       sx={{
         paddingTop: '20px',
-        paddingBottom: '32px'
-
+        paddingBottom: '50px'
       }}>
 
       <AllProductBox>
@@ -49,71 +69,46 @@ const HomeScreen = () => {
           Tất cả sản phẩm
         </TitleBox>
 
-        <Box>
-          <Grid container spacing={1}>
+        {loading ? (
+          <Box>Loadning ... </Box>
+        ) : error ? (
+          <Box>{error} ... </Box>
+        ) : (
 
-            <Grid item xs={6} sm={4} md={3} lg={2}>
-             <CartProduct />
+          <Box>
+
+            <Grid container spacing={1}>
+
+              {products.map((product) => (
+
+                <Grid item key={product._id} xs={6} sm={4} md={3} lg={2}>
+                  <CartProduct product={product} />
+                </Grid>
+
+              ))}
+
             </Grid>
 
-            <Grid item xs={6} sm={4} md={3} lg={2}>
-               <CartProduct />
-            </Grid>
+            <Box
+              sx={{
+                paddingTop: '40px',
+                display: 'flex',
+                justifyContent: 'center'
+              }}
+            >
+              <Pagination
+                count={totalPage}
+                page={pageState.page}
+                onChange={handleChangePage}
+                color="primary"
+                size="large"
+              />
+            </Box>
 
-            <Grid item xs={6} sm={4} md={3} lg={2}>
-               <CartProduct />
-            </Grid>
 
-            <Grid item xs={6} sm={4} md={3} lg={2}>
-               <CartProduct />
-            </Grid>
+          </Box>
 
-            <Grid item xs={6} sm={4} md={3} lg={2}>
-               <CartProduct />
-            </Grid>
-
-            <Grid item xs={6} sm={4} md={3} lg={2}>
-               <CartProduct />
-            </Grid>
-
-            <Grid item xs={6} sm={4} md={3} lg={2}>
-               <CartProduct />
-            </Grid>
-
-            <Grid item xs={6} sm={4} md={3} lg={2}>
-               <CartProduct />
-            </Grid>
-
-            <Grid item xs={6} sm={4} md={3} lg={2}>
-               <CartProduct />
-            </Grid>
-
-            <Grid item xs={6} sm={4} md={3} lg={2}>
-               <CartProduct />
-            </Grid>
-
-            <Grid item xs={6} sm={4} md={3} lg={2}>
-               <CartProduct />
-            </Grid>
-
-            <Grid item xs={6} sm={4} md={3} lg={2}>
-               <CartProduct />
-            </Grid>
-
-            <Grid item xs={6} sm={4} md={3} lg={2}>
-               <CartProduct />
-            </Grid>
-
-            <Grid item xs={6} sm={4} md={3} lg={2}>
-               <CartProduct />
-            </Grid>
-
-            <Grid item xs={6} sm={4} md={3} lg={2}>
-               <CartProduct />
-            </Grid>
-
-          </Grid>
-        </Box>
+        )}
 
       </AllProductBox>
 

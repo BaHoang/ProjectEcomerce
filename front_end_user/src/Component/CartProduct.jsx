@@ -1,5 +1,11 @@
 import { Box, styled, Typography } from '@mui/material'
 import React from 'react'
+import { NavLink } from 'react-router-dom'
+import { formatPrice } from '../Utils/FormatPrice'
+
+const CustomLink = styled(NavLink)({
+    textDecoration: 'none',
+})
 
 const CartBox = styled(Box)(({ theme }) => ({
     position: 'relative',
@@ -18,13 +24,13 @@ const CartBox = styled(Box)(({ theme }) => ({
 const NameProductTypography = styled(Typography)(({ theme }) => ({
     fontSize: '14px',
     fontWeight: 500,
+    color: 'black',
     margin: ' 4px 10px 4px 10px',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     display: '-webkit-box',
     WebkitLineClamp: '2',
     WebkitBoxOrient: 'vertical',
-
     minHeight: '35px',
 }))
 
@@ -43,10 +49,13 @@ const OldPriceBox = styled(Box)(({ theme }) => ({
 }))
 
 const CurrentPriceBox = styled(Box)(({ theme }) => ({
-    fontSize: '14px',
+    fontSize: '16px',
     color: 'red',
-    marginLeft: '10px',
-    marginRight: '10px'
+    marginRight: '10px',
+    [theme.breakpoints.down('sm')]: {
+        marginLeft: '10px',
+    },
+
 }))
 
 const NumberProductInStockBox = styled(Box)(({ theme }) => ({
@@ -92,80 +101,101 @@ const PriceDiscountBox = styled(Box)(({ theme }) => ({
 
 const CartProduct = (props) => {
     const { product } = props
-    console.log("so san pham trong kho", product.countInStock)
+    console.log("anh", typeof (product.price))
     return (
-        <CartBox>
+        <CustomLink to={`/product/${product._id}`}>
 
-            <Box
-                sx={{
-                    paddingTop: '100%',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundSize: 'contain',
-                    backgroundPosition: 'center',
-                    //backgroundImage: "url('https://cdn.24h.com.vn/upload/3-2022/images/2022-09-05/MU-chinh-thuc-cong-bo-doi-hinh-da-cup-chau-au-3-SAO-bi-loai-Ronaldo-gop-mat-3-1662395551-785-width740height493.jpg')",
-                    backgroundImage: `url(${product.image})`,
-                }}
-            >
-            </Box>
+            <CartBox>
 
-            <NameProductTypography variant='h4'>
-                {product.name}
-            </NameProductTypography>
+                <Box
+                    sx={{
+                        paddingTop: '100%',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: 'contain',
+                        backgroundPosition: 'center',
+                        backgroundImage: `url(${product.image ? product.image :
+                            'https://cdn.24h.com.vn/upload/3-2022/images/2022-09-05/MU-chinh-thuc-cong-bo-doi-hinh-da-cup-chau-au-3-SAO-bi-loai-Ronaldo-gop-mat-3-1662395551-785-width740height493.jpg'})`,
+                    }}
+                >
+                </Box>
 
-            <WrapPriceBox>
-                <OldPriceBox component='span'>
-                    {product.price}
-                </OldPriceBox>
+                <NameProductTypography variant='h4'>
+                    {product.name}
+                </NameProductTypography>
 
-                <CurrentPriceBox component='span'>
-                    {product.priceDiscount}
-                </CurrentPriceBox>
+                <WrapPriceBox>
 
-            </WrapPriceBox>
+                    <OldPriceBox component='span'>
 
-            <NumberProductInStockBox>
+                        {
+                            (product.priceDiscount !== product.price) ? (
+
+                                `${formatPrice(product.price)}`
+
+                            ) : (
+                                ''
+                            )
+                        }
+
+                    </OldPriceBox>
+
+                    <CurrentPriceBox component='span'>
+                        {formatPrice(product.priceDiscount)}
+                    </CurrentPriceBox>
+
+                </WrapPriceBox>
+
+                <NumberProductInStockBox>
+
+                    {
+                        product.countInStock == 0 ? (
+                            <Box component='span' sx={{ color: '#e5a734' }}>
+                                Hết hàng
+                            </Box>
+                        ) : product.countInStock < 10 ? (
+                            <Box component='span'>
+                                Chỉ còn {product.countInStock}
+                            </Box>
+                        ) : (
+                            ''
+                        )
+                    }
+
+                </NumberProductInStockBox>
 
                 {
-                    product.countInStock == 0 ? (
-                        <Box component='span' sx={{color: '#e5a734'}}>
-                            Hết hàng
-                        </Box>
-                    ) : product.countInStock < 10 ? (
-                        <Box component='span'>
-                            Chỉ còn {product.countInStock}
-                        </Box>
+                    (product.priceDiscount !== product.price) ? (
+                        <PriceDiscountBox>
+                            <Box
+                                sx={{
+                                    color: 'red',
+                                    fontWeight: 600,
+                                    fontSize: '12px',
+                                    lineHeight: '16px',
+                                    paddingTop: '4px'
+                                }}
+                            >
+                                {Math.round((1 - product.priceDiscount / product.price + Number.EPSILON) * 100)} %
+                            </Box>
+
+                            <Box
+                                sx={{
+                                    color: 'white',
+                                    fontWeight: 700,
+                                    fontSize: '12px',
+                                }}
+                            >
+                                GIẢM
+                            </Box>
+                        </PriceDiscountBox>
                     ) : (
-                        ''
+                        ""
                     )
                 }
 
-            </NumberProductInStockBox>
+            </CartBox >
 
-            <PriceDiscountBox>
-                <Box
-                    sx={{
-                        color: 'red',
-                        fontWeight: 600,
-                        fontSize: '12px',
-                        lineHeight: '16px',
-                        paddingTop: '4px'
-                    }}
-                >
-                    10%
-                </Box>
-
-                <Box
-                    sx={{
-                        color: 'white',
-                        fontWeight: 700,
-                        fontSize: '12px',
-                    }}
-                >
-                    GIẢM
-                </Box>
-            </PriceDiscountBox>
-
-        </CartBox >
+        </CustomLink>
 
     )
 }

@@ -4,6 +4,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
 import { styled } from '@mui/system'
+import { NavLink } from 'react-router-dom'
 
 const CustomContainer = styled(Container)(({ theme }) => ({
   height: '100%',
@@ -20,10 +21,17 @@ const CustomContainer = styled(Container)(({ theme }) => ({
 
 }))
 
+const CustomLink = styled(NavLink)({
+  textDecoration: 'none',
+  color: 'white',
+  '&:hover': {
+    color: 'rgba(255, 255, 255, 0.7)',
+  },
+})
+
 const NameBox = styled(Box)(({ theme }) => ({
   fontSize: '22px',
   fontWeight: '800',
-  color: 'white',
   width: '200px',
   [theme.breakpoints.down('md')]: {
     display: 'none'
@@ -103,7 +111,7 @@ const Header = () => {
       sx={{
         backgroundColor: 'rgb(26, 148, 255)',
         width: '100%',
-        height: {xs: '90px', sm: '100px'},
+        height: { xs: '90px', sm: '100px' },
         position: 'fixed',
         top: 0,
         zIndex: '2000',
@@ -119,9 +127,11 @@ const Header = () => {
             height: '100%'
           }}
         >
-          <NameBox>
-            ShopTelephone
-          </NameBox>
+          <CustomLink to={`/`}>
+            <NameBox>
+              ShopTelephone
+            </NameBox>
+          </CustomLink>
 
           <InputBox>
             <InputBase
@@ -135,21 +145,21 @@ const Header = () => {
               aria-label="menu"
               type='submit'
             >
-              <SearchIcon sx={{ color: 'white', fontSize: {xs: 18, sm: 24} }} />
+              <SearchIcon sx={{ color: 'white', fontSize: { xs: 18, sm: 24 } }} />
             </CustomInputIconButton>
           </InputBox>
 
           <WrapIconBox>
 
             <CustomIconButton aria-label="add to shopping cart" >
-              <ShoppingCartIcon sx={{ fontSize: {xs: 24, sm: 28, md: 24} }}/>
+              <ShoppingCartIcon sx={{ fontSize: { xs: 24, sm: 28, md: 24 } }} />
               <Typography variant="body2" sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
                 Giỏ hàng
               </Typography>
             </CustomIconButton>
 
             <CustomIconButton aria-label="add to shopping cart" >
-              <PersonOutlineIcon sx={{ fontSize: {xs: 24, sm: 28, md: 24} }}/>
+              <PersonOutlineIcon sx={{ fontSize: { xs: 24, sm: 28, md: 24 } }} />
               <Typography variant="body2" sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
                 Đăng nhập
               </Typography>

@@ -1,9 +1,10 @@
 import { Route, Routes } from 'react-router-dom'
-import Footer from './Component/Footer'
-import Header from './Component/Header'
+import Footer from './Component/Layout/Footer'
+import Header from './Component/Layout/Header'
 import HomeScreen from './HomeScreen/HomeScreen'
-import NotFound from './Component/NotFound'
+
 import { Box, Container, styled } from '@mui/material'
+import NotFound from './Component/Common/NotFound'
 
 const CustomContainer = styled(Container)(({ theme }) => ({
 

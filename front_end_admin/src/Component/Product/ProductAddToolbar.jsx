@@ -235,7 +235,6 @@ const ProductAddToolbar = (props) => {
         }
     }
 
-   
     return (
         <Box sx={{ marginLeft: 'auto', marginRight: '10px' }}>
             <Button variant='contained' startIcon={<AddIcon />} onClick={handleOpenAddModal}>Add</Button>

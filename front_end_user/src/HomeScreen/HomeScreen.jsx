@@ -3,7 +3,10 @@ import { styled } from '@mui/system'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { listProducts } from '../Actions/productAction'
-import CartProduct from '../Component/CartProduct'
+
+import Loading from '../Component/Common/Loading'
+import CartProduct from '../Component/Product/CartProduct'
+import FetchAllProductError from '../Component/Product/FetchAllProductError'
 
 const TitleBox = styled(Box)(({ theme }) => ({
   paddingTop: '16px',
@@ -70,9 +73,9 @@ const HomeScreen = () => {
         </TitleBox>
 
         {loading ? (
-          <Box>Loadning ... </Box>
+          <Loading />
         ) : error ? (
-          <Box>{error} ... </Box>
+          <FetchAllProductError statusError={error} />
         ) : (
 
           <Box>
@@ -104,7 +107,6 @@ const HomeScreen = () => {
                 size="large"
               />
             </Box>
-
 
           </Box>
 

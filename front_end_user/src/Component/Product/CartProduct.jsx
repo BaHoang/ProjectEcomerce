@@ -1,7 +1,7 @@
 import { Box, styled, Typography } from '@mui/material'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { formatPrice } from '../Utils/FormatPrice'
+import { formatPrice } from '../../Utils/FormatPrice'
 
 const CustomLink = styled(NavLink)({
     textDecoration: 'none',

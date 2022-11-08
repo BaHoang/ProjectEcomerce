@@ -1,5 +1,5 @@
 import { Box, Container, IconButton, InputBase, Typography } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import SearchIcon from '@mui/icons-material/Search'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
@@ -104,73 +104,87 @@ const CustomIconButton = styled(IconButton)(({ theme }) => ({
   },
 }))
 
-const Header = () => {
+const Header = (props) => {
+
+  const childToParent = props.childToParent
+
+  const [searchProduct, setSearchProduct] = useState('')
+
+  const handleChangeSearchProduct = (event) => {
+    setSearchProduct(event.target.value)
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    childToParent(searchProduct)
+  }
+
   return (
-    <Box
-      component='header'
-      sx={{
-        backgroundColor: 'rgb(26, 148, 255)',
-        width: '100%',
-        height: { xs: '90px', sm: '100px' },
-        position: 'fixed',
-        top: 0,
-        zIndex: '2000',
-      }}
-    >
 
-      <CustomContainer fixed >
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            height: '100%'
-          }}
-        >
-          <CustomLink to={`/`}>
-            <NameBox>
-              ShopTelephone
-            </NameBox>
-          </CustomLink>
+    <form onSubmit={handleSubmit}>
 
-          <InputBox>
-            <InputBase
-              sx={{ ml: 1, flex: 1 }}
-              placeholder="Tìm kiếm sản phẩm ..."
-            // onChange={handleChange}
-            // value={tempText}
-            />
+      <Box
+        component='header'
+        sx={{
+          backgroundColor: 'rgb(26, 148, 255)',
+          width: '100%',
+          height: { xs: '90px', sm: '100px' },
+          position: 'fixed',
+          top: 0,
+          zIndex: '2000',
+        }}
+      >
 
-            <CustomInputIconButton
-              aria-label="menu"
-              type='submit'
-            >
-              <SearchIcon sx={{ color: 'white', fontSize: { xs: 18, sm: 24 } }} />
-            </CustomInputIconButton>
-          </InputBox>
+        <CustomContainer fixed >
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              height: '100%'
+            }}
+          >
+            <CustomLink to={`/`}>
+              <NameBox>
+                ShopTelephone
+              </NameBox>
+            </CustomLink>
 
-          <WrapIconBox>
+            <InputBox>
+              <InputBase
+                sx={{ ml: 1, flex: 1 }}
+                placeholder="Tìm kiếm sản phẩm ..."
+                onChange={handleChangeSearchProduct}
+                value={searchProduct}
+              />
 
-            <CustomIconButton aria-label="add to shopping cart" >
-              <ShoppingCartIcon sx={{ fontSize: { xs: 24, sm: 28, md: 24 } }} />
-              <Typography variant="body2" sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
-                Giỏ hàng
-              </Typography>
-            </CustomIconButton>
+              <CustomInputIconButton aria-label="menu" type='submit'>
+                <SearchIcon sx={{ color: 'white', fontSize: { xs: 18, sm: 24 } }} />
+              </CustomInputIconButton>
+            </InputBox>
 
-            <CustomIconButton aria-label="add to shopping cart" >
-              <PersonOutlineIcon sx={{ fontSize: { xs: 24, sm: 28, md: 24 } }} />
-              <Typography variant="body2" sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
-                Đăng nhập
-              </Typography>
-            </CustomIconButton>
+            <WrapIconBox>
+              <CustomIconButton aria-label="add to shopping cart" >
+                <ShoppingCartIcon sx={{ fontSize: { xs: 24, sm: 28, md: 24 } }} />
+                <Typography variant="body2" sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
+                  Giỏ hàng
+                </Typography>
+              </CustomIconButton>
 
-          </WrapIconBox>
+              <CustomIconButton aria-label="add to shopping cart" >
+                <PersonOutlineIcon sx={{ fontSize: { xs: 24, sm: 28, md: 24 } }} />
+                <Typography variant="body2" sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
+                  Đăng nhập
+                </Typography>
+              </CustomIconButton>
+            </WrapIconBox>
 
-        </Box>
-      </CustomContainer>
+          </Box>
+        </CustomContainer>
 
-    </Box>
+      </Box>
+
+    </form>
   )
 }
 

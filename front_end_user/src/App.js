@@ -2,9 +2,9 @@ import { Route, Routes } from 'react-router-dom'
 import Footer from './Component/Layout/Footer'
 import Header from './Component/Layout/Header'
 import HomeScreen from './HomeScreen/HomeScreen'
-
 import { Box, Container, styled } from '@mui/material'
 import NotFound from './Component/Common/NotFound'
+import { useState } from 'react'
 
 const CustomContainer = styled(Container)(({ theme }) => ({
 
@@ -21,17 +21,24 @@ const CustomContainer = styled(Container)(({ theme }) => ({
 }))
 
 function App() {
+
+  const [searchProduct, setSearchProduct] = useState('')
+
+  const childToParent = (searchProduct) => {
+    setSearchProduct(searchProduct)
+  }
+
   return (
 
     <>
-      <Header></Header>
+      <Header childToParent={childToParent}></Header>
 
       <Box component="main" sx={{ backgroundColor: '#F5F5F5', marginTop: { xs: '90px', sm: '100px' }, }}>
 
         <CustomContainer fixed >
           <Routes>
 
-            <Route path="/" element={<HomeScreen />} />
+            <Route path="/" element={<HomeScreen searchProduct={searchProduct}/>} />
             <Route path="/*" element={<NotFound />} />
 
           </Routes>

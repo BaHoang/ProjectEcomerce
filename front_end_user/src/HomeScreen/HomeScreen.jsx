@@ -37,7 +37,7 @@ const AllProductBox = styled(Box)(({ theme }) => ({
 
 }))
 
-const HomeScreen = () => {
+const HomeScreen = (props) => {
 
   const dispatch = useDispatch()
 
@@ -49,17 +49,16 @@ const HomeScreen = () => {
     pageSize: 18
   })
 
-  const [searchProduct, setSearchProduct] = useState('')
-
   const handleChangePage = (event, value) => {
     setPageState(old => ({ ...old, page: value }))
   }
 
   useEffect(() => {
-    dispatch(listProducts(pageState.page, pageState.pageSize, searchProduct))
-  }, [pageState.page])
+    dispatch(listProducts(pageState.page, pageState.pageSize, props.searchProduct))
+  }, [pageState.page, props.searchProduct])
 
   return (
+
     <Box
       sx={{
         paddingTop: '20px',
@@ -73,9 +72,13 @@ const HomeScreen = () => {
         </TitleBox>
 
         {loading ? (
+
           <Loading />
+
         ) : error ? (
+
           <FetchAllProductError statusError={error} />
+
         ) : (
 
           <Box>
@@ -115,6 +118,7 @@ const HomeScreen = () => {
       </AllProductBox>
 
     </Box>
+
   )
 }
 

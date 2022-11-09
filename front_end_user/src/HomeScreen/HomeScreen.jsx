@@ -2,7 +2,7 @@ import { Box, Grid, Pagination, Paper } from '@mui/material'
 import { styled } from '@mui/system'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { listProducts } from '../Actions/productAction'
+import { listProductAction } from '../Actions/productAction'
 
 import Loading from '../Component/Common/Loading'
 import CartProduct from '../Component/Product/CartProduct'
@@ -41,8 +41,8 @@ const HomeScreen = (props) => {
 
   const dispatch = useDispatch()
 
-  const productList = useSelector(state => state.productList)
-  const { products, totalPage, loading, error } = productList
+  const listProduct = useSelector(state => state.listProduct)
+  const { products, totalPage, loading, error } = listProduct
 
   const [pageState, setPageState] = useState({
     page: 1,
@@ -54,7 +54,7 @@ const HomeScreen = (props) => {
   }
 
   useEffect(() => {
-    dispatch(listProducts(pageState.page, pageState.pageSize, props.searchProduct))
+    dispatch(listProductAction(pageState.page, pageState.pageSize, props.searchProduct))
   }, [pageState.page, props.searchProduct])
 
   return (
@@ -63,7 +63,8 @@ const HomeScreen = (props) => {
       sx={{
         paddingTop: '20px',
         paddingBottom: '50px'
-      }}>
+      }}
+    >
 
       <AllProductBox>
 

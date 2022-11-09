@@ -5,6 +5,7 @@ import HomeScreen from './HomeScreen/HomeScreen'
 import { Box, Container, styled } from '@mui/material'
 import NotFound from './Component/Common/NotFound'
 import { useState } from 'react'
+import ProductDetailScreen from './HomeScreen/ProductDetailScreen'
 
 const CustomContainer = styled(Container)(({ theme }) => ({
 
@@ -39,6 +40,7 @@ function App() {
           <Routes>
 
             <Route path="/" element={<HomeScreen searchProduct={searchProduct}/>} />
+            <Route path="/product/:id" element={<ProductDetailScreen />} />
             <Route path="/*" element={<NotFound />} />
 
           </Routes>

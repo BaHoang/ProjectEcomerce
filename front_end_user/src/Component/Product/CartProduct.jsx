@@ -101,7 +101,6 @@ const PriceDiscountBox = styled(Box)(({ theme }) => ({
 
 const CartProduct = (props) => {
     const { product } = props
-    console.log("anh", typeof (product.price))
     return (
         <CustomLink to={`/product/${product._id}`}>
 

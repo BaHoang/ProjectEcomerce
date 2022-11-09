@@ -5,10 +5,11 @@ import {
 } from "redux"
 
 import thunk from 'redux-thunk'
-import { productListReducer } from "./Reducers/productReducers"
+import { detailProductReducer, listProductReducer,  } from "./Reducers/productReducers"
 
 const reducer = combineReducers({
-    productList: productListReducer,
+    listProduct: listProductReducer,
+    detailProduct: detailProductReducer,
 
 })
 

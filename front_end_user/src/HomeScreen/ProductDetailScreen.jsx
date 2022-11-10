@@ -19,7 +19,7 @@ const ProductDetailScreen = () => {
 
   useEffect(() => {
     dispatch(detailProductAction(id))
-  }, [])
+  }, [id])
 
   return (
 

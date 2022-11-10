@@ -4,12 +4,16 @@ import React, { useEffect, useState } from 'react'
 import CartProduct from '../CartProduct'
 
 const TitleBox = styled(Box)(({ theme }) => ({
-    paddingTop: '16px',
-    paddingLeft: '16px',
     paddingBottom: '16px',
     fontSize: '20px',
     fontWeight: '600',
 }))
+
+const SameBox = styled(Box)(({ theme }) => ({
+    marginTop: '30px',
+    borderRadius: '4px',
+    padding: '16px'
+  }))
 
 const SameProduct = (props) => {
 
@@ -30,12 +34,7 @@ const SameProduct = (props) => {
     }, [])
 
     return (
-        <Box
-            sx={{
-
-                marginTop: '20px',
-            }}
-        >
+        <SameBox>
             <TitleBox>
                 Sản phẩm tương tự
             </TitleBox>
@@ -69,7 +68,7 @@ const SameProduct = (props) => {
 
             </Box >
 
-        </Box >
+        </SameBox >
     )
 }
 

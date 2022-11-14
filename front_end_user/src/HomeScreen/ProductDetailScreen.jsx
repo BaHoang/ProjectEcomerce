@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { Box } from '@mui/material'
 import { detailProductAction } from '../Actions/productAction'
-
 import Loading from '../Component/Common/Loading'
 import FetchDetailProductError from '../Component/Product/FetchDetailProductError'
 import SameProduct from '../Component/Product/DetailProduct/SameProduct'

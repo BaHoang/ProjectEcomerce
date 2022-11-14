@@ -1,11 +1,41 @@
-import { Box, Button, Grid, styled, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  Grid,
+  IconButton,
+  InputBase,
+  Rating,
+  styled,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  Typography
+} from '@mui/material'
+import RemoveIcon from '@mui/icons-material/Remove'
+import AddIcon from '@mui/icons-material/Add'
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined'
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
 import React from 'react'
 import { formatPrice } from '../../../Utils/FormatPrice'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 
 const TitleBox = styled(Box)(({ theme }) => ({
   paddingBottom: '16px',
   fontSize: '20px',
   fontWeight: '600',
+}))
+
+const OverallInforBox = styled(Box)(({ theme }) => ({
+  backgroundColor: 'white',
+  display: 'flex',
+  flexWrap: 'wrap',
+  flexDirection: 'row',
+  borderRadius: '4px',
+  padding: '16px',
+  width: '100%',
+  boxSizing: 'border-box'
 }))
 
 const PolicyBox = styled(Box)(({ theme }) => ({
@@ -23,17 +53,41 @@ const PolicyDetailBox = styled(Box)(({ theme }) => ({
 }))
 
 const NameBox = styled(Box)(({ theme }) => ({
-  fontSize: '24px',
   lineHeight: '1.6',
   fontWeight: 500,
+
+  [theme.breakpoints.up('sm')]: {
+    fontSize: '24px'
+  },
+
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '20px'
+  },
 }))
 
 const ReviewBox = styled(Box)(({ theme }) => ({
   fontSize: '14px',
-  paddingTop: '8px',
-  paddingBottom: '8px',
+  paddingTop: '0px',
+  paddingBottom: '0px',
   lineHeight: 1.5,
-  color: '#1890ff'
+  color: '#1890ff',
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+
+  [theme.breakpoints.down('300')]: {
+    flexDirection: 'column',
+    alignItems: 'start',
+  },
+
+}))
+
+const WrapBox = styled(Box)(({ theme }) => ({
+  color: '#757575',
+  display: 'flex',
+  alignItems: 'center',
+  paddingBottom: '24px',
+  flexWrap: 'wrap',
 }))
 
 const BrandBox = styled(Box)(({ theme }) => ({
@@ -46,9 +100,9 @@ const BrandBox = styled(Box)(({ theme }) => ({
 const WrapPriceBox = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexWrap: 'wrap',
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  fontWeight: 700,
+  paddingTop: '16px',
+  paddingBottom: '16px',
+  fontWeight: 500,
   textAlign: 'center',
 }))
 
@@ -57,17 +111,64 @@ const OldPriceBox = styled(Box)(({ theme }) => ({
   textDecoration: 'line-through',
   color: '#918e8e',
   display: 'flex',
-  alignItems: 'center'
+  alignItems: 'center',
+
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '18px',
+  },
 }))
 
 const CurrentPriceBox = styled(Box)(({ theme }) => ({
   fontSize: '30px',
   color: 'red',
+  marginLeft: '12px',
 
   [theme.breakpoints.up('sm')]: {
-    marginLeft: '12px'
+    fontSize: '30px',
   },
 
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '24px',
+  },
+
+  [theme.breakpoints.down('300')]: {
+    marginLeft: '0px',
+  },
+
+}))
+
+const CustomInputBase = styled(InputBase)(({ theme }) => ({
+  border: '1px solid rgba(0,0,0,.09)',
+  width: '50px',
+  height: '32px',
+  fontSize: '16px',
+  '& .MuiInputBase-input': {
+    textAlign: 'center',
+  },
+}))
+
+const CustomErrorBox = styled(Box)(({ theme }) => ({
+  color: 'red',
+  marginTop: '8px',
+  marginLeft: '90px',
+  [theme.breakpoints.down('413')]: {
+    marginLeft: '0px',
+  },
+
+}))
+
+const ChangeNumProductIconButton = styled(IconButton)(({ theme }) => ({
+  backgroundColor: 'white',
+  border: '1px solid rgba(0,0,0,.09)',
+  borderRadius: '0px',
+  height: '32px',
+}))
+
+const WrapChangeNumProductSelected = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexWrap: 'wrap',
+  alignItems: 'center',
+  marginRight: '16px'
 }))
 
 const DescriptionBox = styled(Box)(({ theme }) => ({
@@ -88,38 +189,120 @@ const CustomBackgroundTableCellContent = styled(TableCell)({
 })
 
 const InforProduct = (props) => {
+  const navigate = useNavigate()
 
   const { product } = props
 
-  console.log(product)
   if (product && Object.keys(product).length !== 0) {
-    var chipset = product.chipset ? product.chipset : ''
-    var rom = product.rom ? product.rom : ''
-    var ram = product.ram ? product.ram : ''
-    var operating = product.operating ? product.operating : ''
-    var color = product.color ? product.color : ''
-    var manHinh = product.manHinh ? product.manHinh : ''
-    var cameraSau = product.cameraSau ? product.cameraSau : ''
-    var cameraTruoc = product.cameraTruoc ? product.cameraTruoc : ''
+    var chipset = product.chipset ? product.chipset : 'Đang cập nhật'
+    var rom = product.rom ? product.rom : 'Đang cập nhật'
+    var ram = product.ram ? product.ram : 'Đang cập nhật'
+    var operating = product.operating ? product.operating : 'Đang cập nhật'
+    var color = product.color ? product.color : 'Đang cập nhật'
+    var manHinh = product.manHinh ? product.manHinh : 'Đang cập nhật'
+    var cameraSau = product.cameraSau ? product.cameraSau : 'Đang cập nhật'
+    var cameraTruoc = product.cameraTruoc ? product.cameraTruoc : 'Đang cập nhật'
+    var countInStock = product.countInStock ? product.countInStock : 'Đang cập nhật'
   }
+
+  const [numProductSelected, setNumProductSelected] = useState(1)
+  const [textError, setTextError] = useState('')
+
+  const decreaseNumProductSelected = () => {
+    if (numProductSelected > 1) {
+      setNumProductSelected(numProductSelected - 1)
+    }
+  }
+  const increaseNumProductSelected = () => {
+    if (numProductSelected < countInStock) (
+      setNumProductSelected(numProductSelected + 1)
+    )
+  }
+
+  const handleChangeNumProductSelected = (event) => {
+
+    // qua buoc nay thi co hai loai la NaN va so nguyen lo hon hoac bang 0
+    var value = Number(event.target.value)
+
+    // loai tat ca NaN
+    if (isNaN(value)) {
+      setTextError('Phải là một số lớn hơn không')
+      setNumProductSelected('')
+      return
+    }
+
+    // loai tat ca lon hon so luong san pham trong kho
+    if (value > countInStock) {
+      setTextError('Số lượng bạn chọn đã đạt mức tối đa của sản phẩm này')
+      setNumProductSelected(countInStock)
+      return
+    }
+
+    // loai truong hop so san pham bang 0
+    if (value == 0) {
+      setNumProductSelected('')
+      return
+    }
+
+    // truong hop thoa man
+    setNumProductSelected(value)
+    setTextError('')
+    return
+
+  }
+
+  const addToCard = () => {
+    // if (userInfor && Object.keys(userInfor).length !== 0) {
+    //     const productAddToCart = { id, name, qty, price, priceDiscount, image, countInStock }
+    //     dispatch(cartAddProduct(productAddToCart))
+    // } else {
+    //     navigate('/login')
+    // }
+
+    navigate('/login')
+}
 
   return (
     <>
+
+      <Box sx={{ display: 'flex', paddingBottom: '36px' }}>
+
+        <NavLink to={`/`}>
+          <IconButton
+            aria-label="home"
+            sx={{
+              backgroundColor: 'white',
+              marginRight: '8px',
+              color: '#1c93fc',
+              '&:hover': {
+                backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                color: 'rgba(28,147,252,0.6)'
+              },
+            }}
+          >
+            <HomeOutlinedIcon />
+          </IconButton>
+        </NavLink>
+
+        <Box sx={{ marginRight: '8px', display: 'flex', alignItems: 'center' }}>
+          {'>'}
+        </Box>
+
+        <Box sx={{ backgroundColor: 'white', display: 'flex', alignItems: 'center', paddingLeft: '8px', paddingRight: '8px', borderRadius: '18px' }}>
+          {product.name}
+        </Box>
+      </Box>
+
       <Box>
         <Grid container spacing={2}>
 
           <Grid item xs={12} sm={12} md={9} lg={9}>
-            <Box
-              sx={{
-                backgroundColor: 'white',
-                display: 'flex',
-                borderRadius: '4px',
-                padding: '16px'
-              }}
-            >
+            <OverallInforBox>
+
               <Box
                 sx={{
-                  width: '30%',
+                  width: { xs: '100%', sm: '30%' },
+                  paddingTop: { xs: '100%', sm: '0%' },
                   backgroundRepeat: 'no-repeat',
                   backgroundSize: 'contain',
                   backgroundPosition: 'center',
@@ -131,8 +314,9 @@ const InforProduct = (props) => {
 
               <Box
                 sx={{
-                  width: '70%',
-                  paddingLeft: '24px'
+                  width: { xs: '100%', sm: '70%' },
+                  paddingLeft: '24px',
+                  boxSizing: 'border-box',
                 }}
               >
                 <NameBox>
@@ -140,21 +324,11 @@ const InforProduct = (props) => {
                 </NameBox>
 
                 <ReviewBox>
-                  (Có {product.numReviews} đánh giá)
+                  <Rating name="rating" value={product.rating} precision={0.5} readOnly sx={{ color: '#fadb14' }} />
+                  <Box sx={{ position: 'relative', top: '3px', left: '8px' }}>
+                    (Có {product.numReviews} đánh giá)
+                  </Box>
                 </ReviewBox>
-
-                <Box
-                  sx={{
-                    color: 'rgb(170, 170, 170)'
-                  }}
-                >
-                  Thương hiệu:{" "}
-
-                  <BrandBox component='span'>
-                    {product.brand}
-                  </BrandBox>
-
-                </Box>
 
                 <WrapPriceBox>
 
@@ -178,17 +352,109 @@ const InforProduct = (props) => {
 
                 </WrapPriceBox>
 
-                <Box>
-                  Chon so luong:
+                <WrapBox>
+                  <Box
+                    sx={{
+                      width: '90px'
+                    }}
+                  >
+                    Thương hiệu
+                  </Box>
+
+                  <BrandBox component='span'>
+                    {product.brand}
+                  </BrandBox>
+
+                </WrapBox>
+
+                <Box
+                  sx={{
+                    paddingBottom: '24px'
+                  }}
+                >
+                  <Box
+                    sx={{
+                      color: '#757575',
+                      display: 'flex',
+                      alignItems: 'center',
+                      flexWrap: 'wrap',
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        width: '90px',
+                      }}
+                    >
+                      Số Lượng
+                    </Box>
+
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        alignItems: 'center'
+                      }}
+                    >
+                      <WrapChangeNumProductSelected>
+                        <ChangeNumProductIconButton onClick={decreaseNumProductSelected}>
+                          <RemoveIcon sx={{ fontSize: 16 }} />
+                        </ChangeNumProductIconButton>
+
+                        <CustomInputBase
+                          value={numProductSelected}
+                          onChange={handleChangeNumProductSelected}
+                        />
+
+                        <ChangeNumProductIconButton onClick={increaseNumProductSelected}>
+                          <AddIcon sx={{ fontSize: 16 }} />
+                        </ChangeNumProductIconButton>
+                      </WrapChangeNumProductSelected>
+
+                      <Box>
+                        {countInStock} sản phẩm có sẵn
+                      </Box>
+                    </Box>
+
+                  </Box>
+
+                  <CustomErrorBox>
+                    {textError}
+                  </CustomErrorBox>
                 </Box>
 
-                <Box>
-                  <Button variant='contained'>Them gio hang</Button>
+                <Box >
+
+                  <Button
+                    variant='outlined'
+                    startIcon={<AddShoppingCartIcon />}
+                    sx={{
+                      textTransform: 'capitalize',
+                      marginRight: '16px',
+                      marginTop: '8px',
+                      backgroundColor: 'rgb(224,241,235)'
+                    }}
+                    disabled={countInStock === 0}
+                    onClick={addToCard}
+                  >
+                    Thêm vào giỏ hàng
+                  </Button>
+
+                  <Button
+                    variant='contained'
+                    sx={{
+                      textTransform: 'capitalize',
+                      marginTop: '8px',
+                      backgroundColor: 'rgb(28,147,252)'
+                    }}
+                  >
+                    Mua ngay
+                  </Button>
+
                 </Box>
 
               </Box>
 
-            </Box>
+            </OverallInforBox>
           </Grid>
 
           <Grid item xs={12} sm={12} md={3} lg={3}>
@@ -226,7 +492,7 @@ const InforProduct = (props) => {
           </Grid>
 
           <Grid item xs={12} sm={12} md={4} lg={4}>
-            <Box sx={{ paddingLeft: '16px' }}>
+            <Box sx={{ paddingLeft: { md: '16px' }, paddingTop: { xs: '16px', md: '0px' } }}>
               <TitleBox>
                 Thông số kĩ thuật
               </TitleBox>

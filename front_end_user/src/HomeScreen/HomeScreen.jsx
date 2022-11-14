@@ -25,7 +25,6 @@ const TitleBox = styled(Box)(({ theme }) => ({
     top: '90px',
   },
 
-
   [theme.breakpoints.up('sm')]: {
     top: '100px',
   },

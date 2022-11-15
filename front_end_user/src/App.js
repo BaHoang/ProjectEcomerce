@@ -6,6 +6,8 @@ import { Box, Container, styled } from '@mui/material'
 import NotFound from './Component/Common/NotFound'
 import { useState } from 'react'
 import ProductDetailScreen from './HomeScreen/ProductDetailScreen'
+import { UserLoginScreen } from './HomeScreen/UserLoginScreen'
+
 
 const CustomContainer = styled(Container)(({ theme }) => ({
 
@@ -34,13 +36,14 @@ function App() {
     <>
       <Header childToParent={childToParent}></Header>
 
-      <Box component="main" sx={{ backgroundColor: '#F5F5F5', marginTop: { xs: '90px', sm: '100px' }, }}>
+      <Box component="main" sx={{ backgroundColor: '#f1f1f1', marginTop: { xs: '90px', sm: '100px' }, }}>
 
         <CustomContainer fixed >
           <Routes>
 
             <Route path="/" element={<HomeScreen searchProduct={searchProduct}/>} />
             <Route path="/product/:id" element={<ProductDetailScreen />} />
+            <Route path="/login" element={<UserLoginScreen />} />
             <Route path="/*" element={<NotFound />} />
 
           </Routes>

@@ -1,10 +1,13 @@
-import { Box, Container, IconButton, InputBase, Typography } from '@mui/material'
+import { Box, Container, IconButton, InputBase, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import SearchIcon from '@mui/icons-material/Search'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
+import LogoutIcon from '@mui/icons-material/Logout'
 import { styled } from '@mui/system'
 import { NavLink } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { userLogout } from '../../Actions/userAction'
 
 const CustomContainer = styled(Container)(({ theme }) => ({
   height: '100%',
@@ -28,6 +31,12 @@ const CustomLink = styled(NavLink)({
     color: 'rgba(255, 255, 255, 0.7)',
   },
 })
+
+const CustomProfileLink = styled(NavLink)({
+  textDecoration: 'none',
+  color: 'black',
+})
+
 
 const NameBox = styled(Box)(({ theme }) => ({
   fontSize: '22px',
@@ -108,6 +117,11 @@ const Header = (props) => {
 
   const childToParent = props.childToParent
 
+  const user = useSelector(state => state.user)
+  var { userInfor } = user
+
+  const dispatch = useDispatch()
+
   const [searchProduct, setSearchProduct] = useState('')
 
   const handleChangeSearchProduct = (event) => {
@@ -117,6 +131,10 @@ const Header = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault()
     childToParent(searchProduct)
+  }
+
+  const logout = () => {
+    dispatch(userLogout())
   }
 
   return (
@@ -164,6 +182,7 @@ const Header = (props) => {
             </InputBox>
 
             <WrapIconBox>
+
               <CustomIconButton aria-label="add to shopping cart" >
                 <ShoppingCartIcon sx={{ fontSize: { xs: 24, sm: 28, md: 24 } }} />
                 <Typography variant="body2" sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
@@ -171,20 +190,127 @@ const Header = (props) => {
                 </Typography>
               </CustomIconButton>
 
-              <CustomIconButton aria-label="add to shopping cart" >
-                <PersonOutlineIcon sx={{ fontSize: { xs: 24, sm: 28, md: 24 } }} />
-                <Typography variant="body2" sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
-                  Đăng nhập
-                </Typography>
-              </CustomIconButton>
+              {
+                (userInfor && Object.keys(userInfor).length !== 0) ? (
+                  <Box
+                    sx={{
+                      position: 'relative',
+
+                      '&:hover .CustomHover': {
+                        
+                          display: 'block',
+                  
+                      },
+
+                    }}
+                  >
+
+                    <CustomLink to={`/user/purchase`}>
+                      <CustomIconButton aria-label="add to shopping cart" >
+                        <PersonOutlineIcon sx={{ fontSize: { xs: 24, sm: 28, md: 24 } }} />
+                        <Typography variant="body2" sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
+                          {userInfor.name}
+                        </Typography>
+                      </CustomIconButton>
+                    </CustomLink>
+
+                    <Box
+                      className="CustomHover"
+                      sx={{
+                        minHeight: '100px',
+                        width: '200px',
+                        position: 'absolute',
+                        right: '0',
+                        top: '100%',
+                        backgroundColor: 'white',
+                        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
+                        borderRadius: '4px',
+                        display: 'none'
+                      }}
+
+                    >
+                      <List>
+
+                        <CustomProfileLink to={`/user/profile`}>
+                          <ListItem sx={{ width: '100%', padding: '0px' }}>
+                            <ListItemButton >
+
+                              <ListItemIcon sx={{ minWidth: '40px' }}>
+                                <PersonOutlineIcon />
+                              </ListItemIcon>
+
+                              <ListItemText
+                                primary="Tài Khoản Của Tôi"
+                                primaryTypographyProps={{
+                                  fontSize: 14,
+                                }}
+                              />
+
+                            </ListItemButton>
+                          </ListItem>
+                        </CustomProfileLink>
+
+                        <CustomProfileLink to={`/user/purchase`} >
+                          <ListItem sx={{ width: '100%', padding: '0px' }}>
+                            <ListItemButton >
+
+                              <ListItemIcon sx={{ minWidth: '40px' }}>
+                                <LogoutIcon />
+                              </ListItemIcon>
+
+                              <ListItemText
+                                primary="Đơn Mua"
+                                primaryTypographyProps={{
+                                  fontSize: 14,
+                                }}
+                              />
+
+                            </ListItemButton>
+                          </ListItem>
+                        </CustomProfileLink>
+
+
+                        <ListItem sx={{ width: '100%', padding: '0px' }}>
+                          <ListItemButton onClick={logout}>
+
+                            <ListItemIcon sx={{ minWidth: '40px' }}>
+                              <LogoutIcon />
+                            </ListItemIcon>
+
+                            <ListItemText
+                              primary="Đăng xuất"
+                              primaryTypographyProps={{
+                                fontSize: 14,
+                              }}
+                            />
+
+                          </ListItemButton>
+                        </ListItem>
+
+                      </List>
+                    </Box>
+
+                  </Box>
+                ) : (
+                  <CustomLink to={`/login`}>
+                    <CustomIconButton aria-label="add to shopping cart" >
+                      <PersonOutlineIcon sx={{ fontSize: { xs: 24, sm: 28, md: 24 } }} />
+                      <Typography variant="body2" sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
+                        Đăng nhập
+                      </Typography>
+                    </CustomIconButton>
+                  </CustomLink>
+                )
+              }
+
             </WrapIconBox>
 
           </Box>
         </CustomContainer>
 
-      </Box>
+      </Box >
 
-    </form>
+    </form >
   )
 }
 

@@ -7,6 +7,8 @@ import NotFound from './Component/Common/NotFound'
 import { useState } from 'react'
 import ProductDetailScreen from './HomeScreen/ProductDetailScreen'
 import { UserLoginScreen } from './HomeScreen/UserLoginScreen'
+import PrivateRoutes from './Component/Login/PrivateRoutes'
+import CartScreen from './HomeScreen/CartScreen'
 
 
 const CustomContainer = styled(Container)(({ theme }) => ({
@@ -39,11 +41,16 @@ function App() {
       <Box component="main" sx={{ backgroundColor: '#f1f1f1', marginTop: { xs: '90px', sm: '100px' }, }}>
 
         <CustomContainer fixed >
-          <Routes>
 
-            <Route path="/" element={<HomeScreen searchProduct={searchProduct}/>} />
+          <Routes>
+            <Route path="/" element={<HomeScreen searchProduct={searchProduct} />} />
             <Route path="/product/:id" element={<ProductDetailScreen />} />
             <Route path="/login" element={<UserLoginScreen />} />
+
+            <Route element={<PrivateRoutes />}>
+              <Route path="/cart" element={<CartScreen />} />
+            </Route>
+
             <Route path="/*" element={<NotFound />} />
 
           </Routes>

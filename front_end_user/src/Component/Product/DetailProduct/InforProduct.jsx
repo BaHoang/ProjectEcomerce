@@ -18,8 +18,10 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined'
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart'
 import React from 'react'
 import { formatPrice } from '../../../Utils/FormatPrice'
+import { cartAddProduct } from '../../../Actions/cartAction'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 const TitleBox = styled(Box)(({ theme }) => ({
   paddingBottom: '16px',
@@ -190,6 +192,13 @@ const CustomBackgroundTableCellContent = styled(TableCell)({
 
 const InforProduct = (props) => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  const user = useSelector(state => state.user)
+  var { userInfor } = user
+
+  const cartAdd = useSelector(state => state.cartAdd)
+  var { carts } = cartAdd
 
   const { product } = props
 
@@ -203,20 +212,46 @@ const InforProduct = (props) => {
     var cameraSau = product.cameraSau ? product.cameraSau : 'Đang cập nhật'
     var cameraTruoc = product.cameraTruoc ? product.cameraTruoc : 'Đang cập nhật'
     var countInStock = product.countInStock ? product.countInStock : 'Đang cập nhật'
+
+    var id = product._id
+    var name = product.name
+    var image = product.image
+    var price = product.price
+    var priceDiscount = product.priceDiscount
   }
 
   const [numProductSelected, setNumProductSelected] = useState(1)
   const [textError, setTextError] = useState('')
+
+  const numProductInCart = () => {
+    var numProductInCart = 0
+
+    if (carts) {
+      for (let index = 0; index < carts.length; index++) {
+        if (carts[index].id === product._id) {
+          numProductInCart = carts[index].numProductSelected
+          break
+        }
+      }
+    }
+
+    return numProductInCart
+  }
 
   const decreaseNumProductSelected = () => {
     if (numProductSelected > 1) {
       setNumProductSelected(numProductSelected - 1)
     }
   }
+
   const increaseNumProductSelected = () => {
-    if (numProductSelected < countInStock) (
+
+    if (numProductSelected < (countInStock - numProductInCart())) {
       setNumProductSelected(numProductSelected + 1)
-    )
+    } else {
+      setTextError('Số lượng bạn chọn đã đạt mức tối đa của sản phẩm này')
+    }
+
   }
 
   const handleChangeNumProductSelected = (event) => {
@@ -232,9 +267,10 @@ const InforProduct = (props) => {
     }
 
     // loai tat ca lon hon so luong san pham trong kho
-    if (value > countInStock) {
+
+    if (value > (countInStock - numProductInCart())) {
       setTextError('Số lượng bạn chọn đã đạt mức tối đa của sản phẩm này')
-      setNumProductSelected(countInStock)
+      setNumProductSelected(countInStock - numProductInCart())
       return
     }
 
@@ -252,15 +288,18 @@ const InforProduct = (props) => {
   }
 
   const addToCard = () => {
-    // if (userInfor && Object.keys(userInfor).length !== 0) {
-    //     const productAddToCart = { id, name, qty, price, priceDiscount, image, countInStock }
-    //     dispatch(cartAddProduct(productAddToCart))
-    // } else {
-    //     navigate('/login')
-    // }
+    if (userInfor && Object.keys(userInfor).length !== 0) {
+      if (numProductInCart() === countInStock) {
+        setTextError(`Bạn đã có ${countInStock} sản phẩm trong giỏ hàng. Không thể thêm số lượng đã chọn vào giỏ hàng vì sẽ vượt quá giới hạn mua hàng của bạn. `)
+      } else {
+        const productAddToCart = { id, name, numProductSelected, price, priceDiscount, image, countInStock }
+        dispatch(cartAddProduct(productAddToCart))
+      }
 
-    navigate('/login')
-}
+    } else {
+      navigate('/login')
+    }
+  }
 
   return (
     <>

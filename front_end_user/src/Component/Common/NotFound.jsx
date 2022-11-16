@@ -1,8 +1,11 @@
+import { Box } from '@mui/material'
 import React from 'react'
 
 const NotFound = () => {
   return (
-    <div>NotFound</div>
+    <Box sx={{ height: '100vh' }}>
+      Not found
+    </Box>
   )
 }
 

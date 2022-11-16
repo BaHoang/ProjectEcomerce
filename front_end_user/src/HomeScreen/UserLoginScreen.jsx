@@ -97,7 +97,7 @@ export const UserLoginScreen = () => {
 
     useEffect(() => {
         if (userInfor && Object.keys(userInfor).length !== 0) {
-            navigate('/')
+            navigate(-1)
         }
     }, [dispatch, userInfor]);
 

@@ -1,4 +1,4 @@
-import { Box, Container, IconButton, InputBase, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
+import { Badge, Box, Container, IconButton, InputBase, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import SearchIcon from '@mui/icons-material/Search'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
@@ -8,6 +8,7 @@ import { styled } from '@mui/system'
 import { NavLink } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { userLogout } from '../../Actions/userAction'
+import PurchaseIcon from '../../Image/SVG/PurchaseIcon'
 
 const CustomContainer = styled(Container)(({ theme }) => ({
   height: '100%',
@@ -120,6 +121,9 @@ const Header = (props) => {
   const user = useSelector(state => state.user)
   var { userInfor } = user
 
+  const cartAdd = useSelector(state => state.cartAdd)
+  var { carts } = cartAdd
+
   const dispatch = useDispatch()
 
   const [searchProduct, setSearchProduct] = useState('')
@@ -183,36 +187,44 @@ const Header = (props) => {
 
             <WrapIconBox>
 
-              <CustomIconButton aria-label="add to shopping cart" >
-                <ShoppingCartIcon sx={{ fontSize: { xs: 24, sm: 28, md: 24 } }} />
-                <Typography variant="body2" sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
-                  Giỏ hàng
-                </Typography>
-              </CustomIconButton>
+              <CustomLink to={`/cart`}>
+                <CustomIconButton aria-label="add to shopping cart" >
+
+                  {
+                    (carts && carts.length > 0) ? (
+                      <Badge badgeContent={carts.length} color="primary">
+                        <ShoppingCartIcon sx={{ fontSize: { xs: 24, sm: 28, md: 24 } }} />
+                      </Badge>
+                    ) : (
+                      <ShoppingCartIcon sx={{ fontSize: { xs: 24, sm: 28, md: 24 } }} />
+                    )
+                  }
+
+                  <Typography variant="body2" sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
+                    Giỏ hàng
+                  </Typography>
+
+                </CustomIconButton>
+              </CustomLink>
 
               {
                 (userInfor && Object.keys(userInfor).length !== 0) ? (
                   <Box
                     sx={{
                       position: 'relative',
-
                       '&:hover .CustomHover': {
-                        
-                          display: 'block',
-                  
+                        display: 'block',
                       },
 
                     }}
                   >
 
-                    <CustomLink to={`/user/purchase`}>
-                      <CustomIconButton aria-label="add to shopping cart" >
-                        <PersonOutlineIcon sx={{ fontSize: { xs: 24, sm: 28, md: 24 } }} />
-                        <Typography variant="body2" sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
-                          {userInfor.name}
-                        </Typography>
-                      </CustomIconButton>
-                    </CustomLink>
+                    <CustomIconButton aria-label="account" >
+                      <PersonOutlineIcon sx={{ fontSize: { xs: 24, sm: 28, md: 24 } }} />
+                      <Typography variant="body2" sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }}>
+                        {userInfor.name}
+                      </Typography>
+                    </CustomIconButton>
 
                     <Box
                       className="CustomHover"
@@ -221,13 +233,12 @@ const Header = (props) => {
                         width: '200px',
                         position: 'absolute',
                         right: '0',
-                        top: '100%',
+                        top: '110%',
                         backgroundColor: 'white',
                         boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
                         borderRadius: '4px',
                         display: 'none'
                       }}
-
                     >
                       <List>
 
@@ -255,7 +266,7 @@ const Header = (props) => {
                             <ListItemButton >
 
                               <ListItemIcon sx={{ minWidth: '40px' }}>
-                                <LogoutIcon />
+                                <PurchaseIcon />
                               </ListItemIcon>
 
                               <ListItemText
@@ -264,11 +275,9 @@ const Header = (props) => {
                                   fontSize: 14,
                                 }}
                               />
-
                             </ListItemButton>
                           </ListItem>
                         </CustomProfileLink>
-
 
                         <ListItem sx={{ width: '100%', padding: '0px' }}>
                           <ListItemButton onClick={logout}>

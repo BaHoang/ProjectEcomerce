@@ -35,7 +35,7 @@ const ProductDetailScreen = () => {
       ) : (
 
         (typeof product === 'object' && Object.keys(product).length > 0) && (
-          < Box
+          <Box
             sx={{
               paddingTop: '20px',
               paddingBottom: '50px'

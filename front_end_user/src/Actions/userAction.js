@@ -6,6 +6,8 @@ import {
     LOGOUT,
 } from "../Constants/userConstant"
 
+import { CART_RESET_PRODUCT } from "../Constants/cartConstant"
+
 import axios from 'axios'
 
 export const userLogin = (email, password) => async (dispatch, getState) => {
@@ -38,7 +40,11 @@ export const userLogin = (email, password) => async (dispatch, getState) => {
 
 export const userLogout = () => async (dispatch) => {
     dispatch({ type: LOGOUT })
+    dispatch({type: CART_RESET_PRODUCT})
     localStorage.removeItem('userInfor')
+    localStorage.removeItem('cartProduct')
+    // console.log(document.location.href)
+    // document.location.href = '/login'
 }
 
 

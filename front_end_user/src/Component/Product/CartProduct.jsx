@@ -21,6 +21,13 @@ const CartBox = styled(Box)(({ theme }) => ({
     },
 }))
 
+const ImageBox = styled(Box)(({ theme }) => ({
+    paddingTop: '100%',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'contain',
+    backgroundPosition: 'center',
+}))
+
 const NameProductTypography = styled(Typography)(({ theme }) => ({
     fontSize: '14px',
     fontWeight: 500,
@@ -106,17 +113,13 @@ const CartProduct = (props) => {
 
             <CartBox>
 
-                <Box
+                <ImageBox
                     sx={{
-                        paddingTop: '100%',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundSize: 'contain',
-                        backgroundPosition: 'center',
                         backgroundImage: `url(${product.image ? product.image :
                             'https://cdn.24h.com.vn/upload/3-2022/images/2022-09-05/MU-chinh-thuc-cong-bo-doi-hinh-da-cup-chau-au-3-SAO-bi-loai-Ronaldo-gop-mat-3-1662395551-785-width740height493.jpg'})`,
                     }}
                 >
-                </Box>
+                </ImageBox>
 
                 <NameProductTypography variant='h4'>
                     {product.name}

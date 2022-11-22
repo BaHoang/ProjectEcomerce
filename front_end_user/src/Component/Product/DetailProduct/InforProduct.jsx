@@ -225,7 +225,6 @@ const InforProduct = (props) => {
 
   const numProductInCart = () => {
     var numProductInCart = 0
-
     if (carts) {
       for (let index = 0; index < carts.length; index++) {
         if (carts[index].id === product._id) {
@@ -234,7 +233,6 @@ const InforProduct = (props) => {
         }
       }
     }
-
     return numProductInCart
   }
 
@@ -245,13 +243,11 @@ const InforProduct = (props) => {
   }
 
   const increaseNumProductSelected = () => {
-
     if (numProductSelected < (countInStock - numProductInCart())) {
       setNumProductSelected(numProductSelected + 1)
     } else {
       setTextError('Số lượng bạn chọn đã đạt mức tối đa của sản phẩm này')
     }
-
   }
 
   const handleChangeNumProductSelected = (event) => {
@@ -284,7 +280,12 @@ const InforProduct = (props) => {
     setNumProductSelected(value)
     setTextError('')
     return
+  }
 
+  const handleOnBlur = () => {
+    if (Number(numProductSelected) === 0) {
+      setNumProductSelected(1)
+    }
   }
 
   const addToCard = () => {
@@ -295,7 +296,6 @@ const InforProduct = (props) => {
         const productAddToCart = { id, name, numProductSelected, price, priceDiscount, image, countInStock }
         dispatch(cartAddProduct(productAddToCart))
       }
-
     } else {
       navigate('/login')
     }
@@ -442,6 +442,7 @@ const InforProduct = (props) => {
                         <CustomInputBase
                           value={numProductSelected}
                           onChange={handleChangeNumProductSelected}
+                          onBlur={handleOnBlur}
                         />
 
                         <ChangeNumProductIconButton onClick={increaseNumProductSelected}>

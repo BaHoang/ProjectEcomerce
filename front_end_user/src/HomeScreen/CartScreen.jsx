@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink } from 'react-router-dom'
+import { useNavigate, NavLink } from 'react-router-dom'
 
 import { Box, Button, Checkbox, IconButton, Input, InputBase, styled } from '@mui/material'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined'
@@ -12,6 +12,7 @@ import { formatPrice } from '../Utils/FormatPrice'
 
 import { deleteItemCartAction, deleteManyItemCartAction, updateItemCartAction } from '../Actions/cartAction'
 import { useEffect } from 'react'
+import NotifyCheckOutModal from '../Component/Cart/NotifyCheckOutModal'
 
 const NamePageBox = styled(Box)(({ theme }) => ({
   backgroundColor: 'white',
@@ -192,12 +193,12 @@ const DeleteBox = styled(Box)(({ theme }) => ({
     width: '100%',
     paddingLeft: '10%',
     marginBottom: '8px',
-    textAlign: 'center',
+    textAlign: 'end',
   },
 
   [theme.breakpoints.between('361', 'md')]: {
     width: '100%',
-    textAlign: 'center',
+    textAlign: 'end',
   },
 
   [theme.breakpoints.up('md')]: {
@@ -325,6 +326,7 @@ const MuaHangButton = styled(Button)(({ theme }) => ({
 const CartScreen = () => {
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const cartAdd = useSelector(state => state.cartAdd)
   var { carts } = cartAdd
@@ -342,14 +344,17 @@ const CartScreen = () => {
   const [total, setTotal] = useState(0)
   const [numProductMovePayment, setNumProductMovePayment] = useState(0)
 
+  const [openModal, setOpenModal] = useState(false)
+
   const handleOnChangeStateAll = () => {
-    setCheckedStateAll(!checkedStateAll)
 
     if (checkedStateAll) {
+      setCheckedStateAll(false)
       const updatedCheckedState = checkedState.map((item, index) => false)
 
       setCheckedState(updatedCheckedState)
     } else {
+      setCheckedStateAll(true)
       const updatedCheckedState = checkedState.map((item, index) => true)
 
       setCheckedState(updatedCheckedState)
@@ -491,6 +496,26 @@ const CartScreen = () => {
     }
     setCheckedState(newCheckedState)
   }
+
+  const checkOut = (checkedState) => {
+
+    const count = checkedState.reduce((accumulator, currentState) => {
+      if (currentState === true) {
+        return accumulator + 1;
+      }
+
+      return accumulator;
+    }, 0)
+
+    if (count === 0) {
+      setOpenModal(true)
+    } else {
+      navigate('/payment')
+    }
+
+  }
+
+  const handleCloseModal = () => setOpenModal(false)
 
   // cap nhat khi xoa san pham trong gio hang
   useEffect(() => {
@@ -663,7 +688,7 @@ const CartScreen = () => {
 
               <Box
                 sx={{
-                  width: { xs: '40%', md: '10%' },
+                  width: { xs: '70%', sm: '80%', md: '10%' },
                   paddingLeft: { xs: '16px', md: '0px' },
                   boxSizing: 'border-box'
                 }}
@@ -673,7 +698,8 @@ const CartScreen = () => {
 
               <Box
                 sx={{
-                  width: { xs: '50%', md: '5%' }
+                  width: { xs: '20%', sm: '10%', md: '5%' },
+                  textAlign: 'end'
                 }}
               >
                 <Button
@@ -706,7 +732,7 @@ const CartScreen = () => {
               <WrapMuaHangBox>
                 <MuaHangButton
 
-                //onClick={() => deleteManyItemCart(checkedState)}
+                  onClick={() => checkOut(checkedState)}
                 >
                   Mua hàng
                 </MuaHangButton>
@@ -726,6 +752,11 @@ const CartScreen = () => {
           </Box>
         )
       }
+
+      <NotifyCheckOutModal
+        open={openModal}
+        onClose={handleCloseModal}        
+      />
 
     </Box >
   )

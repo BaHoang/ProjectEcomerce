@@ -166,7 +166,7 @@ const CartProduct = (props) => {
                 </NumberProductInStockBox>
 
                 {
-                    (product.priceDiscount !== product.price) ? (
+                    (product.priceDiscount < product.price) ? (
                         <PriceDiscountBox>
                             <Box
                                 sx={{

@@ -53,9 +53,17 @@ const CartItemBox = styled(Box)(({ theme }) => ({
 }))
 
 const ImageAndNameItemBox = styled(Box)(({ theme }) => ({
-  flex: 1,
-  paddingRight: '16px',
-  boxSizing: 'border-box'
+
+  boxSizing: 'border-box',
+  marginBottom: '8px',
+  [theme.breakpoints.down('md')]: {
+    width: '90%',
+    paddingLeft: '16px',
+  },
+  [theme.breakpoints.up('md')]: {
+    flex: 1,
+    paddingRight: '16px',
+  },
 }))
 
 const ImageItemBox = styled(Box)(({ theme }) => ({
@@ -85,10 +93,27 @@ const CustomLink = styled(NavLink)({
 
 const PriceItemBox = styled(Box)(({ theme }) => ({
   display: 'flex',
-  textAlign: 'center',
-  width: '20%',
   paddingRight: '10px',
-  boxSizing: 'border-box'
+  boxSizing: 'border-box',
+
+  [theme.breakpoints.down('361')]: {
+    width: '100%',
+    paddingLeft: '10%',
+    paddingRight: '0px',
+    marginBottom: '16px',
+    justifyContent: 'end'
+  },
+
+  [theme.breakpoints.between('361', 'md')]: {
+    width: '60%',
+    paddingLeft: '10%',
+    marginBottom: '16px',
+
+  },
+
+  [theme.breakpoints.up('md')]: {
+    width: '20%',
+  },
 }))
 
 const PriceOldItemBox = styled(Box)(({ theme }) => ({
@@ -102,11 +127,28 @@ const PriceOldItemBox = styled(Box)(({ theme }) => ({
 
 const QtyItemBox = styled(Box)(({ theme }) => ({
   width: "20%",
-  paddingRight: '10px',
+
   boxSizing: 'border-box',
   display: 'flex',
   flexWrap: 'wrap',
-  alignItems: 'center'
+  alignItems: 'center',
+
+  [theme.breakpoints.down('361')]: {
+    width: '100%',
+    paddingLeft: '10%',
+    marginBottom: '16px',
+    justifyContent: 'end'
+  },
+
+  [theme.breakpoints.between('361', 'md')]: {
+    width: '40%',
+    marginBottom: '16px',
+    justifyContent: 'end'
+  },
+  [theme.breakpoints.up('md')]: {
+    width: '20%',
+    paddingRight: '10px',
+  },
 }))
 
 const CustomErrorBox = styled(Box)(({ theme }) => ({
@@ -120,18 +162,54 @@ const CustomErrorBox = styled(Box)(({ theme }) => ({
 }))
 
 const TotalPriceItemBox = styled(Box)(({ theme }) => ({
-  width: '10%',
-  paddingRight: '10px',
   boxSizing: 'border-box',
   color: 'rgb(28,147,252)',
-  fontWeight: '500'
+  fontWeight: '500',
+
+  [theme.breakpoints.down('361')]: {
+    width: '100%',
+    paddingLeft: '10%',
+    marginBottom: '16px',
+    textAlign: 'end'
+  },
+
+  [theme.breakpoints.between('361', 'md')]: {
+    width: '100%',
+    paddingRight: '0px',
+    textAlign: 'end'
+  },
+
+  [theme.breakpoints.up('md')]: {
+    width: '10%',
+    paddingRight: '10px',
+  },
+}))
+
+const DeleteBox = styled(Box)(({ theme }) => ({
+  boxSizing: 'border-box',
+
+  [theme.breakpoints.down('361')]: {
+    width: '100%',
+    paddingLeft: '10%',
+    marginBottom: '8px',
+    textAlign: 'center',
+  },
+
+  [theme.breakpoints.between('361', 'md')]: {
+    width: '100%',
+    textAlign: 'center',
+  },
+
+  [theme.breakpoints.up('md')]: {
+    width: '5%',
+  },
 }))
 
 const WrapChangeNumProductSelected = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexWrap: 'wrap',
   alignItems: 'center',
-  marginRight: '16px'
+
 }))
 
 const ChangeNumProductIconButton = styled(IconButton)(({ theme }) => ({
@@ -163,12 +241,85 @@ const SummaryBox = styled(Box)(({ theme }) => ({
 }))
 
 const SummaryPriceBox = styled(Box)(({ theme }) => ({
-  flex: 1,
   display: 'flex',
-  justifyContent: 'end',
   alignItems: 'flex-end',
+  flexWrap: 'wrap',
   fontSize: '16px',
   lineHeight: 1,
+
+  [theme.breakpoints.down('md')]: {
+    width: '100%',
+  },
+
+  [theme.breakpoints.up('md')]: {
+    flex: 1,
+    justifyContent: 'end',
+  },
+}))
+
+const SummaryPriceTextBox = styled(Box)(({ theme }) => ({
+  [theme.breakpoints.down('md')]: {
+    width: '100%',
+    marginBottom: '16px',
+    marginTop: '8px',
+    textAlign: 'end',
+  },
+
+}))
+
+const SummaryPriceTotalBox = styled(Box)(({ theme }) => ({
+  fontSize: '24px',
+  position: 'relative',
+  top: '2px',
+  color: 'red',
+
+  [theme.breakpoints.down('361')]: {
+    width: '100%',
+    marginBottom: '16px',
+    textAlign: 'end'
+  },
+
+  [theme.breakpoints.between('361', 'md')]: {
+    width: '100%',
+    marginBottom: '16px',
+    textAlign: 'end'
+  },
+
+  [theme.breakpoints.up('md')]: {
+
+  },
+}))
+
+const WrapMuaHangBox = styled(Box)(({ theme }) => ({
+  marginBottom: '10px',
+
+  [theme.breakpoints.down('md')]: {
+    width: '100%'
+  },
+
+  [theme.breakpoints.up('md')]: {
+    width: '210px',
+    marginLeft: '16px',
+    display: "flex",
+    justifyContent: "end",
+  },
+}))
+
+const MuaHangButton = styled(Button)(({ theme }) => ({
+  textTransform: 'capitalize',
+  color: 'white',
+  backgroundColor: 'rgb(28,147,252)',
+  fontSize: '16px',
+  lineHeight: 1,
+  boxSizing: 'border-box',
+  width: '100%',
+  padding: '12px 36px 12px 36px',
+
+  '&:hover': {
+    backgroundColor: 'rgba(28,147,252,0.8)',
+    color: 'rgba(255,255,255,0.8)'
+  },
+
 }))
 
 const CartScreen = () => {
@@ -361,10 +512,10 @@ const CartScreen = () => {
     )
 
     const count = checkedState.reduce((accumulator, currentState) => {
-      if (currentState === true)  {
+      if (currentState === true) {
         return accumulator + 1;
       }
-    
+
       return accumulator;
     }, 0)
 
@@ -413,7 +564,8 @@ const CartScreen = () => {
 
                   <Box
                     sx={{
-                      width: '5%'
+                      width: { xs: '10%', md: '5%' },
+                      marginBottom: '8px'
                     }}
                   >
                     <Checkbox
@@ -485,11 +637,11 @@ const CartScreen = () => {
                     {formatPrice(numProductSelected[index] * product.priceDiscount)}
                   </TotalPriceItemBox>
 
-                  <Box sx={{ width: '5%' }}>
+                  <DeleteBox  >
                     <IconButton aria-label="delete" onClick={() => deleteItemCart(index)}>
                       <DeleteOutlineIcon />
                     </IconButton>
-                  </Box>
+                  </DeleteBox>
 
                 </CartItemBox>
               ))
@@ -499,7 +651,7 @@ const CartScreen = () => {
 
               <Box
                 sx={{
-                  width: '5%'
+                  width: { xs: '10%', md: '5%' },
                 }}
               >
                 <Checkbox
@@ -511,7 +663,9 @@ const CartScreen = () => {
 
               <Box
                 sx={{
-                  width: '10%'
+                  width: { xs: '40%', md: '10%' },
+                  paddingLeft: { xs: '16px', md: '0px' },
+                  boxSizing: 'border-box'
                 }}
               >
                 Chọn tất cả {carts.length}
@@ -519,7 +673,7 @@ const CartScreen = () => {
 
               <Box
                 sx={{
-                  width: '5%'
+                  width: { xs: '50%', md: '5%' }
                 }}
               >
                 <Button
@@ -535,52 +689,28 @@ const CartScreen = () => {
 
               <SummaryPriceBox>
 
-                <Box>
+                <SummaryPriceTextBox>
                   Tổng thanh toán ({numProductMovePayment} sản phẩm):
-                </Box>
+                </SummaryPriceTextBox>
 
-                <Box
+                <SummaryPriceTotalBox
                   sx={{
-                    fontSize: '24px',
-                    position: 'relative',
-                    top: '2px',
-                    color: 'red'
+
                   }}
                 >
                   {formatPrice(total)}
-                </Box>
+                </SummaryPriceTotalBox>
 
               </SummaryPriceBox>
 
-              <Box
-                sx={{
+              <WrapMuaHangBox>
+                <MuaHangButton
 
-                  display: "flex",
-                  justifyContent: "end",
-                }}
-              >
-                <Button
-                  sx={{
-                    textTransform: 'capitalize',
-                    color: 'white',
-                    backgroundColor: 'rgb(28,147,252)',
-                    fontSize: '16px',
-                    lineHeight: 1,
-                    boxSizing: 'content-box',
-                    width: '138px',
-                    padding: '12px 36px 12px 36px',
-                    marginLeft: '16px',
-
-                    '&:hover': {
-                      backgroundColor: 'rgba(28,147,252,0.8)',
-                      color: 'rgba(255,255,255,0.8)'
-                    }
-                  }}
                 //onClick={() => deleteManyItemCart(checkedState)}
                 >
                   Mua hàng
-                </Button>
-              </Box>
+                </MuaHangButton>
+              </WrapMuaHangBox>
 
             </SummaryBox>
           </>

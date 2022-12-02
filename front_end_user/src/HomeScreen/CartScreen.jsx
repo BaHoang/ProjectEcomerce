@@ -13,6 +13,7 @@ import { formatPrice } from '../Utils/FormatPrice'
 import { deleteItemCartAction, deleteManyItemCartAction, updateItemCartAction } from '../Actions/cartAction'
 import { useEffect } from 'react'
 import NotifyCheckOutModal from '../Component/Cart/NotifyCheckOutModal'
+import NamePageBody from '../Component/Layout/NamePageBody'
 
 const NamePageBox = styled(Box)(({ theme }) => ({
   backgroundColor: 'white',
@@ -558,23 +559,7 @@ const CartScreen = () => {
       }}
     >
 
-      <Box sx={{ display: 'flex', paddingBottom: '36px' }}>
-
-        <NavLink to={`/`}>
-          <CustomIconButton aria-label="home">
-            <HomeOutlinedIcon />
-          </CustomIconButton>
-        </NavLink>
-
-        <Box sx={{ marginRight: '8px', display: 'flex', alignItems: 'center' }}>
-          {'>'}
-        </Box>
-
-        <NamePageBox>
-          Giỏ hàng của bạn
-        </NamePageBox>
-
-      </Box>
+      <NamePageBody namePage="Giỏ hàng của bạn"/>
 
       <TitleBox>
         Giỏ hàng của bạn có {(carts.length > 0) ? carts.length : 0} sản phẩm

@@ -22,6 +22,7 @@ import { cartAddProduct } from '../../../Actions/cartAction'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import NamePageBody from '../../Layout/NamePageBody'
 
 const TitleBox = styled(Box)(({ theme }) => ({
   paddingBottom: '16px',
@@ -304,33 +305,7 @@ const InforProduct = (props) => {
   return (
     <>
 
-      <Box sx={{ display: 'flex', paddingBottom: '36px' }}>
-
-        <NavLink to={`/`}>
-          <IconButton
-            aria-label="home"
-            sx={{
-              backgroundColor: 'white',
-              marginRight: '8px',
-              color: '#1c93fc',
-              '&:hover': {
-                backgroundColor: 'rgba(255, 255, 255, 0.7)',
-                color: 'rgba(28,147,252,0.6)'
-              },
-            }}
-          >
-            <HomeOutlinedIcon />
-          </IconButton>
-        </NavLink>
-
-        <Box sx={{ marginRight: '8px', display: 'flex', alignItems: 'center' }}>
-          {'>'}
-        </Box>
-
-        <Box sx={{ backgroundColor: 'white', display: 'flex', alignItems: 'center', paddingLeft: '8px', paddingRight: '8px', borderRadius: '18px' }}>
-          {product.name}
-        </Box>
-      </Box>
+      <NamePageBody namePage={product.name}/>
 
       <Box>
         <Grid container spacing={2}>

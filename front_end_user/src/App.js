@@ -9,6 +9,7 @@ import ProductDetailScreen from './HomeScreen/ProductDetailScreen'
 import { UserLoginScreen } from './HomeScreen/UserLoginScreen'
 import PrivateRoutes from './Component/Login/PrivateRoutes'
 import CartScreen from './HomeScreen/CartScreen'
+import PaymentScreen from './HomeScreen/PaymentScreen'
 
 
 const CustomContainer = styled(Container)(({ theme }) => ({
@@ -49,6 +50,7 @@ function App() {
 
             <Route element={<PrivateRoutes />}>
               <Route path="/cart" element={<CartScreen />} />
+              <Route path="/payment" element={<PaymentScreen />} />
             </Route>
 
             <Route path="/*" element={<NotFound />} />

@@ -14,6 +14,7 @@ import { deleteItemCartAction, deleteManyItemCartAction, updateItemCartAction } 
 import { useEffect } from 'react'
 import NotifyCheckOutModal from '../Component/Cart/NotifyCheckOutModal'
 import NamePageBody from '../Component/Layout/NamePageBody'
+import { listProductAction } from '../Actions/paymentInforAction'
 
 const NamePageBox = styled(Box)(({ theme }) => ({
   backgroundColor: 'white',
@@ -502,15 +503,16 @@ const CartScreen = () => {
 
     const count = checkedState.reduce((accumulator, currentState) => {
       if (currentState === true) {
-        return accumulator + 1;
+        return accumulator + 1
       }
 
-      return accumulator;
+      return accumulator
     }, 0)
 
     if (count === 0) {
       setOpenModal(true)
     } else {
+      dispatch(listProductAction(checkedState))
       navigate('/payment')
     }
 
@@ -704,11 +706,7 @@ const CartScreen = () => {
                   Tổng thanh toán ({numProductMovePayment} sản phẩm):
                 </SummaryPriceTextBox>
 
-                <SummaryPriceTotalBox
-                  sx={{
-
-                  }}
-                >
+                <SummaryPriceTotalBox>
                   {formatPrice(total)}
                 </SummaryPriceTotalBox>
 
@@ -716,7 +714,6 @@ const CartScreen = () => {
 
               <WrapMuaHangBox>
                 <MuaHangButton
-
                   onClick={() => checkOut(checkedState)}
                 >
                   Mua hàng

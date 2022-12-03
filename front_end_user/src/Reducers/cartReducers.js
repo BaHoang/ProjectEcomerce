@@ -26,7 +26,6 @@ export const cartAddReducer = (state = { carts: [] }, action) => {
             }
             return { ...state, carts }
 
-
         case CART_DELETE_PRODUCT_SUCCESS:
             const index = action.payload
             var tempCart = []

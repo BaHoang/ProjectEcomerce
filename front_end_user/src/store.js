@@ -6,9 +6,11 @@ import {
 
 import thunk from 'redux-thunk'
 import { cartAddReducer } from "./Reducers/cartReducers"
-import { detailProductReducer, listProductReducer,  } from "./Reducers/productReducers"
-import { currentDeliveryAddressReducer, deliveryAddressAddReducer, deliveryAddressUpdateReducer, listDeliveryAddressReducer  } from "./Reducers/deliveryAddressReducers"
+import { detailProductReducer, listProductReducer, } from "./Reducers/productReducers"
+import { currentDeliveryAddressReducer, deliveryAddressAddReducer, deliveryAddressUpdateReducer, listDeliveryAddressReducer } from "./Reducers/deliveryAddressReducers"
 import { userInforReducer } from "./Reducers/userReducers"
+import { paymentInforReducer } from "./Reducers/paymentInforReducers"
+import { createOrderReducer } from "./Reducers/orderReducers"
 
 const reducer = combineReducers({
     user: userInforReducer,
@@ -22,6 +24,10 @@ const reducer = combineReducers({
     currentDeliveryAddress: currentDeliveryAddressReducer,
     deliveryAddressAdd: deliveryAddressAddReducer,
     deliveryAddressUpdate: deliveryAddressUpdateReducer,
+
+    paymentInfor: paymentInforReducer,
+
+    createOrder: createOrderReducer,
 
 })
 

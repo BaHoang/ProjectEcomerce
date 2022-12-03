@@ -12,7 +12,8 @@ const WrapBox = styled(Box)(({ theme }) => ({
     padding: '12px',
     marginBottom: '16px',
     backgroundColor: 'white',
-    borderRadius: '8px'
+    borderRadius: '8px',
+    boxShadow: '0px 1px 1px 0px rgba(0, 0, 0, 0.1)'
 }))
 
 const TitleBox = styled(Box)(({ theme }) => ({
@@ -20,13 +21,78 @@ const TitleBox = styled(Box)(({ theme }) => ({
     marginBottom: '8px'
 }))
 
+const WrapDeliveryAddressBox = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    fontSize: '16px',
+
+    [theme.breakpoints.down('sm')]: {
+        flexWrap: 'wrap',
+    },
+
+    [theme.breakpoints.between('sm', 'md')]: {
+        flexWrap: 'wrap',
+    },
+
+    [theme.breakpoints.up('md')]: {
+        flexWrap: 'nowrap',
+    },
+}))
+
+const NameAndPhoneBox = styled(Box)(({ theme }) => ({
+
+    fontWeight: 700,
+    display: 'flex',
+    alignItems: 'center',
+
+    [theme.breakpoints.down('sm')]: {
+        width: '100%',
+        marginBottom: '8px',
+    },
+
+    [theme.breakpoints.between('sm', 'md')]: {
+        width: '100%',
+        marginBottom: '8px',
+    },
+
+}))
+
+const DetailAddressBox = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    [theme.breakpoints.down('sm')]: {
+        width: '100%',
+        marginBottom: '8px',
+    },
+
+    [theme.breakpoints.between('sm', 'md')]: {
+        width: '100%',
+        marginBottom: '8px',
+    },
+
+    [theme.breakpoints.up('md')]: {
+        marginLeft: '20px',
+    },
+}))
+
 const DefaultTextBox = styled(Box)(({ theme }) => ({
-    border: '1px solid red',
     color: 'red',
     fontSize: '10px',
+    border: '1px solid red',
     padding: '2px 5px',
     lineHeight: 1.2,
-    marginLeft: '16px',
+    height: '12px',
+    display: "flex",
+    alignItems: 'center',
+
+    [theme.breakpoints.up('md')]: {
+        marginLeft: '16px',
+    },
+}))
+
+const CustomButton = styled(Button)(({ theme }) => ({
+    textTransform: 'capitalize',
+    marginLeft: '32px',
 }))
 
 const Address = () => {
@@ -107,18 +173,18 @@ const Address = () => {
                         </Box>
                     ) : (
                         (address && Object.keys(address).length !== 0) && (
-                            <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '16px' }}>
+                            <WrapDeliveryAddressBox>
 
-                                <Box sx={{ fontWeight: 700 }}>
+                                <NameAndPhoneBox>
                                     {address.name}&nbsp; &nbsp;{address.phone}
-                                </Box>
+                                </NameAndPhoneBox>
 
-                                <Box sx={{ marginLeft: '20px' }}>
+                                <DetailAddressBox >
                                     {address.address.details}, &nbsp;
                                     {address.address.wards}, &nbsp;
                                     {address.address.district}, &nbsp;
                                     {address.address.province}
-                                </Box>
+                                </DetailAddressBox>
 
                                 {
                                     (isDefault && (
@@ -129,18 +195,12 @@ const Address = () => {
                                 }
 
                                 <Box>
-                                    <Button
-                                        sx={{
-                                            textTransform: 'capitalize',
-                                            marginLeft: '32px'
-                                        }}
-                                        onClick={handleChangeDeliveryAddress}
-                                    >
+                                    <CustomButton onClick={handleChangeDeliveryAddress}>
                                         Thay Đổi
-                                    </Button>
+                                    </CustomButton>
                                 </Box>
 
-                            </Box>
+                            </WrapDeliveryAddressBox>
                         )
                     )
                 )

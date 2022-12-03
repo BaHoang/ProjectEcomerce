@@ -165,7 +165,7 @@ const Header = (props) => {
               alignItems: 'center',
               justifyContent: 'space-between',
               height: '100%',
-             
+
             }}
           >
             <CustomLink to={`/`}>
@@ -220,7 +220,7 @@ const Header = (props) => {
                 <Box
                   className="CartHover"
                   sx={{
-                    width: {xs: '300px', sm: '400px'},
+                    width: { xs: '300px', sm: '400px' },
                     padding: '10px 10px 10px 10px',
                     position: 'absolute',
                     right: '0',
@@ -256,6 +256,7 @@ const Header = (props) => {
                               if (index < 5) {
                                 return (
                                   <Box
+                                    key={index}
                                     sx={{
                                       display: 'flex',
                                       alignItems: 'center',
@@ -470,7 +471,6 @@ const Header = (props) => {
               }
 
             </WrapIconBox>
-
           </Box>
         </CustomContainer>
 

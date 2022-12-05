@@ -101,7 +101,7 @@ const QtyItemBox = styled(Box)(({ theme }) => ({
     [theme.breakpoints.between('sm', 'md')]: {
         width: '20%',
         justifyContent: 'center'
-    }, 
+    },
 
     [theme.breakpoints.up('md')]: {
         width: '10%',
@@ -164,14 +164,14 @@ const ListProduct = () => {
                                         >
                                             <ImageItemBox
                                                 sx={{
-                                                    backgroundImage: `url(${carts[index].image ? carts[index].image :
+                                                    backgroundImage: `url(${(carts[index] && carts[index].image) ? carts[index].image :
                                                         'https://cdn.24h.com.vn/upload/3-2022/images/2022-09-05/MU-chinh-thuc-cong-bo-doi-hinh-da-cup-chau-au-3-SAO-bi-loai-Ronaldo-gop-mat-3-1662395551-785-width740height493.jpg'})`,
                                                 }}
                                             >
                                             </ImageItemBox>
 
                                             <NameItemBox>
-                                                {carts[index].name}
+                                                {(carts[index] && carts[index].name) ? carts[index].name : ''}
                                             </NameItemBox>
                                         </Box>
 
@@ -182,7 +182,8 @@ const ListProduct = () => {
                                     </PriceItemBox>
 
                                     <QtyItemBox>
-                                        {carts[index].numProductSelected}
+                                        {(carts[index] && carts[index].numProductSelected) ? carts[index].numProductSelected : ''}
+
                                     </QtyItemBox>
 
                                     <TotalPriceItemBox>

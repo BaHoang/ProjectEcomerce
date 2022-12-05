@@ -3,6 +3,8 @@ import {
     CREATE_ORDER_REQUEST,
     CREATE_ORDER_SUCCESS,
     CREATE_ORDER_FAIL,
+    
+    ORDER_CREATE_RESET,
 } from '../Constants/orderConstant'
 
 export const orderProductAction = (userInfor, listProductPlaceOrder, address, transportMethod, note, paymentMethod, shippingPrice) => async (dispatch, getState) => {
@@ -42,4 +44,10 @@ export const orderProductAction = (userInfor, listProductPlaceOrder, address, tr
             payload: error.response.status ? error.response.status : 400,
         })
     }
+}
+
+export const resetOrderProductAction = () => async (dispatch, getState) => {
+    dispatch({
+        type: ORDER_CREATE_RESET,
+    })
 }

@@ -2,7 +2,8 @@ import { Box, Button, styled, Table, TableBody, TableCell, TableRow } from '@mui
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { orderProductAction } from '../Actions/orderAction'
+import { deleteManyItemCartAction } from '../Actions/cartAction'
+import { orderProductAction, resetOrderProductAction } from '../Actions/orderAction'
 import Loading from '../Component/Common/Loading'
 import NamePageBody from '../Component/Layout/NamePageBody'
 import Address from '../Component/Payment/DeliveryAddress/Address'
@@ -165,7 +166,6 @@ const PaymentScreen = () => {
         )
 
         setTotalPrice(total)
-
     }, [carts, listProduct])
 
     // cap nhat khi xoa san pham trong gio hang
@@ -179,6 +179,8 @@ const PaymentScreen = () => {
     // dan cho de sua navigate
     useEffect(() => {
         if (success) {
+            dispatch(deleteManyItemCartAction(listProduct))
+            dispatch(resetOrderProductAction())
             navigate('/order')
         }
 
@@ -246,8 +248,6 @@ const PaymentScreen = () => {
                         Đặt hàng
                     </PlaceOrderButton>
                 </WrapPlaceOrderBox>
-
-
             </WrapBox>
 
         </Box >

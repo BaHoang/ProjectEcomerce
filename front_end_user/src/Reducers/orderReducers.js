@@ -2,7 +2,7 @@ import {
     CREATE_ORDER_REQUEST,
     CREATE_ORDER_SUCCESS,
     CREATE_ORDER_FAIL,
-    //RESET_ORDER,
+    ORDER_CREATE_RESET,
 } from '../Constants/orderConstant'
 
 export const createOrderReducer = (state = { order: {} }, action) => {
@@ -17,8 +17,8 @@ export const createOrderReducer = (state = { order: {} }, action) => {
         case CREATE_ORDER_FAIL:
             return { loading: false, error: action.payload }
 
-        // case RESET_ORDER:
-        //     return { ...state, success: false }
+        case ORDER_CREATE_RESET:
+            return {}
 
         default:
             return state

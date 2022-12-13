@@ -117,7 +117,7 @@ const ReviewProduct = (props) => {
             rate.map((item, index) => {
 
               return (
-                <Box sx={{ display: 'flex', justifyContent: 'center ', alignItems: 'center' }}>
+                <Box key={index} sx={{ display: 'flex', justifyContent: 'center ', alignItems: 'center' }}>
                   <Box
                     sx={{
                       lineHeight: 1,
@@ -146,7 +146,7 @@ const ReviewProduct = (props) => {
 
           {
             reviews.map((review, index) => (
-              <ListItem sx={{ width: '100%', padding: '0px', paddingTop: '24px' }}>
+              <ListItem key={index} sx={{ width: '100%', padding: '0px', paddingTop: '24px' }}>
 
                 <Box sx={{ display: 'flex', width: '100%', alignItems: 'flex-start' }}>
 

@@ -44,7 +44,7 @@ const CustomBox = styled(Box)(({ theme }) => ({
 const OrderInfor = (props) => {
 
   var { orderInfor, loading, onCloseModalDetailOrder, handleChangeStatusOrder } = props
- 
+
   const user = useSelector(state => state.user)
   const { userInfor } = user
   
@@ -67,7 +67,7 @@ const OrderInfor = (props) => {
     if (status < 5) {
       // dispatch la bat dong bo
       dispatch(orderUpdateStatusAction(userInfor, id, status))
-      handleChangeStatusOrder(status+1)
+      handleChangeStatusOrder(status + 1)
     }
     setAnchorEl(null)
     onCloseModalDetailOrder()
@@ -144,7 +144,6 @@ const OrderInfor = (props) => {
                     </TableRow>
 
                   </TableBody>
-
                 </Table>
               </Box>
 
@@ -198,8 +197,8 @@ const OrderInfor = (props) => {
                       variant='contained'
                       aria-describedby={id}
                       onClick={handlePopConfirm}
-                   
-                      sx={{ margin: '20px auto 12px', display: 'block', width: { xs: '100%', sm: '70%', md: '50%', lg: '30%' }, fontSize: { xs: '10px', md: '14px' }, marginTop: '16px'  }}
+
+                      sx={{ margin: '20px auto 12px', display: 'block', width: { xs: '100%', sm: '70%', md: '50%', lg: '30%' }, fontSize: { xs: '10px', md: '14px' }, marginTop: '16px' }}
                     >
                       {getNameButtonUpdate(orderInfor.orderStatus)}
                     </Button>
@@ -248,7 +247,7 @@ const OrderInfor = (props) => {
                         </Typography>
                         <Box sx={{ display: 'flex', justifyContent: 'space-around', marginTop: '10px', paddingBottom: '10px' }}>
                           <Button variant="contained" sx={{ fontSize: '10px' }} onClick={handleClosePopConfirm}>Cancel</Button>
-                          <Button variant="contained" sx={{ fontSize: '10px' }} onClick={() => handleChangeStatus(orderInfor.orderStatus, orderInfor._id )}>Yes</Button>
+                          <Button variant="contained" sx={{ fontSize: '10px' }} onClick={() => handleChangeStatus(orderInfor.orderStatus, orderInfor._id)}>Yes</Button>
                         </Box>
                       </Box>
 

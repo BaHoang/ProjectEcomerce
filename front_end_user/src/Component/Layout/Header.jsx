@@ -400,7 +400,7 @@ const Header = (props) => {
                     >
                       <List>
 
-                        <CustomProfileLink to={`/user/profile`}>
+                        <CustomProfileLink to={`/user/account`}>
                           <ListItem sx={{ width: '100%', padding: '0px' }}>
                             <ListItemButton >
 

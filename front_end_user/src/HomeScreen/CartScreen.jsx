@@ -500,7 +500,6 @@ const CartScreen = () => {
   }
 
   const checkOut = (checkedState) => {
-
     const count = checkedState.reduce((accumulator, currentState) => {
       if (currentState === true) {
         return accumulator + 1
@@ -515,7 +514,6 @@ const CartScreen = () => {
       dispatch(listProductAction(checkedState))
       navigate('/payment')
     }
-
   }
 
   const handleCloseModal = () => setOpenModal(false)

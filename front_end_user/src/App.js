@@ -10,6 +10,10 @@ import { UserLoginScreen } from './HomeScreen/UserLoginScreen'
 import PrivateRoutes from './Component/Login/PrivateRoutes'
 import CartScreen from './HomeScreen/CartScreen'
 import PaymentScreen from './HomeScreen/PaymentScreen'
+import TemplateInforAccount from './Component/InforAccount/TemplateInforAccount'
+import PurchaseScreen from './HomeScreen/PurchaseScreen'
+import AccountScreen from './HomeScreen/AccountScreen'
+import DeliveryAddressScreen from './HomeScreen/DeliveryAddressScreen'
 
 
 const CustomContainer = styled(Container)(({ theme }) => ({
@@ -42,7 +46,6 @@ function App() {
       <Box component="main" sx={{ backgroundColor: '#f1f1f1', marginTop: { xs: '90px', sm: '100px' }, }}>
 
         <CustomContainer fixed >
-
           <Routes>
             <Route path="/" element={<HomeScreen searchProduct={searchProduct} />} />
             <Route path="/product/:id" element={<ProductDetailScreen />} />
@@ -51,10 +54,14 @@ function App() {
             <Route element={<PrivateRoutes />}>
               <Route path="/cart" element={<CartScreen />} />
               <Route path="/payment" element={<PaymentScreen />} />
+              <Route path='/user' element={<TemplateInforAccount />}>
+                <Route path="purchase" element={<PurchaseScreen />} />
+                <Route path="account" element={<AccountScreen />} />
+                <Route path="deliveryAddress" element={<DeliveryAddressScreen />} />
+              </Route>
             </Route>
 
             <Route path="/*" element={<NotFound />} />
-
           </Routes>
         </CustomContainer>
 

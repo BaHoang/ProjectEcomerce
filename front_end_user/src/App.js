@@ -14,7 +14,7 @@ import TemplateInforAccount from './Component/InforAccount/TemplateInforAccount'
 import PurchaseScreen from './HomeScreen/PurchaseScreen'
 import AccountScreen from './HomeScreen/AccountScreen'
 import DeliveryAddressScreen from './HomeScreen/DeliveryAddressScreen'
-
+import DetailOrderScreen from './HomeScreen/DetailOrderScreen'
 
 const CustomContainer = styled(Container)(({ theme }) => ({
 
@@ -58,6 +58,7 @@ function App() {
                 <Route path="purchase" element={<PurchaseScreen />} />
                 <Route path="account" element={<AccountScreen />} />
                 <Route path="deliveryAddress" element={<DeliveryAddressScreen />} />
+                <Route path="purchase/order/:id" element={<DetailOrderScreen />} />
               </Route>
             </Route>
 

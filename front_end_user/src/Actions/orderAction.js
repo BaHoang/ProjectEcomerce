@@ -9,6 +9,10 @@ import {
     LIST_MY_ORDER_REQUEST,
     LIST_MY_ORDER_SUCCESS,
     LIST_MY_ORDER_FAIL,
+
+    ORDER_DETAIL_REQUEST,
+    ORDER_DETAIL_SUCCESS,
+    ORDER_DETAIL_FAIL,
 } from '../Constants/orderConstant'
 
 export const orderProductAction = (userInfor, listProductPlaceOrder, address, transportMethod, note, paymentMethod, shippingPrice) => async (dispatch, getState) => {
@@ -81,6 +85,32 @@ export const listMyOrders = (userInfor, page, pageSize, searchOrder, statusOrder
         dispatch({
             type: LIST_MY_ORDER_FAIL,
             payload: (error.response && error.response.status) ? error.response.status : 'Error',
+        })
+    }
+}
+
+export const orderDetailAction = (userInfor, id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: ORDER_DETAIL_REQUEST
+        })
+
+        const config = {
+            headers: {
+                'Authorization': `Bear ${userInfor.token}`,
+            }
+        }
+
+        const { data } = await axios.get(`http://localhost:5000/api/orders/${id}`, config)
+
+        dispatch({
+            type: ORDER_DETAIL_SUCCESS,
+            payload: data,
+        })
+    } catch (error) {
+        dispatch({
+            type: ORDER_DETAIL_FAIL,
+            payload: (error.response && error.response.status) ? error.response.status : 400,
         })
     }
 }

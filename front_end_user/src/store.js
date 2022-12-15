@@ -10,7 +10,7 @@ import { detailProductReducer, listProductReducer, } from "./Reducers/productRed
 import { currentDeliveryAddressReducer, deliveryAddressAddReducer, deliveryAddressUpdateReducer, listDeliveryAddressReducer } from "./Reducers/deliveryAddressReducers"
 import { userInforReducer } from "./Reducers/userReducers"
 import { paymentInforReducer } from "./Reducers/paymentInforReducers"
-import { createOrderReducer, listMyOrderReducer, orderDetailReducer } from "./Reducers/orderReducers"
+import { confirmReceivedOrderReducer, createOrderReducer, destroyOrderReducer, listMyOrderReducer, orderDetailReducer } from "./Reducers/orderReducers"
 
 const reducer = combineReducers({
     user: userInforReducer,
@@ -30,7 +30,8 @@ const reducer = combineReducers({
     createOrder: createOrderReducer,
     listMyOrder: listMyOrderReducer,
     orderDetail: orderDetailReducer,
-
+    destroyOrder: destroyOrderReducer,
+    confirmReceivedOrder: confirmReceivedOrderReducer,
 })
 
 const userInfor = localStorage.getItem('userInfor') ? JSON.parse(localStorage.getItem('userInfor')) : {}

@@ -8,6 +8,7 @@ import FetchListMyOrderError from '../Component/InforAccount/Purchase/FetchListM
 import ItemOrder from '../Component/InforAccount/Purchase/ItemOrder'
 import TabStatus from '../Component/InforAccount/Purchase/TabStatus'
 import { useSearchParams } from 'react-router-dom'
+import { ORDER_CONFIRM_RECEIVED_RESET, ORDER_DESTROY_RESET } from '../Constants/orderConstant'
 
 const PurchaseScreen = () => {
 
@@ -52,7 +53,14 @@ const PurchaseScreen = () => {
     setStatusOrder(parseInt(statusOrder))
 
     listsOrderFunction(page, page.pageSize, searchOrder, statusOrder)
-  
+    dispatch({
+      type: ORDER_DESTROY_RESET,
+    })
+
+    dispatch({
+      type: ORDER_CONFIRM_RECEIVED_RESET,
+    })
+    
   }, [searchParams])
 
   return (
@@ -71,7 +79,7 @@ const PurchaseScreen = () => {
               <>
                 {
                   listOrder.map((order, index) => (
-                    <ItemOrder key={index} order={order} />
+                    <ItemOrder key={index} order={order} handleChangeStatusOrder={handleChangeStatusOrder} />
                   ))
                 }
 

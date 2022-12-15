@@ -1,8 +1,13 @@
 import { Box, Button, styled } from '@mui/material'
+import LoadingButton from '@mui/lab/LoadingButton'
 import React from 'react'
 import { getNameStatus } from '../../../Utils/GetNameStatus'
 import { formatPrice } from '../../../Utils/FormatPrice'
 import { NavLink, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { confirmReceivedOrderAction, destroyOrderAction } from '../../../Actions/orderAction'
+import { useEffect } from 'react'
+import { useState } from 'react'
 
 const ImageAndNameItemBox = styled(Box)(({ theme }) => ({
     boxSizing: 'border-box',
@@ -91,7 +96,28 @@ const CustomLink = styled(NavLink)({
 const ItemOrder = (props) => {
 
     const navigate = useNavigate()
-    const { order } = props
+    const dispatch = useDispatch()
+
+    const { order, handleChangeStatusOrder } = props
+
+    const user = useSelector(state => state.user)
+    const { userInfor } = user
+
+    const destroyOrder = useSelector(state => state.destroyOrder)
+    const {
+        loading: loadingDestroy,
+        error: errorDestroy,
+        idOrder: idOrderDestroy,
+        success: successDestroy,
+    } = destroyOrder
+
+    const confirmReceivedOrder = useSelector(state => state.confirmReceivedOrder)
+    const {
+        loading: loadingConfirmReceived,
+        error: errorConfirmReceived,
+        idOrder: idOrderConfirmReceived,
+        success: successConfirmReceived,
+    } = confirmReceivedOrder
 
     var orderStatus = ''
     var numOfProd = 0
@@ -114,6 +140,26 @@ const ItemOrder = (props) => {
     const handleRePurchase = () => {
         navigate(`/product/${idProduct}`)
     }
+
+    const handleDestroyOrder = () => {
+        dispatch(destroyOrderAction(userInfor, order._id))
+    }
+
+    const handleConfirmReceived = () => {
+        dispatch(confirmReceivedOrderAction(userInfor, order._id))
+    }
+
+    useEffect(() => {
+        if (successDestroy) {
+            handleChangeStatusOrder(6)
+        }
+    }, [successDestroy])
+
+    useEffect(() => {
+        if (successConfirmReceived) {
+            handleChangeStatusOrder(5)
+        }
+    }, [successConfirmReceived])
 
     return (
         <Box
@@ -219,28 +265,67 @@ const ItemOrder = (props) => {
             >
                 {
                     (orderStatus < 3) && (
-                        <Button
-                            variant='contained'
-                            sx={{
-                                textTransform: 'capitalize'
-                            }}
-                        >
-                            Hủy đơn hàng
-                        </Button>
+                        <Box>
+                            <LoadingButton
+                                variant="contained"
+                                onClick={handleDestroyOrder}
+                                loading={(loadingDestroy && idOrderDestroy) && (idOrderDestroy == id)}
+
+                                sx={{
+                                    textTransform: 'capitalize'
+                                }}
+                            >
+                                Hủy đơn hàng
+                            </LoadingButton>
+
+                            {
+                                ((errorDestroy && idOrderDestroy) && (idOrderDestroy == id)) && (
+                                    <Box
+                                        sx={{
+                                            color: 'red',
+                                            fontSize: '12px',
+                                            width: '126px',
+                                            marginTop: '8px'
+                                        }}
+                                    >
+                                        Lỗi không thể hủy đơn hàng. Bạn hãy thử lại.
+                                    </Box>
+                                )
+                            }
+                        </Box>
                     )
                 }
 
-
                 {
                     (orderStatus === 4) && (
-                        <Button
-                            variant='contained'
-                            sx={{
-                                textTransform: 'capitalize'
-                            }}
-                        >
-                            Đã nhân hàng
-                        </Button>
+                        <Box>
+                            <LoadingButton
+                                variant="contained"
+                                onClick={handleConfirmReceived}
+                                loading={(loadingConfirmReceived && idOrderConfirmReceived) && (idOrderConfirmReceived == id)}
+
+                                sx={{
+                                    textTransform: 'capitalize'
+                                }}
+                            >
+                                Đã nhân hàng
+                            </LoadingButton>
+
+                            {
+                                ((errorConfirmReceived && idOrderConfirmReceived) && (idOrderConfirmReceived == id)) && (
+                                    <Box
+                                        sx={{
+                                            color: 'red',
+                                            fontSize: '12px',
+                                            width: '126px',
+                                            marginTop: '8px'
+                                        }}
+                                    >
+                                        Lỗi. Bạn hãy thử lại.
+                                    </Box>
+                                )
+                            }
+                        </Box>
                     )
                 }
 

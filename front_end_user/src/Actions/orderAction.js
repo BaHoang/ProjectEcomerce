@@ -13,6 +13,15 @@ import {
     ORDER_DETAIL_REQUEST,
     ORDER_DETAIL_SUCCESS,
     ORDER_DETAIL_FAIL,
+
+    ORDER_DESTROY_REQUEST,
+    ORDER_DESTROY_SUCCESS,
+    ORDER_DESTROY_FAIL,
+
+
+    ORDER_CONFIRM_RECEIVED_REQUEST,
+    ORDER_CONFIRM_RECEIVED_SUCCESS,
+    ORDER_CONFIRM_RECEIVED_FAIL,
 } from '../Constants/orderConstant'
 
 export const orderProductAction = (userInfor, listProductPlaceOrder, address, transportMethod, note, paymentMethod, shippingPrice) => async (dispatch, getState) => {
@@ -111,6 +120,66 @@ export const orderDetailAction = (userInfor, id) => async (dispatch) => {
         dispatch({
             type: ORDER_DETAIL_FAIL,
             payload: (error.response && error.response.status) ? error.response.status : 400,
+        })
+    }
+}
+
+export const destroyOrderAction = (userInfor, id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: ORDER_DESTROY_REQUEST,
+            payload: id,
+        })
+
+        const config = {
+            headers: {
+                'content-type': 'application/json',
+                'Authorization': `Bear ${userInfor.token}`,
+            }
+        }
+
+        const article = { title: 'Axios PUT Request Example' }
+
+        const { data } = await axios.put(`http://localhost:5000/api/orders/${id}/destroy`, article, config)
+
+        dispatch({
+            type: ORDER_DESTROY_SUCCESS,
+            payload: data,
+        })
+    } catch (error) {
+        dispatch({
+            type: ORDER_DESTROY_FAIL,
+            payload: { error: (error.response && error.response.status) ? error.response.status : 400, idOrder: id},
+        })
+    }
+}
+
+export const confirmReceivedOrderAction = (userInfor, id) => async (dispatch) => {
+    try {
+        dispatch({
+            type: ORDER_CONFIRM_RECEIVED_REQUEST,
+            payload: id,
+        })
+
+        const config = {
+            headers: {
+                'content-type': 'application/json',
+                'Authorization': `Bear ${userInfor.token}`,
+            }
+        }
+
+        const article = { title: 'Axios PUT confirm received order' }
+
+        const { data } = await axios.put(`http://localhost:5000/api/orders/${id}/confirmReceived`, article, config)
+
+        dispatch({
+            type: ORDER_CONFIRM_RECEIVED_SUCCESS,
+            payload: data,
+        })
+    } catch (error) {
+        dispatch({
+            type: ORDER_CONFIRM_RECEIVED_FAIL,
+            payload: { error: (error.response && error.response.status) ? error.response.status : 400, idOrder: id},
         })
     }
 }

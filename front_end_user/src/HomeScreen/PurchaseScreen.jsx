@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { listMyOrders } from '../Actions/orderAction'
 import Loading from '../Component/Common/Loading'
-import EmptyOrder from '../Component/InforAccount/Purchase/EmptyOrder'
-import FetchListMyOrderError from '../Component/InforAccount/Purchase/FetchListMyOrderError'
-import ItemOrder from '../Component/InforAccount/Purchase/ItemOrder'
-import TabStatus from '../Component/InforAccount/Purchase/TabStatus'
+import EmptyOrder from '../Component/InforAccount/Purchase/ListOrder/EmptyOrder'
+import FetchListMyOrderError from '../Component/InforAccount/Purchase/ListOrder/FetchListMyOrderError'
+import ItemOrder from '../Component/InforAccount/Purchase/ListOrder/ItemOrder'
+import TabStatus from '../Component/InforAccount/Purchase/ListOrder/TabStatus'
 import { useSearchParams } from 'react-router-dom'
 import { ORDER_CONFIRM_RECEIVED_RESET, ORDER_DESTROY_RESET } from '../Constants/orderConstant'
 
@@ -53,6 +53,7 @@ const PurchaseScreen = () => {
     setStatusOrder(parseInt(statusOrder))
 
     listsOrderFunction(page, page.pageSize, searchOrder, statusOrder)
+
     dispatch({
       type: ORDER_DESTROY_RESET,
     })
@@ -60,7 +61,7 @@ const PurchaseScreen = () => {
     dispatch({
       type: ORDER_CONFIRM_RECEIVED_RESET,
     })
-    
+
   }, [searchParams])
 
   return (

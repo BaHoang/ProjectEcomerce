@@ -2,11 +2,11 @@ import { Box, styled, Table, TableBody, TableCell, TableHead, TableRow, Typograp
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { formatDate } from '../../../Utils/FormatDate'
-import { getNameTransportMethod } from '../../../Utils/GetNameTransportMethod'
-import { getNamePaymentMethod } from '../../../Utils/GetNamePaymentMethod'
-import { getNameStatus } from '../../../Utils/GetNameStatus'
-import { formatPrice } from '../../../Utils/FormatPrice'
+import { formatDate } from '../../../../Utils/FormatDate'
+import { getNameTransportMethod } from '../../../../Utils/GetNameTransportMethod'
+import { getNamePaymentMethod } from '../../../../Utils/GetNamePaymentMethod'
+import { getNameStatus } from '../../../../Utils/GetNameStatus'
+import { formatPrice } from '../../../../Utils/FormatPrice'
 
 const HeaderBox = styled(Box)(({ theme }) => ({
     borderBottom: '1px dotted rgba(0,0,0,0.09)',

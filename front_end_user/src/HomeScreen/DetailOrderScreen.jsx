@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { orderDetailAction } from '../Actions/orderAction'
 import Loading from '../Component/Common/Loading'
-import FetchDetailOrderError from '../Component/InforAccount/Purchase/FetchDetailOrderError'
-import OrderDetail from '../Component/InforAccount/Purchase/OrderDetail'
+import FetchDetailOrderError from '../Component/InforAccount/Purchase/DetailOrder/FetchDetailOrderError'
+import OrderDetail from '../Component/InforAccount/Purchase/DetailOrder/OrderDetail'
 
 const DetailOrderScreen = () => {
 

@@ -12,7 +12,6 @@ const FetchDetailProductError = (props) => {
 
     return (
         <Box>
-
             <Snackbar
                 open={true}
                 sx={{

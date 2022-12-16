@@ -181,7 +181,7 @@ const PaymentScreen = () => {
         if (success) {
             dispatch(deleteManyItemCartAction(listProduct))
             dispatch(resetOrderProductAction())
-            navigate('/order')
+            navigate('/user/purchase?statusOrder=0')
         }
 
     }, [success])

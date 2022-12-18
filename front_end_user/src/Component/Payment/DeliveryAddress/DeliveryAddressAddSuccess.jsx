@@ -5,10 +5,6 @@ const DeliveryAddressAddSuccess = () => {
 
     const [openSnackbar, setOpenSnackbar] = useState(true)
 
-    const handleCloseSnackbar = () => {
-        setOpenSnackbar(false)
-    }
-
     return (
         <Box >
             <Snackbar
@@ -24,9 +20,8 @@ const DeliveryAddressAddSuccess = () => {
                     sx={{ width: '100%' }}
                     variant="filled"
                     severity="success"
-                    onClose={handleCloseSnackbar}
                 >
-                    Thêm một địa chỉ mới thành công.
+                    Thêm một địa chỉ mới thành công. Ấn nút trở lại để thoát.
                 </Alert>
             </Snackbar>
         </Box>

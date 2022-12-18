@@ -118,7 +118,7 @@ export const deliveryAddressUpdateAction = (userInfor,indexDeliveryAddressUpdate
             }
         }
 
-        const { data } = await axios.put(`http://localhost:5000/api/deliveryAddress/${indexDeliveryAddressUpdate+1}`, newDeliveryAddress, config)
+        const { data } = await axios.put(`http://localhost:5000/api/deliveryAddress/${indexDeliveryAddressUpdate + 1}`, newDeliveryAddress, config)
 
         dispatch({
             type: DELIVERY_ADDRESS_UPDATE_SUCCESS,

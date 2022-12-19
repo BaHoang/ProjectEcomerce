@@ -7,7 +7,7 @@ import {
 import thunk from 'redux-thunk'
 import { cartAddReducer } from "./Reducers/cartReducers"
 import { detailProductReducer, listProductReducer, reviewProductReducer, } from "./Reducers/productReducers"
-import { currentDeliveryAddressReducer, deliveryAddressAddReducer, deliveryAddressDeleteReducer, deliveryAddressUpdateReducer, listDeliveryAddressReducer } from "./Reducers/deliveryAddressReducers"
+import { currentDeliveryAddressReducer, deliveryAddressAddReducer, deliveryAddressDeleteReducer, deliveryAddressUpdateReducer, listDeliveryAddressReducer, deliveryAddressSetDefaultReducer } from "./Reducers/deliveryAddressReducers"
 import { userInforReducer } from "./Reducers/userReducers"
 import { paymentInforReducer } from "./Reducers/paymentInforReducers"
 import { confirmReceivedOrderReducer, createOrderReducer, destroyOrderReducer, listMyOrderReducer, orderDetailReducer } from "./Reducers/orderReducers"
@@ -26,6 +26,7 @@ const reducer = combineReducers({
     deliveryAddressAdd: deliveryAddressAddReducer,
     deliveryAddressUpdate: deliveryAddressUpdateReducer,
     deliveryAddressDelete: deliveryAddressDeleteReducer,
+    deliveryAddressSetDefault: deliveryAddressSetDefaultReducer,
 
     paymentInfor: paymentInforReducer,
 

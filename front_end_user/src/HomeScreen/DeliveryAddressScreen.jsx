@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { listDeliveryAddressAction } from '../Actions/deliveryAddressAction'
 import Loading from '../Component/Common/Loading'
 import DeliveryAddressInInforAccountAddModal from '../Component/DeliveryAddressScreen/DeliveryAddressInInforAccountAddModal'
+import DeliveryAddressInInforAccountUpdateModal from '../Component/DeliveryAddressScreen/DeliveryAddressInInforAccountUpdateModal'
 
 const WrapAllListDeliveryAddressBox = styled(Box)(({ theme }) => ({
   backgroundColor: "white",
@@ -82,6 +83,9 @@ const DeliveryAddressScreen = () => {
   const { listAddress, loading, error } = listDeliveryAddress
 
   const [openDeliveryAddressAddModal, setOpenDeliveryAddressAddModal] = useState(false)
+  const [openDeliveryAddressUpdateModal, setOpenDeliveryAddressUpdateModal] = useState(false)
+  const [deliveryAddressBeforeUpdate, setDeliveryAddressBeforeUpdate] = useState({})
+  const [indexDeliveryAddressUpdate, setIndexDeliveryAddressUpdate] = useState()
 
   const addNewDeliveryAddress = () => {
     handleOpenDeliveryAddressAddModal()
@@ -90,6 +94,22 @@ const DeliveryAddressScreen = () => {
   const handleOpenDeliveryAddressAddModal = () => setOpenDeliveryAddressAddModal(true)
 
   const handleCloseDeliveryAddressAddModal = () => setOpenDeliveryAddressAddModal(false)
+
+  const updateDeliveryAddress = (index) => {
+    handleOpenDeliveryAddressUpdateModal(index)
+  }
+
+  const handleOpenDeliveryAddressUpdateModal = (index) => {
+    setOpenDeliveryAddressUpdateModal(true)
+    if (typeof index !== "undefined") {
+      if (listAddress && listAddress.length > index) {
+        setDeliveryAddressBeforeUpdate(listAddress[index])
+        setIndexDeliveryAddressUpdate(index)
+      }
+    }
+  }
+
+  const handleCloseDeliveryAddressUpdateModal = () => setOpenDeliveryAddressUpdateModal(false)
 
   useEffect(() => {
     if (userInfor && Object.keys(userInfor).length !== 0) {
@@ -129,7 +149,7 @@ const DeliveryAddressScreen = () => {
 
         ) : (
 
-          (listAddress.length > 0) ? (
+          (listAddress && listAddress.length > 0) ? (
             listAddress.map((address, index) => (
               <WrapDeliveryItemBox key={index}>
                 <WrapNamePhoneBox>
@@ -157,7 +177,7 @@ const DeliveryAddressScreen = () => {
 
                   <Box>
                     <CustomButton
-                    // onClick={() => updateDeliveryAddress(index)}
+                      onClick={() => updateDeliveryAddress(index)}
                     >
                       Cập nhật
                     </CustomButton>
@@ -217,6 +237,14 @@ const DeliveryAddressScreen = () => {
         openDeliveryAddressAddModal={openDeliveryAddressAddModal}
         handleCloseDeliveryAddressAddModal={handleCloseDeliveryAddressAddModal}
       />
+
+      <DeliveryAddressInInforAccountUpdateModal
+        openDeliveryAddressUpdateModal={openDeliveryAddressUpdateModal}
+        handleCloseDeliveryAddressUpdateModal={handleCloseDeliveryAddressUpdateModal}
+        deliveryAddressBeforeUpdate={deliveryAddressBeforeUpdate}
+        indexDeliveryAddressUpdate={indexDeliveryAddressUpdate}
+      />
+
     </WrapAllListDeliveryAddressBox >
   )
 }

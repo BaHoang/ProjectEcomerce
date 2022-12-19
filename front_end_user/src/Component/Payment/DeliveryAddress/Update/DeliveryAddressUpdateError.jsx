@@ -11,10 +11,6 @@ const DeliveryAddressUpdateError = (props) => {
 
     const [openSnackbar, setOpenSnackbar] = useState(true)
 
-    const handleCloseSnackbar = () => {
-        setOpenSnackbar(false)
-    }
-
     return (
         <Box >
             <Snackbar
@@ -26,7 +22,7 @@ const DeliveryAddressUpdateError = (props) => {
                     paddingBottom: '20px'
                 }}
             >
-                <Alert sx={{width: '100%'}} variant="filled" severity="error" onClose={handleCloseSnackbar} >{message}</Alert>
+                <Alert sx={{width: '100%'}} variant="filled" severity="error" >{message}</Alert>
             </Snackbar>
         </Box>
     )

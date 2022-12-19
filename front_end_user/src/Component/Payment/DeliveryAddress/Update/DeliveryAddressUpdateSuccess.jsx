@@ -5,10 +5,6 @@ const DeliveryAddressUpdateSuccess = () => {
 
     const [openSnackbar, setOpenSnackbar] = useState(true)
 
-    const handleCloseSnackbar = () => {
-        setOpenSnackbar(false)
-    }
-
     return (
         <Box
             sx={{
@@ -23,7 +19,7 @@ const DeliveryAddressUpdateSuccess = () => {
                     zIndex: '1400'
                 }}
             >
-                <Alert sx={{width: '100%'}} variant="filled" severity="success" onClose={handleCloseSnackbar} >Cập nhật địa chỉ thành công.</Alert>
+                <Alert sx={{width: '100%'}} variant="filled" severity="success" >Cập nhật địa chỉ thành công. Ấn nút trở lại để thoát.</Alert>
             </Snackbar>
         </Box>
     )

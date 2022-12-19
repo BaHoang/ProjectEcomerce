@@ -1,5 +1,5 @@
 import { Box, Button, Modal, styled, TextField, Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ErrorMessage, Form, Formik } from 'formik'
 import * as Yup from 'yup'
@@ -8,7 +8,6 @@ import { deliveryAddressAddAction, listDeliveryAddressAction } from '../../Actio
 import DeliveryAddressAddError from '../Payment/DeliveryAddress/DeliveryAddressAddError'
 import DeliveryAddressAddSuccess from '../Payment/DeliveryAddress/DeliveryAddressAddSuccess'
 import Loading from '../Common/Loading'
-
 
 const style = {
     position: 'absolute',
@@ -92,10 +91,6 @@ const DeliveryAddressInInforAccountAddModal = (props) => {
             type: DELIVERY_ADDRESS_ADD_RESET,
         })
 
-        if (userInfor && Object.keys(userInfor).length !== 0) {
-            dispatch(listDeliveryAddressAction(userInfor))
-        }
-
         handleCloseDeliveryAddressAddModal()
     }
 
@@ -138,6 +133,14 @@ const DeliveryAddressInInforAccountAddModal = (props) => {
             .string('Nhập địa chỉ cụ thể của bạn')
             .required('Địa chỉ cụ thể của bạn là gì ?'),
     })
+
+    useEffect(() => {
+        if (successAdd) {
+            if (userInfor && Object.keys(userInfor).length !== 0) {
+                dispatch(listDeliveryAddressAction(userInfor))
+            }
+        }
+    }, [successAdd])
 
     return (
         <Modal
@@ -303,7 +306,7 @@ const DeliveryAddressInInforAccountAddModal = (props) => {
                                         <Button
                                             type="submit"
                                             variant='contained'
-                                            disabled={props.isSubmitting}
+                                            disabled={props.isSubmitting || successAdd} 
                                             sx={{
                                                 fontSize: { xs: '10px', md: '14px' },
                                                 textTransform: 'capitalize',

@@ -6,6 +6,8 @@ import { listDeliveryAddressAction } from '../Actions/deliveryAddressAction'
 import Loading from '../Component/Common/Loading'
 import DeliveryAddressInInforAccountAddModal from '../Component/DeliveryAddressScreen/DeliveryAddressInInforAccountAddModal'
 import DeliveryAddressInInforAccountUpdateModal from '../Component/DeliveryAddressScreen/DeliveryAddressInInforAccountUpdateModal'
+import DeliveryAddressInInforAccountConfirmDeleteModal from '../Component/DeliveryAddressScreen/DeliveryAddressInInforAccountConfirmDeleteModal'
+import { DELIVERY_ADDRESS_ADD_RESET, DELIVERY_ADDRESS_DELETE_RESET, DELIVERY_ADDRESS_UPDATE_RESET } from '../Constants/deliveryAddressConstant'
 
 const WrapAllListDeliveryAddressBox = styled(Box)(({ theme }) => ({
   backgroundColor: "white",
@@ -86,17 +88,25 @@ const DeliveryAddressScreen = () => {
   const [openDeliveryAddressUpdateModal, setOpenDeliveryAddressUpdateModal] = useState(false)
   const [deliveryAddressBeforeUpdate, setDeliveryAddressBeforeUpdate] = useState({})
   const [indexDeliveryAddressUpdate, setIndexDeliveryAddressUpdate] = useState()
+  const [indexDeliveryAddressDelete, setIndexDeliveryAddressDelete] = useState()
+
+  const [openDeliveryAddressConfirmDeleteModal, setOpenDeliveryAddressConfirmDeleteModal] = useState(false)
 
   const addNewDeliveryAddress = () => {
     handleOpenDeliveryAddressAddModal()
+    dispatch({
+      type: DELIVERY_ADDRESS_ADD_RESET,
+    })
   }
 
   const handleOpenDeliveryAddressAddModal = () => setOpenDeliveryAddressAddModal(true)
-
   const handleCloseDeliveryAddressAddModal = () => setOpenDeliveryAddressAddModal(false)
 
   const updateDeliveryAddress = (index) => {
     handleOpenDeliveryAddressUpdateModal(index)
+    dispatch({
+      type: DELIVERY_ADDRESS_UPDATE_RESET,
+    })
   }
 
   const handleOpenDeliveryAddressUpdateModal = (index) => {
@@ -110,6 +120,17 @@ const DeliveryAddressScreen = () => {
   }
 
   const handleCloseDeliveryAddressUpdateModal = () => setOpenDeliveryAddressUpdateModal(false)
+
+  const deleteDeliveryAddress = (index) => {
+    handleOpenDeliveryAddressConfirmDeleteModal()
+    setIndexDeliveryAddressDelete(index)
+    dispatch({
+      type: DELIVERY_ADDRESS_DELETE_RESET,
+    })
+  }
+
+  const handleOpenDeliveryAddressConfirmDeleteModal = () => setOpenDeliveryAddressConfirmDeleteModal(true)
+  const handleCloseDeliveryAddressConfirmDeleteModal = () => setOpenDeliveryAddressConfirmDeleteModal(false)
 
   useEffect(() => {
     if (userInfor && Object.keys(userInfor).length !== 0) {
@@ -183,7 +204,7 @@ const DeliveryAddressScreen = () => {
                     </CustomButton>
 
                     <CustomButton
-                    // onClick={() => updateDeliveryAddress(index)}
+                      onClick={() => deleteDeliveryAddress(index)}
                     >
                       Xóa
                     </CustomButton>
@@ -243,6 +264,12 @@ const DeliveryAddressScreen = () => {
         handleCloseDeliveryAddressUpdateModal={handleCloseDeliveryAddressUpdateModal}
         deliveryAddressBeforeUpdate={deliveryAddressBeforeUpdate}
         indexDeliveryAddressUpdate={indexDeliveryAddressUpdate}
+      />
+
+      <DeliveryAddressInInforAccountConfirmDeleteModal
+        openDeliveryAddressConfirmDeleteModal={openDeliveryAddressConfirmDeleteModal}
+        handleCloseDeliveryAddressConfirmDeleteModal={handleCloseDeliveryAddressConfirmDeleteModal}
+        indexDeliveryAddressDelete={indexDeliveryAddressDelete}
       />
 
     </WrapAllListDeliveryAddressBox >

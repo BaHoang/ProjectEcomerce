@@ -1,5 +1,5 @@
 import { Box, Button, Modal, styled, TextField, Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ErrorMessage, Form, Formik } from 'formik'
 import * as Yup from 'yup'
@@ -105,7 +105,7 @@ const DeliveryAddressInInforAccountUpdateModal = (props) => {
         village = deliveryAddressBeforeUpdate.address.wards ? deliveryAddressBeforeUpdate.address.wards : ''
         details = deliveryAddressBeforeUpdate.address.details ? deliveryAddressBeforeUpdate.address.details : ''
     }
-    
+
     const initialValues = {
         name,
         phone,
@@ -147,16 +147,20 @@ const DeliveryAddressInInforAccountUpdateModal = (props) => {
     })
 
     const handleGoBack = () => {
-
         dispatch({
             type: DELIVERY_ADDRESS_UPDATE_RESET,
         })
 
-        if (userInfor && Object.keys(userInfor).length !== 0) {
-            dispatch(listDeliveryAddressAction(userInfor))
-        }
         handleCloseDeliveryAddressUpdateModal()
     }
+
+    useEffect(() => {
+        if (successUpdate) {
+            if (userInfor && Object.keys(userInfor).length !== 0) {
+                dispatch(listDeliveryAddressAction(userInfor))
+            }
+        }
+    }, [successUpdate])
 
     return (
 
@@ -312,7 +316,7 @@ const DeliveryAddressInInforAccountUpdateModal = (props) => {
                                             type="submit"
                                             variant='contained'
                                             sx={{ fontSize: { xs: '10px', md: '14px' }, textTransform: 'capitalize', width: '120px' }}
-                                            disabled={props.isSubmitting}
+                                            disabled={props.isSubmitting || successUpdate}
                                         >
                                             {props.isSubmitting ? 'Loading' : 'Hoàn thành'}
                                         </Button>

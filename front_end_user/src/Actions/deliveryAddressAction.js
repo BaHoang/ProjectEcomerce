@@ -12,6 +12,10 @@ import {
     DELIVERY_ADDRESS_UPDATE_REQUEST,
     DELIVERY_ADDRESS_UPDATE_SUCCESS,
     DELIVERY_ADDRESS_UPDATE_FAIL,
+
+    DELIVERY_ADDRESS_DELETE_REQUEST,
+    DELIVERY_ADDRESS_DELETE_SUCCESS,
+    DELIVERY_ADDRESS_DELETE_FAIL,
 } from '../Constants/deliveryAddressConstant'
 
 import axios from 'axios'
@@ -128,6 +132,36 @@ export const deliveryAddressUpdateAction = (userInfor,indexDeliveryAddressUpdate
     } catch (error) {
         dispatch({
             type: DELIVERY_ADDRESS_UPDATE_FAIL,
+            payload: error.response.status ? error.response.status : 400,
+        })
+    }
+
+}
+
+export const deliveryAddressDeleteAction = (userInfor,indexDeliveryAddressDelete) => async (dispatch) => {
+    try {
+
+        dispatch({
+            type: DELIVERY_ADDRESS_DELETE_REQUEST
+        })
+       
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bear ${userInfor.token}`,
+            }
+        }
+
+        const { data } = await axios.delete(`http://localhost:5000/api/deliveryAddress?item=${indexDeliveryAddressDelete + 1}`, config)
+
+        dispatch({
+            type: DELIVERY_ADDRESS_DELETE_SUCCESS,
+            payload: data,
+        })
+
+    } catch (error) {
+        dispatch({
+            type: DELIVERY_ADDRESS_DELETE_FAIL,
             payload: error.response.status ? error.response.status : 400,
         })
     }

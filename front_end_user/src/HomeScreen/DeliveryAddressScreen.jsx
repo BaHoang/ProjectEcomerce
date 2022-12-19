@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add'
 import { Box, Button, styled } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { listDeliveryAddressAction } from '../Actions/deliveryAddressAction'
+import { listDeliveryAddressAction, deliveryAddressSetDefaultAction } from '../Actions/deliveryAddressAction'
 import Loading from '../Component/Common/Loading'
 import DeliveryAddressInInforAccountAddModal from '../Component/DeliveryAddressScreen/DeliveryAddressInInforAccountAddModal'
 import DeliveryAddressInInforAccountUpdateModal from '../Component/DeliveryAddressScreen/DeliveryAddressInInforAccountUpdateModal'
 import DeliveryAddressInInforAccountConfirmDeleteModal from '../Component/DeliveryAddressScreen/DeliveryAddressInInforAccountConfirmDeleteModal'
-import { DELIVERY_ADDRESS_ADD_RESET, DELIVERY_ADDRESS_DELETE_RESET, DELIVERY_ADDRESS_UPDATE_RESET } from '../Constants/deliveryAddressConstant'
+import { CURRENT_DELIVERY_ADDRESS_RESET, DELIVERY_ADDRESS_ADD_RESET, DELIVERY_ADDRESS_DELETE_RESET, DELIVERY_ADDRESS_UPDATE_RESET } from '../Constants/deliveryAddressConstant'
+import { LoadingButton } from '@mui/lab'
 
 const WrapAllListDeliveryAddressBox = styled(Box)(({ theme }) => ({
   backgroundColor: "white",
@@ -74,6 +75,21 @@ const DefaultTextBox = styled(Box)(({ theme }) => ({
   lineHeight: 1.2,
 }))
 
+const WrapButtonBox = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexWrap: 'wrap',
+  justifyContent:'end',
+  alignItems: 'center',
+  width: '200px',
+}))
+
+const ErrorNotifyBox = styled(Box)(({ theme }) => ({
+  color: 'red',
+  fontSize: '12px',
+  width: '126px',
+  marginTop: '8px'
+}))
+
 const DeliveryAddressScreen = () => {
 
   const dispatch = useDispatch()
@@ -83,6 +99,15 @@ const DeliveryAddressScreen = () => {
 
   const listDeliveryAddress = useSelector(state => state.listDeliveryAddress)
   const { listAddress, loading, error } = listDeliveryAddress
+
+  const deliveryAddressSetDefault = useSelector(state => state.deliveryAddressSetDefault)
+
+  const {
+      loading: loadingSetDefault,
+      error: errorSetDefault,
+      success: successSetDefault,
+      idDeliveryAddress: idDeliveryAddressSetDefault,
+  } = deliveryAddressSetDefault
 
   const [openDeliveryAddressAddModal, setOpenDeliveryAddressAddModal] = useState(false)
   const [openDeliveryAddressUpdateModal, setOpenDeliveryAddressUpdateModal] = useState(false)
@@ -98,7 +123,6 @@ const DeliveryAddressScreen = () => {
       type: DELIVERY_ADDRESS_ADD_RESET,
     })
   }
-
   const handleOpenDeliveryAddressAddModal = () => setOpenDeliveryAddressAddModal(true)
   const handleCloseDeliveryAddressAddModal = () => setOpenDeliveryAddressAddModal(false)
 
@@ -108,7 +132,6 @@ const DeliveryAddressScreen = () => {
       type: DELIVERY_ADDRESS_UPDATE_RESET,
     })
   }
-
   const handleOpenDeliveryAddressUpdateModal = (index) => {
     setOpenDeliveryAddressUpdateModal(true)
     if (typeof index !== "undefined") {
@@ -118,7 +141,6 @@ const DeliveryAddressScreen = () => {
       }
     }
   }
-
   const handleCloseDeliveryAddressUpdateModal = () => setOpenDeliveryAddressUpdateModal(false)
 
   const deleteDeliveryAddress = (index) => {
@@ -128,15 +150,29 @@ const DeliveryAddressScreen = () => {
       type: DELIVERY_ADDRESS_DELETE_RESET,
     })
   }
-
   const handleOpenDeliveryAddressConfirmDeleteModal = () => setOpenDeliveryAddressConfirmDeleteModal(true)
   const handleCloseDeliveryAddressConfirmDeleteModal = () => setOpenDeliveryAddressConfirmDeleteModal(false)
+
+  const handleSetDefaultDeliveryAddress = (index) => {
+    dispatch(deliveryAddressSetDefaultAction(userInfor, index))
+  }
 
   useEffect(() => {
     if (userInfor && Object.keys(userInfor).length !== 0) {
       dispatch(listDeliveryAddressAction(userInfor))
     }
   }, [])
+
+  useEffect(() => {
+   if(successSetDefault) {
+    if (userInfor && Object.keys(userInfor).length !== 0) {
+      dispatch(listDeliveryAddressAction(userInfor))
+      dispatch({
+        type: CURRENT_DELIVERY_ADDRESS_RESET,
+      })
+    }
+   }
+  }, [successSetDefault])
 
   return (
     <WrapAllListDeliveryAddressBox>
@@ -224,15 +260,30 @@ const DeliveryAddressScreen = () => {
                     </Box>
                   </Box>
 
-                  <CustomButton
-                    variant='outlined'
-                    // onClick={addNewDeliveryAddress}
-                    sx={{
-                      padding: '4px 12px 4px 12px'
-                    }}
-                  >
-                    Thiết lập mặc định
-                  </CustomButton>
+                  <WrapButtonBox>
+                   
+                    <LoadingButton
+                      variant="outlined"
+                      onClick={() => handleSetDefaultDeliveryAddress(index)}
+                      loading={(loadingSetDefault && idDeliveryAddressSetDefault) && (idDeliveryAddressSetDefault == index+1)}
+                                            sx={{
+                        textTransform: 'capitalize',
+                        padding: '4px 12px 4px 12px',
+
+                      }}
+                    >
+                      Thiết lập mặc định
+                    </LoadingButton>
+
+                    {
+                      ((errorSetDefault && idDeliveryAddressSetDefault) && (idDeliveryAddressSetDefault == index+1)) && (
+                        <ErrorNotifyBox>
+                          Lỗi.Bạn hãy thử lại.
+                        </ErrorNotifyBox>
+                      )
+                    }
+
+                  </WrapButtonBox>
                 </WrapDeliveryBox>
 
                 {
@@ -250,7 +301,6 @@ const DeliveryAddressScreen = () => {
               Không có địa chỉ nào. Bạn hãy thêm một địa chỉ mới.
             </ErrorBox>
           )
-
         )
       }
 

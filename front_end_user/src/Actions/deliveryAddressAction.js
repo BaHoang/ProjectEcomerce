@@ -16,6 +16,10 @@ import {
     DELIVERY_ADDRESS_DELETE_REQUEST,
     DELIVERY_ADDRESS_DELETE_SUCCESS,
     DELIVERY_ADDRESS_DELETE_FAIL,
+
+    DELIVERY_ADDRESS_SET_DEFAULT_REQUEST,
+    DELIVERY_ADDRESS_SET_DEFAULT_SUCCESS,
+    DELIVERY_ADDRESS_SET_DEFAULT_FAIL,
 } from '../Constants/deliveryAddressConstant'
 
 import axios from 'axios'
@@ -163,6 +167,40 @@ export const deliveryAddressDeleteAction = (userInfor,indexDeliveryAddressDelete
         dispatch({
             type: DELIVERY_ADDRESS_DELETE_FAIL,
             payload: error.response.status ? error.response.status : 400,
+        })
+    }
+
+}
+
+export const deliveryAddressSetDefaultAction = (userInfor,index) => async (dispatch) => {
+    try {
+
+        dispatch({
+            type: DELIVERY_ADDRESS_SET_DEFAULT_REQUEST,
+            payload: index+1
+        })
+
+    
+        const article = { title: 'Axios PUT confirm received order' }
+                      
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bear ${userInfor.token}`,
+            }
+        }
+
+        const { data } = await axios.put(`http://localhost:5000/api/deliveryAddress/updateDefault?item=${index + 1}`, article, config)
+
+        dispatch({
+            type: DELIVERY_ADDRESS_SET_DEFAULT_SUCCESS,
+            payload: data,
+        })
+
+    } catch (error) {
+        dispatch({
+            type: DELIVERY_ADDRESS_SET_DEFAULT_FAIL,
+                        payload: { error: (error.response && error.response.status) ? error.response.status : 400, idDeliveryAddress: index+1},
         })
     }
 

@@ -4,6 +4,7 @@ import {
     DELIVERY_ADDRESS_LIST_FAIL,
 
     CURRENT_DELIVERY_ADDRESS,
+    CURRENT_DELIVERY_ADDRESS_RESET,
 
     DELIVERY_ADDRESS_ADD_REQUEST,
     DELIVERY_ADDRESS_ADD_SUCCESS,
@@ -18,7 +19,11 @@ import {
     DELIVERY_ADDRESS_DELETE_REQUEST,
     DELIVERY_ADDRESS_DELETE_SUCCESS,
     DELIVERY_ADDRESS_DELETE_FAIL,
-    DELIVERY_ADDRESS_DELETE_RESET
+    DELIVERY_ADDRESS_DELETE_RESET,
+
+    DELIVERY_ADDRESS_SET_DEFAULT_REQUEST,
+    DELIVERY_ADDRESS_SET_DEFAULT_SUCCESS,
+    DELIVERY_ADDRESS_SET_DEFAULT_FAIL,
 } from '../Constants/deliveryAddressConstant'
 
 export const listDeliveryAddressReducer = (state = { listAddress: [] }, action) => {
@@ -41,7 +46,8 @@ export const currentDeliveryAddressReducer = (state = { address: {} }, action) =
     switch (action.type) {
         case CURRENT_DELIVERY_ADDRESS:
             return { address: action.payload.address, selectedValue: action.payload.selectedValue, isDefault: action.payload.isDefault }
-
+        case CURRENT_DELIVERY_ADDRESS_RESET:
+            return {address: {}}
         default:
             return state
     }
@@ -93,6 +99,24 @@ export const deliveryAddressDeleteReducer = (state = {}, action) => {
             return { loading: false, error: action.payload }
         case DELIVERY_ADDRESS_DELETE_RESET:
             return {}
+        default:
+            return state
+    }
+}
+
+
+export const deliveryAddressSetDefaultReducer = (state = {}, action) => {
+
+    switch (action.type) {
+
+        case DELIVERY_ADDRESS_SET_DEFAULT_REQUEST:
+            return { loading: true, idDeliveryAddress: action.payload }
+        case DELIVERY_ADDRESS_SET_DEFAULT_SUCCESS:
+            return { loading: false, success: true }
+        case DELIVERY_ADDRESS_SET_DEFAULT_FAIL:
+            return { loading: false, error: action.payload.error,  idDeliveryAddress: action.payload.idDeliveryAddress}
+        // case DELIVERY_ADDRESS_SET_DEFAULT_RESET:
+        //     return {}
         default:
             return state
     }

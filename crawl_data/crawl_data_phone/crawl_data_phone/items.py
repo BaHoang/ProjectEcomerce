@@ -7,7 +7,7 @@ class CrawlDataPhoneItem(scrapy.Item):
     price = scrapy.Field()
     brand = scrapy.Field()
     priceDiscount = scrapy.Field()
-    numberPage = scrapy.Field()
+    namePage = scrapy.Field()
     image = scrapy.Field()    
     manHinh = scrapy.Field()
     operating = scrapy.Field()

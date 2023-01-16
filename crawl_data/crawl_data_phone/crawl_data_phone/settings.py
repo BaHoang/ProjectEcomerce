@@ -90,7 +90,8 @@ ITEM_PIPELINES = {
 
 # Set settings whose default value is deprecated to a future-proof value
 REQUEST_FINGERPRINTER_IMPLEMENTATION = '2.7'
-TWISTED_REACTOR = 'twisted.internet.asyncioreactor.AsyncioSelectorReactor'
+# TWISTED_REACTOR = 'twisted.internet.asyncioreactor.AsyncioSelectorReactor'
+TWISTED_REACTOR = 'twisted.internet.epollreactor.EPollReactor'
 
 # SPLASH_URL = 'http://localhost:8050'
 # DOWNLOADER_MIDDLEWARES = {

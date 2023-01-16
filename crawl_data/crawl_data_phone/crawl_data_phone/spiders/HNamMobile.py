@@ -94,7 +94,9 @@ class HNamMobileSpider(scrapy.Spider):
           
             for product in list_options_product:
                 item = CrawlDataPhoneItem()
-                            
+
+                # name page
+                item['namePage'] = "HNamMobile"
                 #color
                 color = product.xpath('@data-colorname').get()
                 item['color'] = color

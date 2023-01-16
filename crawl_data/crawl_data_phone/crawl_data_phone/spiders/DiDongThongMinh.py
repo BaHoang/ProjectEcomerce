@@ -12,11 +12,11 @@ class DiDongThongMinhSpider(scrapy.Spider):
 
     custom_settings = {
         'USER_AGENT' :  "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36",
-        'CONCURRENT_REQUESTS' : 1,
-        'DOWNLOAD_DELAY': 1, # 2 seconds of delay
+        'CONCURRENT_REQUESTS' : 32,
+        
     }
 
-    def start_requests(self):    
+    def start_requests(self):     
             pagecurrent = 0
 
             while True:
@@ -77,6 +77,8 @@ class DiDongThongMinhSpider(scrapy.Spider):
      
             for product in list_options_product:
                 item = CrawlDataPhoneItem()
+                # name page
+                item['namePage'] = "Di Động Thông Minh"
                 #link image
                 link_image  = product.xpath('span/img/@src').get()
                 if link_image != '':
@@ -104,7 +106,6 @@ class DiDongThongMinhSpider(scrapy.Spider):
                 else:
                     item["name"] = ''
                 #brand
-                print("brand", brand[1])
                 if  brand[1] != '':
                     if brand[1] == 'iPhone':
                         item['brand'] = 'Apple'

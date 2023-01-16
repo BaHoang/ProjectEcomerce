@@ -7,14 +7,13 @@ from lxml import html
 
 class DiDongVietSpider(scrapy.Spider):
     name = 'DiDongViet'
-    link_products = []
-    link_image = []
+    link_products_image = []
     total_item = 0
 
     custom_settings = {
         'USER_AGENT' :  "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36",
-        'CONCURRENT_REQUESTS' : 1,
-        'DOWNLOAD_DELAY': 1, # 2 seconds of delay
+        # 'CONCURRENT_REQUESTS' : 1,
+        # 'DOWNLOAD_DELAY': 1, # 2 seconds of delay
     }
 
     def start_requests(self):    
@@ -49,18 +48,18 @@ class DiDongVietSpider(scrapy.Spider):
                 #print(products.xpath('//ol[@class="products list items product-items"]/li[@class="item product product-item"]//div[@class="product-item-image"]/a[@class="product-item-link"]'))             
                 
                 for item in products.xpath('//ol[@class="products list items product-items"]/li[@class="item product product-item"]//div[@class="product-item-image"]/a[@class="product-item-link"]'):
-                    self.link_products.append(item.attrib['href'])
-                 
-                    self.link_image.append(item.xpath('//div/img/@src')[0])
+                    temp_link = item.attrib['href']
+                    temp_image = item.xpath('div/img/@src')[0]
+                    self.link_products_image.append({"link": temp_link, "image": temp_image})
                     count += 1
                 
                 page += 1
 
-            for i in range(len(self.link_products)):
+            for i in range(len(self.link_products_image)):
                 yield scrapy.Request(
-                    url=self.link_products[i], 
+                    url=self.link_products_image[i]["link"], 
                     callback=self.parse,
-                    cb_kwargs=dict(link_product=self.link_products[i], link_image=self.link_image[i]),
+                    cb_kwargs=dict(link_product=self.link_products_image[i]["link"], link_image=self.link_products_image[i]["image"]),
                 )
 
     def parse(self, response, link_product, link_image):
@@ -73,7 +72,8 @@ class DiDongVietSpider(scrapy.Spider):
             
             for i in range(len(list_priceDiscount)):
                 item = CrawlDataPhoneItem()
-
+                # name page
+                item['namePage'] = "Di Động Việt"
                 #link_image       
                 if link_image != None:
                     item['image'] = link_image
@@ -192,9 +192,3 @@ class DiDongVietSpider(scrapy.Spider):
 
         except:
             print("An exception occurred")
-
-
-
-
-
-      

@@ -12,10 +12,7 @@ class HoangHaMobileSpider(scrapy.Spider):
 
     custom_settings = {
         'USER_AGENT' :  "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36",
-        #'DOWNLOAD_DELAY':5 , # 2 seconds of delay
-        # 'RANDOMIZE_DOWNLOAD_DELAY': False,
-        'CONCURRENT_REQUESTS' : 1,
-        # 'FEED_EXPORT_ENCODING' : "utf-8",
+        # 'CONCURRENT_REQUESTS' : 1,
     }
 
     def start_requests(self):              
@@ -85,6 +82,9 @@ class HoangHaMobileSpider(scrapy.Spider):
           
             for product in list_options_product:
                 item = CrawlDataPhoneItem()
+
+                # name page
+                item['namePage'] = "HoangHaMobile"
                 #link_image       
                 if link_image != '':
                     item['image'] = link_image
@@ -113,16 +113,16 @@ class HoangHaMobileSpider(scrapy.Spider):
                 item['linkProduct'] = link_product
                 #name 
                 if name != '':
-                    item["name"] = name
+                    item["name"] = name.lower()
                 else:
                     item["name"] = ''
                 #brand
                 if  brand[2] != '':
 
                     if len(brand[2].split()) == 1:
-                        item['brand'] = brand[2]
+                        item['brand'] = brand[2].lower()
                     elif len(brand[2].split()) > 1 and name != '':
-                        item['brand'] =  name.split()[0]
+                        item['brand'] =  name.split()[0].lower()
                     else: 
                         item['brand'] = None
                 else:
@@ -146,8 +146,3 @@ class HoangHaMobileSpider(scrapy.Spider):
         except:
             print("An exception occurred")
 
-
-
-
-
-      

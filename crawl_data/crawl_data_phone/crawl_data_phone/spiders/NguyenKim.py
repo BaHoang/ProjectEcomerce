@@ -63,6 +63,9 @@ class NguyenKimSpider(scrapy.Spider):
                 else:
                     item["name"] = None
 
+                # name page
+                item['namePage'] = "Nguyễn Kim"
+
                 #link_image       
                 if link_image != None:
                     item['image'] = link_image
@@ -82,9 +85,6 @@ class NguyenKimSpider(scrapy.Spider):
                     item['priceDiscount'] = priceDiscount
                 else:
                     item['priceDiscount'] = None
-
-                # # id product
-                # item['numberPage'] = idProduct 
 
                 for ele in response.xpath('//tbody[@id="custom-scroll-popup-tskt"]/tr'):
                     title = ele.xpath('td[@class="title"]/text()').get()

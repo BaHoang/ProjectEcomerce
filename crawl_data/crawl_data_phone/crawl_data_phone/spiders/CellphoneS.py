@@ -122,87 +122,86 @@ class CellphoneSpider(scrapy.Spider):
    
     def parse(self, response, name, idProduct):
         try:
-            
-            item = CrawlDataPhoneItem()
-            
+                  
             response_product  = response.json()
-            
             if response.status == 200:
                 
                 product = response_product["data"]["product"]
                 
-                if (product["filterable"]["stock"] > 0):
+                if (product["filterable"]["stock"] > 0 and product["general"]):
 
-                    if (product["general"]):
+                    if (product["general"]["url_path"]  != ''):
+
+                        item = CrawlDataPhoneItem()
+                        item['namePage'] = "CellphoneS"
+
                         #link product
-                        if product["general"]["url_path"]  != None:
-                            item['linkProduct'] = 'https://cellphones.com.vn/' + product["general"]["url_path"]
-                        else:
-                            item['linkProduct'] = None
-
+                        item['linkProduct'] = 'https://cellphones.com.vn/' + product["general"]["url_path"]
+                       
                         #name 
                         item['name'] = name
                         
                         #brand 
-                        if product["general"]["attributes"]["manufacturer"] != None:
-                            item['brand'] = product["general"]["attributes"]["manufacturer"]
+                        if product["general"]["attributes"]["manufacturer"] != '':
+                            if product["general"]["attributes"]["manufacturer"] == 'Hãng khác':
+                                temp_name = name.split()[0]
+                                item['brand'] = temp_name
+                            else:
+                                item['brand'] = product["general"]["attributes"]["manufacturer"]
                         else:
                             item['brand'] = None
 
                         #color
-                        if product["general"]["attributes"]["color"] != None:
+                        if product["general"]["attributes"]["color"] != '':
                             item['color'] = product["general"]["attributes"]["color"]
                         else:
                             item['color'] = None 
 
                         #link_image        
-                        if product["general"]["attributes"]["image"] != None:
+                        if product["general"]["attributes"]["image"] != '':
                             item['image'] = 'https://cdn2.cellphones.com.vn/50x50,webp,q100/media/catalog/product' + product["general"]["attributes"]["image"]
                         else:
                             item['image'] = None  
 
-                    #price goc    
-                    if product["filterable"]["price"] != None:
-                        item['price'] = product["filterable"]["price"]
-                    else:
-                        item['price'] = None
-                    
-                    #price_sale       
-                    if product["filterable"]["special_price"] != None:
-                        item['priceDiscount'] = product["filterable"]["special_price"]
-                    else:
-                        item['priceDiscount'] = None
-
-                    # id product
-                    item['numberPage'] = idProduct 
-
-                    for temp in product["specification"]["basic"]:
-
-                        if(temp["key"] == 'mobile_type_of_display'):
-                            item['manHinh'] = temp["value"]
+                        #price goc    
+                        if product["filterable"]["price"] != '':
+                            item['price'] = product["filterable"]["price"]
+                        else:
+                            item['price'] = None
                         
-                        if(temp["key"] == 'os_version'):
-                            item['operating'] = temp["value"] 
+                        #price_sale       
+                        if product["filterable"]["special_price"] != 0:
+                            item['priceDiscount'] = product["filterable"]["special_price"]
+                        else:
+                            item['priceDiscount'] = product["filterable"]["price"]
 
-                        if(temp["key"] == 'camera_secondary'):
-                            item['cameraTruoc'] = temp['value']
+                        for temp in product["specification"]["basic"]:
 
-                        if(temp["key"] == 'camera_primary'):
-                            item['cameraSau'] = temp["value"]
+                            if(temp["key"] == 'mobile_type_of_display'):
+                                item['manHinh'] = temp["value"]
+                            
+                            if(temp["key"] == 'os_version'):
+                                item['operating'] = temp["value"] 
 
-                        if(temp["key"] == 'chipset'):
-                            item['chipset'] = temp["value"]
+                            if(temp["key"] == 'camera_secondary'):
+                                item['cameraTruoc'] = temp['value']
 
-                        if(temp["key"] == 'memory_internal'):
-                            item['ram'] = temp["value"]
+                            if(temp["key"] == 'camera_primary'):
+                                item['cameraSau'] = temp["value"]
 
-                        if(temp["key"] == 'storage'):
-                            item['rom'] = temp["value"]
+                            if(temp["key"] == 'chipset'):
+                                item['chipset'] = temp["value"]
 
-                        if(temp["key"] == 'battery'):
-                            item['pin'] = temp["value"] 
+                            if(temp["key"] == 'memory_internal'):
+                                item['ram'] = temp["value"]
 
-                    yield item   
+                            if(temp["key"] == 'storage'):
+                                item['rom'] = temp["value"]
+
+                            if(temp["key"] == 'battery'):
+                                item['pin'] = temp["value"] 
+
+                        yield item   
 
         except:
             print("An exception occurred")

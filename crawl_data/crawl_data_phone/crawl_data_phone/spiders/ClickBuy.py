@@ -10,10 +10,7 @@ class ClickBuySpider(scrapy.Spider):
 
     custom_settings = {
         'USER_AGENT' :  "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36",
-        #'DOWNLOAD_DELAY':5 , # 2 seconds of delay
-        # 'RANDOMIZE_DOWNLOAD_DELAY': False,
         'CONCURRENT_REQUESTS' : 1,
-        # 'FEED_EXPORT_ENCODING' : "utf-8",
     }
 
     def start_requests(self):              
@@ -79,6 +76,8 @@ class ClickBuySpider(scrapy.Spider):
             
             for i in range(len(list_priceDiscount)):
                 item = CrawlDataPhoneItem()
+                # name page
+                item['namePage'] = "ClickBuy"
 
                 #link_image       
                 if list_image[i] != None:

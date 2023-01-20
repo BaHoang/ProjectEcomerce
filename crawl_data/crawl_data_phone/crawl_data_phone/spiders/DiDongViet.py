@@ -44,8 +44,7 @@ class DiDongVietSpider(scrapy.Spider):
                 if response.status_code != 200:
                     break
 
-                products = html.fromstring(json.loads(response.text)['products_list'])  
-                #print(products.xpath('//ol[@class="products list items product-items"]/li[@class="item product product-item"]//div[@class="product-item-image"]/a[@class="product-item-link"]'))             
+                products = html.fromstring(json.loads(response.text)['products_list'])   
                 
                 for item in products.xpath('//ol[@class="products list items product-items"]/li[@class="item product product-item"]//div[@class="product-item-image"]/a[@class="product-item-link"]'):
                     temp_link = item.attrib['href']

@@ -12,7 +12,12 @@ import {
     PRODUCT_UPDATE_REQUEST,
     PRODUCT_UPDATE_SUCCESS,
     PRODUCT_UPDATE_FAIL,
-    PRODUCT_UPDATE_RESET
+    PRODUCT_UPDATE_RESET,
+
+    COMPARE_PRICE_LIST_REQUEST,
+    COMPARE_PRICE_LIST_SUCCESS,
+    COMPARE_PRICE_LIST_FAIL,
+    
 } from '../Constants/productConstant'
 
 export const productListReducer = (state = { products: [], totalRow: 0 }, action) => {
@@ -94,6 +99,20 @@ export const productDetailReducer = (state = { product: {} }, action) => {
         case PRODUCT_DETAIL_SUCCESS:
             return { loading: false, product: action.payload }
         case PRODUCT_DETAIL_FAIL:
+            return { loading: false, error: action.payload }
+        default:
+            return state
+    }
+}
+
+export const productComparePriceListReducer = (state = { products: [] }, action) => {
+
+    switch (action.type) {
+        case COMPARE_PRICE_LIST_REQUEST:
+            return { ...state, loading: true }
+        case COMPARE_PRICE_LIST_SUCCESS:
+            return { loading: false, products: action.payload }
+        case COMPARE_PRICE_LIST_FAIL:
             return { loading: false, error: action.payload }
         default:
             return state

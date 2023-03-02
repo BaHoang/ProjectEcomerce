@@ -14,6 +14,7 @@ import {
 
 import {
     productAddReducer,
+    productComparePriceListReducer,
     productDetailReducer,
     productListReducer,
     productUpdateReducer
@@ -47,6 +48,7 @@ const reducer = combineReducers({
     productDetail: productDetailReducer,
     productAdd: productAddReducer,
     productUpdate: productUpdateReducer,
+    productComparePriceList: productComparePriceListReducer,
 
     orderList: orderListReducer,
     orderDetail: orderDetailReducer,

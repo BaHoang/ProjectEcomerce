@@ -1,16 +1,17 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Typography, Button } from '@mui/material'
 import { DataGrid, GridToolbarContainer } from '@mui/x-data-grid'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import TitleScreen from '../Component/Common/TitleScreen'
 import { columns } from '../ColumnTable/productColumn.js'
-import { listProducts, productDetailAction } from '../Actions/productAction'
+import { listProducts, productComparePriceListAction, productDetailAction } from '../Actions/productAction'
 import ProductDetailModal from '../Component/Product/ProductDetailModal'
 import ToolbarSearch from '../Component/Common/ToolbarSearch'
 import ProductAddToolbar from '../Component/Product/ProductAddToolbar'
 import Loading from '../Component/Common/Loading'
 import ProductUpdateModal from '../Component/Product/ProductUpdateModal'
 import { PRODUCT_UPDATE_RESET } from '../Constants/productConstant'
+import ProductCompareModal from '../Component/Product/ProductCompareModal'
 
 export const AdminProductScreen = () => {
 
@@ -18,6 +19,7 @@ export const AdminProductScreen = () => {
   const { products, totalRow, loading } = productList
 
   const productDetail = useSelector(state => state.productDetail)
+  const productComparePriceList = useSelector(state => state.productComparePriceList)
 
   const dispatch = useDispatch()
 
@@ -33,6 +35,7 @@ export const AdminProductScreen = () => {
   const [idProductClicked, setIdProductClicked] = useState('')
   const [openModal, setOpenModal] = useState(false)
   const [openUpdateModal, setOpenUpdateModal] = useState(false)
+  const [openCompareModal, setOpenCompareModal] = useState(false)
 
   const handleOpenModal = (params) => {
     setOpenModal(true)
@@ -40,6 +43,7 @@ export const AdminProductScreen = () => {
     let productClicked = products[idProductInList]
     setIdProductClicked(productClicked._id)
     dispatch(productDetailAction(productClicked._id))
+    dispatch(productComparePriceListAction(productClicked._id))
   }
 
   const handleCloseModal = () => setOpenModal(false)
@@ -53,6 +57,20 @@ export const AdminProductScreen = () => {
       type: PRODUCT_UPDATE_RESET,
     })
     setOpenUpdateModal(false)
+    setOpenModal(true)
+    dispatch(productDetailAction(idProductClicked))
+  }
+
+  const handleOpenCompareModal = (params) => {
+    setOpenCompareModal(true)
+  }
+
+
+  const handleCloseCompareModal = () => {
+    // dispatch({
+    //   type: PRODUCT_UPDATE_RESET,
+    // })
+    setOpenCompareModal(false)
     setOpenModal(true)
     dispatch(productDetailAction(idProductClicked))
   }
@@ -99,7 +117,7 @@ export const AdminProductScreen = () => {
 
   const ProductToolbar = () => {
     return (
-      <GridToolbarContainer sx={{paddingTop: '16px'}}>
+      <GridToolbarContainer sx={{ paddingTop: '16px' }}>
         <ToolbarSearch searchText={searchProduct} childToParent={childToParent} />
         <ProductAddToolbar listsProductFunction={listsProductFunction} />
       </GridToolbarContainer>
@@ -123,14 +141,14 @@ export const AdminProductScreen = () => {
           loading
             ? <Loading />
             : (
-              <Box sx={{
-                width: '100%',
-                
-                borderRadius: '15px',
-                overflow: 'hidden',
-                boxShadow: ' 0px 6px 16px 1px rgba(115, 82, 199, 0.2 )',
-                backgroundColor: 'white'
-              }}
+              <Box
+                sx={{
+                  width: '100%',
+                  borderRadius: '15px',
+                  overflow: 'hidden',
+                  boxShadow: ' 0px 6px 16px 1px rgba(115, 82, 199, 0.2 )',
+                  backgroundColor: 'white'
+                }}
               >
 
                 <DataGrid
@@ -179,6 +197,7 @@ export const AdminProductScreen = () => {
         open={openModal}
         onClose={handleCloseModal}
         handleOpenUpdateModal={handleOpenUpdateModal}
+        handleOpenCompareModal={handleOpenCompareModal}
         productInfor={productDetail.product}
         loading={productDetail.loading}
       />
@@ -189,6 +208,15 @@ export const AdminProductScreen = () => {
         handleCloseUpdateModal={handleCloseUpdateModal}
         loading={productDetail.loading}
         listsProductFunction={listsProductFunction}
+      />
+
+      <ProductCompareModal
+        openCompareModal={openCompareModal}
+        productInfor={productDetail.product}
+        handleCloseCompareModal={handleCloseCompareModal}
+        loading={productComparePriceList.loading}
+        products={productComparePriceList.products}
+        //listsProductFunction={listsProductFunction}
       />
 
     </Box>

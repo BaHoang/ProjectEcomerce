@@ -6,6 +6,10 @@ import {
     PRODUCT_DETAIL_REQUEST,
     PRODUCT_DETAIL_SUCCESS,
     PRODUCT_DETAIL_FAIL,
+
+    COMPARE_PRICE_LIST_REQUEST,
+    COMPARE_PRICE_LIST_SUCCESS,
+    COMPARE_PRICE_LIST_FAIL,
     
     PRODUCT_ADD_REQUEST,
     PRODUCT_ADD_SUCCESS,
@@ -47,6 +51,24 @@ export const productDetailAction = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: PRODUCT_DETAIL_FAIL,
+            payload: error.response.status ? error.response.status : 'Error',
+        })
+    }
+}
+
+
+
+export const productComparePriceListAction = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: COMPARE_PRICE_LIST_REQUEST })
+        const { data } = await axios.get(`http://localhost:5000/api/dataMatching/${id}`)
+        dispatch({
+            type: COMPARE_PRICE_LIST_SUCCESS,
+            payload: data,
+        })
+    } catch (error) {
+        dispatch({
+            type: COMPARE_PRICE_LIST_FAIL,
             payload: error.response.status ? error.response.status : 'Error',
         })
     }

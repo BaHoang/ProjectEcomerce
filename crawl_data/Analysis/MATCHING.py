@@ -2,6 +2,112 @@ import re
 from fuzzywuzzy import fuzz
 from pymongo import MongoClient
 
+color_cluster = [['đen ghi',
+  'phantom black',
+  'đen',
+  'đen huyền bí',
+  'đen tinh vân',
+  'đen fs',
+  'đen (trôi bh)',
+  'đen phá cách',
+  'màu đen fs',
+  'màu đen',
+  'space black',
+  'midnight',
+  'black',
+  'matte black',
+  'đen bí ẩn',
+  'đen tuyền',
+  'đen thiên thạch',
+  'đen mạnh mẽ',
+  'graphite',
+  'đen caro',
+  'đen graphite',
+  'black - red',
+  'đen từ tính',
+  'cosmic black',
+  'obsidian',
+  'đen kim sa',
+  'tech black',
+  'đen tuyền',
+  'đen tinh quang',
+  'graphite black',
+  'aura black',
+  'đen nhám'],
+ ['trắng ngọc',
+  'trắng',
+  'phantom white',
+  'white',
+  'starlight',
+  'trắng cực quang',
+  'trắng ngọc trai',
+  'trắng kim cương',
+  'trắng flora',
+  'aura white'],
+ ['tím',
+  'deep purple',
+  'purple',
+  'tím hồng',
+  'tím pastel',
+  'tím cực quang',
+  'violet',
+  'lavender'],
+ ['xám', 'gray', 'xám ánh kim', 'xám kim loại', 'space grey', 'grey'],
+ ['cam đào', 'cam', 'orange'],
+ ['bạc', 'silver', 'artic silver'],
+ ['vàng',
+  'gold',
+  'pink gold',
+  'yellow',
+  'vàng (gold)',
+  'vàng đồng',
+  'vàng phù sa',
+  'vàng hồng',
+  'prime gold',
+  'supernova',
+  'rose gold'],
+ ['burgundy', 'đỏ', 'red', 'aura red'],
+ ['đồng ánh hồng', 'đồng', 'cooper'],
+ ['pink', 'hồng'],
+ ['kem', 'moon beige', 'beige', 'cream'],
+ ['green',
+  'gray green',
+  'alpine green',
+  'light green',
+  'midnight green',
+  'mystic green',
+  'xanh lá',
+  'xanh mint',
+  'xanh lục',
+  'xanh thiên thạch',
+  'xanh vàng',
+  'xanh niken',
+  'xanh olive',
+  'băng cẩm thạch',
+  'xanh trắng'],
+ ['xanh tím',
+  'lam',
+  'blue',
+  'dương',
+  'xanh đen',
+  'xanh biển',
+  'xanh thiên thanh',
+  'xanh nhạt',
+  'navy',
+  'xanh tinh vân',
+  'xanh ánh kim',
+  'xanh thiên hà',
+  'xanh bắc âu'],
+ ['xanh đen'],
+ ['xanh hồng'],
+ ['xanh caro']]
+
+def get_index_in_cluster(color):
+    for i in range(len(color_cluster)):
+        if color.lower().strip() in color_cluster[i]:
+            return i
+    return -1
+
 def brand_matching (item_one, item_two):
     if "brand" in item_one.keys() and "brand" in item_two.keys():
         brand_one = item_one["brand"]
@@ -71,6 +177,19 @@ def rom_matching (item_one, item_two, threshold_rom):
         
     return False
 
+def color_matching (item_one, item_two):
+    if "color" in item_one.keys() and "color" in item_two.keys():
+        color_one = item_one["color"]
+        color_two = item_two["color"]
+        
+        index_color_one = get_index_in_cluster(color_one)
+        index_color_two = get_index_in_cluster(color_two)
+
+        if index_color_one > -1 and index_color_one == index_color_two :
+            return True
+        
+    return False
+
 def data_matching(item_one, item_two, threshold_name, threshold_ram, threshold_rom):
     brand_checked = brand_matching(item_one, item_two)
     if not brand_checked:
@@ -86,6 +205,10 @@ def data_matching(item_one, item_two, threshold_name, threshold_ram, threshold_r
 
     rom_checked = rom_matching(item_one, item_two, threshold_rom)
     if not rom_checked:
+        return False
+    
+    color_checked = color_matching(item_one, item_two)
+    if not color_checked:
         return False
     
     return True
@@ -118,9 +241,13 @@ def clean_data(item):
     item['rom'] = clean_rom(item['rom'])
 
   if 'name' in item.keys():
-    item['name'] = str(item['name']).strip()
+    item['name'] = clean_name(str(item['name']).strip())
 
 def main():
+    # f = open("/home/hoang/Documents/ProjectEcomerce/crawl_data/Analysis/demo2.txt", "w")
+    # f.write("Woops! I have deleted the content!")
+    # f.close()
+
     client = MongoClient("mongodb+srv://hoang:hoang@cluster0.vwzhu.mongodb.net/?retryWrites=true&w=majority")
     
     list_product = client.get_database('test').products
@@ -145,7 +272,7 @@ def main():
     for i in range(len(list_product_shop_telephone)):
       
         for item in list_database_clean:
-            if data_matching(list_product_shop_telephone[i], item, threshold_name=90, threshold_ram=99, threshold_rom=99):
+            if data_matching(list_product_shop_telephone[i], item, threshold_name=95, threshold_ram=90, threshold_rom=90):
                 
                 idProductShop = str(list_product_shop_telephone[i]["_id"])
                 name = item["name"]

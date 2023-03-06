@@ -150,7 +150,7 @@ def name_matching (item_one, item_two, threshold):
         name_two = item_two["name"]
         name_one_new = clean_name(name_one)
         name_two_new = clean_name(name_two)
-        ratio = fuzz.token_set_ratio(name_one_new, name_two_new)
+        ratio = fuzz.partial_ratio(name_one_new, name_two_new)
         if ratio > threshold:
             return True
     return False

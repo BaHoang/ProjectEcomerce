@@ -1,4 +1,4 @@
-import { styled, Table, TableBody, TableCell, TableRow } from '@mui/material'
+import { Button, styled, Table, TableBody, TableCell, TableRow } from '@mui/material'
 import React from 'react'
 import { formatDate } from '../../Utils/FormatDate'
 
@@ -89,6 +89,23 @@ const TableUser = (props) => {
                     </CustomTableCellHeader>
                     <CustomTableCellContent align='left'>
                         {dayInSys}
+                    </CustomTableCellContent>
+                </TableRow>
+
+                <TableRow>
+                    <CustomTableCellHeader component="th" scope="row" sx={{borderBottom: 'none'}}>
+
+                    </CustomTableCellHeader>
+                    <CustomTableCellContent align='left' sx={{borderBottom: 'none'}}>
+                        <Button
+                            variant='contained'
+                            sx={{
+                                textTransform: 'capitalize',
+                                backgroundColor: '#1876d2'
+                            }}
+                        >
+                            Cập nhật hồ sơ
+                        </Button>
                     </CustomTableCellContent>
                 </TableRow>
 

@@ -8,13 +8,14 @@ import thunk from 'redux-thunk'
 import { cartAddReducer } from "./Reducers/cartReducers"
 import { detailProductReducer, listProductReducer, reviewProductReducer, } from "./Reducers/productReducers"
 import { currentDeliveryAddressReducer, deliveryAddressAddReducer, deliveryAddressDeleteReducer, deliveryAddressUpdateReducer, listDeliveryAddressReducer, deliveryAddressSetDefaultReducer } from "./Reducers/deliveryAddressReducers"
-import { userInforReducer } from "./Reducers/userReducers"
+import { userInforReducer, userProfileReducer } from "./Reducers/userReducers"
 import { paymentInforReducer } from "./Reducers/paymentInforReducers"
 import { confirmReceivedOrderReducer, createOrderReducer, destroyOrderReducer, listMyOrderReducer, orderDetailReducer } from "./Reducers/orderReducers"
 
 const reducer = combineReducers({
     user: userInforReducer,
-
+    userProfile: userProfileReducer,
+    
     listProduct: listProductReducer,
     detailProduct: detailProductReducer,
     reviewProduct: reviewProductReducer,

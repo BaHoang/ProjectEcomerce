@@ -4,6 +4,10 @@ import {
     LOGIN_SUCCESS,
 
     LOGOUT,
+
+    PROFILE_FAIL,
+    PROFILE_REQUEST,
+    PROFILE_SUCCESS,
 } from "../Constants/userConstant"
 
 import { CART_RESET_PRODUCT } from "../Constants/cartConstant"
@@ -45,6 +49,33 @@ export const userLogout = () => async (dispatch) => {
     localStorage.removeItem('cartProduct')
     // console.log(document.location.href)
     // document.location.href = '/login'
+}
+
+export const getProfileAction = (userInfor) => async (dispatch) => {
+    try {
+        dispatch({
+            type: PROFILE_REQUEST
+        })
+
+        const config = {
+            headers: {
+                'Authorization': `Bear ${userInfor.token}`,
+            }
+        }
+
+        const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/user/profile`, config)
+
+        dispatch({
+            type: PROFILE_SUCCESS,
+            payload: data,
+        })
+
+    } catch (error) {
+        dispatch({
+            type: PROFILE_FAIL,
+            payload: error.response.status ? error.response.status : 'Error',
+        })
+    }
 }
 
 

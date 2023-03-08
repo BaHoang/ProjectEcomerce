@@ -4,6 +4,10 @@ import {
     LOGIN_SUCCESS,
 
     LOGOUT,
+
+    PROFILE_FAIL,
+    PROFILE_REQUEST,
+    PROFILE_SUCCESS,
 } from "../Constants/userConstant"
 
 export const userInforReducer = (state = { userInfor: {} }, action) => {
@@ -22,6 +26,21 @@ export const userInforReducer = (state = { userInfor: {} }, action) => {
     }
 }
 
+
+export const userProfileReducer = (state = { profile: {} }, action) => {
+
+    switch (action.type) {
+        case PROFILE_REQUEST:
+            return { loading: true}
+        case PROFILE_SUCCESS:
+            return { loading: false, profile: action.payload }
+        case PROFILE_FAIL:
+            return { loading: false, error: action.payload }
+  
+        default:
+            return state
+    }
+}
 
 
 

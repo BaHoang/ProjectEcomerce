@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { Box, Button, IconButton, InputAdornment, TextField } from '@mui/material'
 import { styled } from '@mui/system'
 import Visibility from '@mui/icons-material/Visibility';
@@ -9,9 +9,9 @@ import { Form, Formik, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import { userLogin } from '../Actions/userAction'
 import ErrorLogin from '../Component/Login/ErrorLogin'
+import { LOGIN_RESET } from '../Constants/userConstant'
 
 const CustomBox = styled(Box)(({ theme }) => ({
-
     display: 'flex',
     justifyContent: 'start',
     alignItems: 'center',
@@ -54,6 +54,15 @@ const CustomTextField = styled(TextField)({
     },
 })
 
+const CustomLink = styled(NavLink)({
+    textDecoration: 'none',
+    color: 'black',
+    marginLeft: '4px'
+    // '&:hover': {
+    //     color: 'rgba(255, 255, 255, 0.7)',
+    // },
+})
+
 export const UserLoginScreen = () => {
 
     const [showPassword, setShowPassword] = useState(false)
@@ -61,6 +70,7 @@ export const UserLoginScreen = () => {
     const [checkError, setCheckError] = useState(false)
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const location = useLocation()
 
     const user = useSelector(state => state.user)
     var { loading, userInfor, error } = user
@@ -97,12 +107,18 @@ export const UserLoginScreen = () => {
 
     useEffect(() => {
         if (userInfor && Object.keys(userInfor).length !== 0) {
-            navigate(-1)
+            const redirect = location.search ? location.search.split('=')[1] : '/'
+            navigate(redirect)
         }
     }, [dispatch, userInfor]);
 
-    return (
+    useEffect(() => {
+        dispatch({
+            type: LOGIN_RESET,
+        })
+    }, [])
 
+    return (
         <CustomBox>
             <Box
                 sx={{
@@ -110,12 +126,12 @@ export const UserLoginScreen = () => {
                     fontSize: '30px',
                     fontWeight: '600',
                     paddingBottom: '20px'
-                }}>
+                }}
+            >
                 Đăng nhập
             </Box>
 
             <LoginBox>
-
                 <Box sx={{ width: '80%', margin: 'auto', height: '100%', paddingTop: '48px', boxSizing: 'border-box' }}>
 
                     {
@@ -180,15 +196,10 @@ export const UserLoginScreen = () => {
                     </Formik>
 
                     <Box sx={{ paddingTop: '20px', paddingBottom: '10px', textAlign: 'center' }}>
-                        Bạn chưa có tài khoản ?
+                        Bạn chưa có tài khoản ? <CustomLink to={`/register`}> Đăng ký</CustomLink>
                     </Box>
-
                 </Box>
-
-
-
             </LoginBox>
-
         </CustomBox>
     )
 }

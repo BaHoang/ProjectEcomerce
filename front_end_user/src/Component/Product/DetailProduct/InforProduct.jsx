@@ -298,7 +298,7 @@ const InforProduct = (props) => {
         dispatch(cartAddProduct(productAddToCart))
       }
     } else {
-      navigate('/login')
+      navigate(`/login?from=/product/${product._id}`)
     }
   }
 

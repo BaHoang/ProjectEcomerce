@@ -8,6 +8,10 @@ import {
     PROFILE_FAIL,
     PROFILE_REQUEST,
     PROFILE_SUCCESS,
+
+    REGISTER_FAIL,
+    REGISTER_REQUEST,
+    REGISTER_SUCCESS,
 } from "../Constants/userConstant"
 
 import { CART_RESET_PRODUCT } from "../Constants/cartConstant"
@@ -78,6 +82,30 @@ export const getProfileAction = (userInfor) => async (dispatch) => {
     }
 }
 
+export const userRegisterAction = (name, email, password, address, phoneNumber, gender) => async (dispatch, getState) => {
+    try {
+        dispatch({ type: REGISTER_REQUEST })
+        const dataRegister = { name, email, password, address, phoneNumber, gender }
 
+        const config = {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+     
+        const { data } = await axios.post(`http://localhost:5000/api/user/resgister`, dataRegister, config)
 
+        dispatch({
+            type: REGISTER_SUCCESS,
+            payload: data,
+        })
 
+        // localStorage.setItem('userInfor', JSON.stringify(data))
+    } catch (error) {
+        
+        dispatch({
+            type: REGISTER_FAIL,
+            payload: error.response && error.message ? error.response.data : error.response,
+        })
+    }
+}

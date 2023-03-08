@@ -15,6 +15,7 @@ import PurchaseScreen from './HomeScreen/PurchaseScreen'
 import AccountScreen from './HomeScreen/AccountScreen'
 import DeliveryAddressScreen from './HomeScreen/DeliveryAddressScreen'
 import DetailOrderScreen from './HomeScreen/DetailOrderScreen'
+import { UserRegisterScreen } from './HomeScreen/UserRegisterScreen'
 
 const CustomContainer = styled(Container)(({ theme }) => ({
 
@@ -50,6 +51,7 @@ function App() {
             <Route path="/" element={<HomeScreen searchProduct={searchProduct} />} />
             <Route path="/product/:id" element={<ProductDetailScreen />} />
             <Route path="/login" element={<UserLoginScreen />} />
+            <Route path="/register" element={<UserRegisterScreen />} />
 
             <Route element={<PrivateRoutes />}>
               <Route path="/cart" element={<CartScreen />} />

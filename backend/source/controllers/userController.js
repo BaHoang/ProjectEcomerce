@@ -63,7 +63,7 @@ const resgisterUser = async (req, res, next) => {
         var user = await User.findOne({ email: email })
 
         if (user) {
-            return res.status(400).json("Acount exist")
+            return res.status(400).json("Email exist. ")
         }
 
         var newUser = await User.create({

@@ -25,7 +25,7 @@ import axios from 'axios'
 export const listProducts = (page, pageSize, searchProduct ) => async (dispatch) => {
     try {
         dispatch({ type: PRODUCT_LIST_REQUEST })
-        const { data } = await axios.get(`http://localhost:5000/api/product?pageNumber=${page}&limit=${pageSize}&name=${searchProduct}`)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/product?pageNumber=${page}&limit=${pageSize}&name=${searchProduct}`)
         dispatch({
             type: PRODUCT_LIST_SUCCESS,
             payload: data,
@@ -43,7 +43,7 @@ export const listProducts = (page, pageSize, searchProduct ) => async (dispatch)
 export const productDetailAction = (id) => async (dispatch) => {
     try {
         dispatch({ type: PRODUCT_DETAIL_REQUEST })
-        const { data } = await axios.get(`http://localhost:5000/api/product/${id}`)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/product/${id}`)
         dispatch({
             type: PRODUCT_DETAIL_SUCCESS,
             payload: data,
@@ -61,7 +61,7 @@ export const productDetailAction = (id) => async (dispatch) => {
 export const productComparePriceListAction = (id) => async (dispatch) => {
     try {
         dispatch({ type: COMPARE_PRICE_LIST_REQUEST })
-        const { data } = await axios.get(`http://localhost:5000/api/dataMatching/${id}`)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/dataMatching/${id}`)
         dispatch({
             type: COMPARE_PRICE_LIST_SUCCESS,
             payload: data,
@@ -105,7 +105,7 @@ export const addProductAdmin = (userInfor, file, name, price, priceDiscount, bra
         formData.append('pin', pin)
         formData.append('description', description)
 
-        const { data } = await axios.post(`http://localhost:5000/api/product`, formData, config)
+        const { data } = await axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/product`, formData, config)
 
         dispatch({
             type: PRODUCT_ADD_SUCCESS,
@@ -151,7 +151,7 @@ export const updateProductAdmin = (userInfor, idProduct, selectedFile, name, pri
         formData.append('pin', pin)
         formData.append('description', description)
 
-        const { data } = await axios.put(`http://localhost:5000/api/product/${idProduct}`, formData, config)
+        const { data } = await axios.put(`${process.env.REACT_APP_API_ENDPOINT}/api/product/${idProduct}`, formData, config)
 
         dispatch({
             type: PRODUCT_UPDATE_SUCCESS,

@@ -27,10 +27,10 @@ export const listOrders = (userInfor, page, pageSize, searchOrder, statusOrder) 
         }
 
         const { data } = await axios.get(
-            `http://localhost:5000/api/orders?pageNumber=${page}&limit=${pageSize}&name=${searchOrder}&type=${statusOrder}`,
+            `${process.env.REACT_APP_API_ENDPOINT}/api/orders?pageNumber=${page}&limit=${pageSize}&name=${searchOrder}&type=${statusOrder}`,
             config
         )
-
+        
         dispatch({
             type: ORDER_LIST_SUCCESS,
             payload: data,
@@ -57,7 +57,7 @@ export const orderDetailAction = (userInfor, id) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.get(`http://localhost:5000/api/orders/${id}`, config)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/orders/${id}`, config)
 
         dispatch({
             type: ORDER_DETAIL_SUCCESS,
@@ -87,7 +87,7 @@ export const orderUpdateStatusAction = (userInfor, id, status) => async (dispatc
 
         const statusUpdate = { orderStatus: status + 1 }
        
-        const { data } = await axios.put(`http://localhost:5000/api/orders/${id}/status`, statusUpdate, config)
+        const { data } = await axios.put(`${process.env.REACT_APP_API_ENDPOINT}/api/orders/${id}/status`, statusUpdate, config)
 
         dispatch({
             type: ORDER_UPDATE_SUCCESS,

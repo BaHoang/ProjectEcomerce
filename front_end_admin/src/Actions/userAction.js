@@ -36,7 +36,7 @@ export const userLogin = (email, password) => async (dispatch, getState) => {
             }
         }
 
-        const { data } = await axios.post(`http://localhost:5000/api/user/login`, dataLogin, config)
+        const { data } = await axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/user/login`, dataLogin, config)
 
 
         dispatch({
@@ -73,7 +73,7 @@ export const listUserByAdmin = (userInfor, page, pageSize, textSearch) => async 
             textSearch = ''
         }
         
-        const { data } = await axios.get(`http://localhost:5000/api/user?pageNumber=${page}&limit=${pageSize}&name=${textSearch}`, config)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/user?pageNumber=${page}&limit=${pageSize}&name=${textSearch}`, config)
         console.log(data)
         
         dispatch({
@@ -101,7 +101,7 @@ export const detailUserByAdmin = (id, userInfor) => async (dispatch) => {
             },
         }
 
-        const { data } = await axios.get(`http://localhost:5000/api/user/${id}`, config)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/user/${id}`, config)
 
         dispatch({
             type: DETAIL_USER_SUCCESS,
@@ -128,7 +128,7 @@ export const acceptAdminAction = (id, userInfor) => async (dispatch) => {
         }
 
         const article = { title: 'Axios PUT Request Example' }
-        const { data } = await axios.put(`http://localhost:5000/api/user/${id}`, article, config)
+        const { data } = await axios.put(`${process.env.REACT_APP_API_ENDPOINT}/api/user/${id}`, article, config)
 
         dispatch({
             type: ACCEPT_ADMIN_SUCCESS,
@@ -153,7 +153,7 @@ export const myProfile = (userInfor) => async (dispatch, getState) => {
             },
         }
 
-        const { data } = await axios.get(`http://localhost:5000/api/user/profile`, config)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/user/profile`, config)
 
         dispatch({
             type: PROFILE_SUCCESS,

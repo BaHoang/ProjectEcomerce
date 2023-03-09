@@ -35,7 +35,7 @@ export const getRevenueMonth = (year, userInfor) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.get(`http://localhost:5000/api/statistic/revenueMonth?year=${year}`, config)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/statistic/revenueMonth?year=${year}`, config)
 
         dispatch({
             type: REVENUE_MONTH_SUCCESS,
@@ -64,7 +64,7 @@ export const getNumberProductSuccessMonth = (year, userInfor) => async (dispatch
             }
         }
 
-        const { data } = await axios.get(`http://localhost:5000/api/statistic/orderSuccessMonth?year=${year}`, config)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/statistic/orderSuccessMonth?year=${year}`, config)
 
         dispatch({
             type: NUMBER_PRODUCT_SUCCESS_MONTH_SUCCESS,
@@ -93,7 +93,7 @@ export const getNumberRegisterUserMonth = (year, userInfor) => async (dispatch) 
             }
         }
 
-        const { data } = await axios.get(`http://localhost:5000/api/statistic/registerUser?year=${year}`, config)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/statistic/registerUser?year=${year}`, config)
 
         dispatch({
             type: NUMBER_REGISTER_USER_MONTH_SUCCESS,
@@ -122,7 +122,7 @@ export const getNumberTypeAndCountInStockProductBrand = (userInfor) => async (di
             }
         }
 
-        const { data } = await axios.get(`http://localhost:5000/api/statistic/productBrand`, config)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/statistic/productBrand`, config)
 
         dispatch({
             type: NUMBER_TYPE_AND_COUNT_IN_STOCK_SUCCESS,
@@ -151,7 +151,7 @@ export const getRevenueAndNumberProductBoughtBrand = (userInfor) => async (dispa
             }
         }
 
-        const { data } = await axios.get(`http://localhost:5000/api/statistic/productBoughtBrand`, config)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/statistic/productBoughtBrand`, config)
 
         dispatch({
             type: REVENUE_BRAND_AND_NUMBER_PRODUCT_BOUGHT_SUCCESS,

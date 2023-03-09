@@ -1,4 +1,4 @@
-import {  Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import NotFound from './Component/NotFound';
 import PrivateRoutes from './Component/PrivateRoutes';
 import { AdminDashboardScreen } from './HomeScreen/AdminDashboardScreen';
@@ -11,8 +11,23 @@ import { AdminUserScreen } from './HomeScreen/AdminUserScreen';
 function App() {
   return (
 
+    // <Routes>
+    //   <Route path="/admin/login" element={<AdminLoginScreen />} />
+
+    //   <Route element={<PrivateRoutes />}>
+    //     <Route path='/admin' element={<AdminScreen />}>
+    //       <Route path="order" element={<AdminOrderScreen />} />
+    //       <Route path="user" element={<AdminUserScreen />} />
+    //       <Route path="dashboard" element={<AdminDashboardScreen />} />
+    //       <Route path="product" element={<AdminProductScreen />} />
+    //       <Route index path='*' element={<NotFound />} />
+    //     </Route>
+    //   </Route>
+
+    // </Routes>
+
     <Routes>
-      <Route path="/admin/login" element={<AdminLoginScreen />} />
+      <Route path="/" element={<AdminLoginScreen />} />
 
       <Route element={<PrivateRoutes />}>
         <Route path='/admin' element={<AdminScreen />}>

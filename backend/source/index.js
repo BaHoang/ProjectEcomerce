@@ -28,7 +28,10 @@ const app = express();
 // cors
 app.use(
   cors({
-    origin: [`http://localhost:8080`, `http://localhost:3000`, `http://localhost:4200`, `http://front-end-user-telephone.s3-website-ap-southeast-1.amazonaws.com`], //react's address
+    origin: [`http://localhost:8080`, `http://localhost:3000`, `http://localhost:4200`,
+      `http://front-end-user-telephone.s3-website-ap-southeast-1.amazonaws.com`,
+      `http://front-end-admin-telephone.s3-website-ap-southeast-1.amazonaws.com/`
+    ], //react's address
     credentials: true,
   })
 );

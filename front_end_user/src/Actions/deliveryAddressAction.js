@@ -36,7 +36,8 @@ export const listDeliveryAddressAction = (userInfor) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.get(`http://localhost:5000/api/deliveryAddress`, config)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/deliveryAddress`, config)
+                     
 
         dispatch({
             type: DELIVERY_ADDRESS_LIST_SUCCESS,
@@ -85,7 +86,7 @@ export const deliveryAddressAddAction = (userInfor, name, phone, province, distr
             }
         }
 
-        const { data } = await axios.post(`http://localhost:5000/api/deliveryAddress`, newDeliveryAddress, config)
+        const { data } = await axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/deliveryAddress`, newDeliveryAddress, config)
 
         dispatch({
             type: DELIVERY_ADDRESS_ADD_SUCCESS,
@@ -126,7 +127,7 @@ export const deliveryAddressUpdateAction = (userInfor,indexDeliveryAddressUpdate
             }
         }
 
-        const { data } = await axios.put(`http://localhost:5000/api/deliveryAddress/${indexDeliveryAddressUpdate + 1}`, newDeliveryAddress, config)
+        const { data } = await axios.put(`${process.env.REACT_APP_API_ENDPOINT}/api/deliveryAddress/${indexDeliveryAddressUpdate + 1}`, newDeliveryAddress, config)
 
         dispatch({
             type: DELIVERY_ADDRESS_UPDATE_SUCCESS,
@@ -156,7 +157,7 @@ export const deliveryAddressDeleteAction = (userInfor,indexDeliveryAddressDelete
             }
         }
 
-        const { data } = await axios.delete(`http://localhost:5000/api/deliveryAddress?item=${indexDeliveryAddressDelete + 1}`, config)
+        const { data } = await axios.delete(`${process.env.REACT_APP_API_ENDPOINT}/api/deliveryAddress?item=${indexDeliveryAddressDelete + 1}`, config)
 
         dispatch({
             type: DELIVERY_ADDRESS_DELETE_SUCCESS,
@@ -190,7 +191,7 @@ export const deliveryAddressSetDefaultAction = (userInfor,index) => async (dispa
             }
         }
 
-        const { data } = await axios.put(`http://localhost:5000/api/deliveryAddress/updateDefault?item=${index + 1}`, article, config)
+        const { data } = await axios.put(`${process.env.REACT_APP_API_ENDPOINT}/api/deliveryAddress/updateDefault?item=${index + 1}`, article, config)
 
         dispatch({
             type: DELIVERY_ADDRESS_SET_DEFAULT_SUCCESS,

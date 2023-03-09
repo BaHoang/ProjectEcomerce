@@ -29,7 +29,7 @@ export const userLogin = (email, password) => async (dispatch, getState) => {
             },
           }
      
-        const { data } = await axios.post(`http://localhost:5000/api/user/login`, dataLogin, config)
+        const { data } = await axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/user/login`, dataLogin, config)
 
         dispatch({
             type: LOGIN_SUCCESS,
@@ -93,7 +93,7 @@ export const userRegisterAction = (name, email, password, address, phoneNumber, 
             },
           }
      
-        const { data } = await axios.post(`http://localhost:5000/api/user/resgister`, dataRegister, config)
+        const { data } = await axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/user/resgister`, dataRegister, config)
 
         dispatch({
             type: REGISTER_SUCCESS,

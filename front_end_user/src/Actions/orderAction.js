@@ -47,7 +47,7 @@ export const orderProductAction = (userInfor, listProductPlaceOrder, address, tr
             }
         }
 
-        const { data } = await axios.post(`http://localhost:5000/api/orders`, dataOrder, config)
+        const { data } = await axios.post(`${process.env.REACT_APP_API_ENDPOINT}/api/orders`, dataOrder, config)
 
         dispatch({
             type: CREATE_ORDER_SUCCESS,
@@ -82,7 +82,7 @@ export const listMyOrders = (userInfor, page, pageSize, searchOrder, statusOrder
         }
 
         const { data } = await axios.get(
-            `http://localhost:5000/api/orders/myorders?pageNumber=${page}&limit=${pageSize}&name=${searchOrder}&type=${statusOrder}`,
+            `${process.env.REACT_APP_API_ENDPOINT}/api/orders/myorders?pageNumber=${page}&limit=${pageSize}&name=${searchOrder}&type=${statusOrder}`,
             config
         )
 
@@ -110,7 +110,7 @@ export const orderDetailAction = (userInfor, id) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.get(`http://localhost:5000/api/orders/${id}`, config)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/api/orders/${id}`, config)
 
         dispatch({
             type: ORDER_DETAIL_SUCCESS,
@@ -140,7 +140,7 @@ export const destroyOrderAction = (userInfor, id) => async (dispatch) => {
 
         const article = { title: 'Axios PUT Request Example' }
 
-        const { data } = await axios.put(`http://localhost:5000/api/orders/${id}/destroy`, article, config)
+        const { data } = await axios.put(`${process.env.REACT_APP_API_ENDPOINT}/api/orders/${id}/destroy`, article, config)
 
         dispatch({
             type: ORDER_DESTROY_SUCCESS,
@@ -170,7 +170,7 @@ export const confirmReceivedOrderAction = (userInfor, id) => async (dispatch) =>
 
         const article = { title: 'Axios PUT confirm received order' }
 
-        const { data } = await axios.put(`http://localhost:5000/api/orders/${id}/confirmReceived`, article, config)
+        const { data } = await axios.put(`${process.env.REACT_APP_API_ENDPOINT}/api/orders/${id}/confirmReceived`, article, config)
 
         dispatch({
             type: ORDER_CONFIRM_RECEIVED_SUCCESS,

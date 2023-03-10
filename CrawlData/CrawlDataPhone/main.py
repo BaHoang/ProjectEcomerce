@@ -2,13 +2,13 @@ from twisted.internet import reactor, defer
 from scrapy.crawler import CrawlerRunner
 from scrapy.utils.log import configure_logging
 from scrapy.utils.project import get_project_settings
-from crawl_data_phone.spiders.DiDongThongMinh import DiDongThongMinhSpider
-from crawl_data_phone.spiders.HNamMobile import HNamMobileSpider
-from crawl_data_phone.spiders.DiDongViet import DiDongVietSpider
-from crawl_data_phone.spiders.NguyenKim import NguyenKimSpider
-from crawl_data_phone.spiders.HoangHaMobile import HoangHaMobileSpider
-from crawl_data_phone.spiders.CellphoneS import CellphoneSpider
-from crawl_data_phone.spiders.ClickBuy import ClickBuySpider
+from CrawlDataPhone.spiders.DiDongThongMinh import DiDongThongMinhSpider
+from CrawlDataPhone.spiders.HNamMobile import HNamMobileSpider
+from CrawlDataPhone.spiders.DiDongViet import DiDongVietSpider
+from CrawlDataPhone.spiders.NguyenKim import NguyenKimSpider
+from CrawlDataPhone.spiders.HoangHaMobile import HoangHaMobileSpider
+from CrawlDataPhone.spiders.CellphoneS import CellphoneSpider
+from CrawlDataPhone.spiders.ClickBuy import ClickBuySpider
 
 def main():
     settings = get_project_settings()

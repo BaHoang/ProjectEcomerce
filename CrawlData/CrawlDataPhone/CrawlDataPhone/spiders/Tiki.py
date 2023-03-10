@@ -1,7 +1,7 @@
 import scrapy
 import requests
 import json
-from crawl_data_phone.items import CrawlDataPhoneItem
+from CrawlDataPhone.items import CrawlDataPhoneItem
 
 
 class TikiSpider(scrapy.Spider):

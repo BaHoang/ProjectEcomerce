@@ -1,6 +1,6 @@
 import scrapy
 import requests
-from crawl_data_phone.items import CrawlDataPhoneItem
+from CrawlDataPhone.items import CrawlDataPhoneItem
 from scrapy.selector import Selector
 import json
 from lxml import html

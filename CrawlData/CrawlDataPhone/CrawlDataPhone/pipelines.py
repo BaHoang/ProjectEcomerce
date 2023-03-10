@@ -8,7 +8,7 @@
 from itemadapter import ItemAdapter
 import pymongo
 import sys
-from crawl_data_phone.items import CrawlDataPhoneItem
+from CrawlDataPhone.items import CrawlDataPhoneItem
 
 class CrawlDataPhonePipeline:
  

@@ -2,3 +2,5 @@
 package-lock.json
 yarn.lock
 
+createProduct.html
+updateProduct.html

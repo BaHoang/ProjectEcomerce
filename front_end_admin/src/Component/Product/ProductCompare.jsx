@@ -1,7 +1,7 @@
-import { Box, Button, styled } from '@mui/material'
+import { Box, Button, styled, Link } from '@mui/material'
 import React from 'react'
 import { formatPrice } from '../../Utils/FormatPrice'
-import { Link, NavLink } from 'react-router-dom';
+import {  NavLink } from 'react-router-dom';
 const ImageItemBox = styled(Box)(({ theme }) => ({
     minWidth: '60px',
     width: '60px',
@@ -21,8 +21,6 @@ const CustomLink = styled(NavLink)({
 const ProductCompare = (props) => {
 
     const { products } = props
-    console.log(products)
-
     return (
         <>
             {
@@ -132,8 +130,6 @@ const ProductCompare = (props) => {
                                 </Box>
                             </Box>
 
-
-
                             <Box
                                 sx={{
                                     width: '18%',
@@ -148,34 +144,28 @@ const ProductCompare = (props) => {
                                         textAlign: 'center',
                                         marginBottom: '4px',
                                         fontSize: '14px',
-
-
                                         overflow: 'hidden',
                                         textOverflow: 'ellipsis',
                                         display: '-webkit-box',
                                         WebkitLineClamp: '2',
                                         WebkitBoxOrient: 'vertical',
-
-
                                     }}
                                 >
                                     {product.namePage}
                                 </Box>
 
-                                <Button
-                                    variant='contained'
-                                    sx={{
-                                        textTransform: 'none',
-                                        padding: '2px 6px 2px 6px',
-                                        fontSize: '12px'
-                                    }}
-                                >
-                                    <CustomLink to= { product.linkProduct }>
+                                <Link href={product.linkProduct} target="_blank">
+                                    <Button
+                                        variant='contained'
+                                        sx={{
+                                            textTransform: 'none',
+                                            padding: '2px 6px 2px 6px',
+                                            fontSize: '12px'
+                                        }}
+                                    >
                                         Tới nơi bán
-                                    </CustomLink>
-
-                                </Button>
-
+                                    </Button>
+                                </Link>
 
                             </Box>
 

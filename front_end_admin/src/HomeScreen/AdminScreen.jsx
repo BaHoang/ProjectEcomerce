@@ -153,7 +153,7 @@ export const AdminScreen = () => {
                         boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
                         display: (openNotify ? 'block' : 'none')
                     }}>
-                        <a href="https://viblo.asia/p/hoc-react-redux-trong-15-phut-1Je5E7q0ZnL#_22-giai-phap-3">
+                        <a href="">
                             Thong bao
                         </a>
                     </Box>

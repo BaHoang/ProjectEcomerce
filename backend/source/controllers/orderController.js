@@ -5,12 +5,7 @@ import { validationResult } from 'express-validator';
 // @route POST /api/order
 // @access private
 //  test rồi
-// chú ý tới cái ảnh
 
-// neu co thoi gian thi nen cai thien lai doan code nay cho truong hop neu mot san pham khong duoc tao don hang
-// thi tat ca san pham cung khong duoc tao don hang
-
-// dang co van de voi phi van chuyen (chua co cach tinh phi van chuyen phu hop)
 const orderProduct = async (req, res, next) => {
     try {
         const errors = validationResult(req);
@@ -67,7 +62,7 @@ const orderProduct = async (req, res, next) => {
 // @route GET /api/order/:id
 // @access private
 // test rồi
-// neu co thoi gian thi khong cho mot nhieu co the xem don hang cua nguoi khac
+
 const getOrderById = async (req, res, next) => {
     try {
         var id = req.params.id
@@ -87,7 +82,7 @@ const getOrderById = async (req, res, next) => {
 // @route GET /api/orders/myorders?name=name&pageNumber=1&limit=10&type=statusOrder
 // @access private
 // test rồi
-// cần lấy thêm về theo thể loại nữa
+
 const getMyOrder = async (req, res, next) => {
     try {
 
@@ -151,7 +146,7 @@ const getMyOrder = async (req, res, next) => {
 // @route GET /api/orders?name=name&pageNumber=1&limit=10&type=statusOrder
 // @access private admin
 // test rồi 
-//cân them cái lấy về theo thể loại nữa (da bo sung)
+
 const getOrder = async (req, res, next) => {
 
     try {

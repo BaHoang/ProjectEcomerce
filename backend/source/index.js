@@ -36,16 +36,7 @@ app.use(
     credentials: true,
   })
 );
-// // cors
-// app.use(cors())
 
-// app.use(function(req, res, next) {
-//   res.setHeader('Access-Control-Allow-Origin', '*');
-//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-//   res.setHeader('Access-Control-Allow-Credentials', true);
-//   next();
-// });
 
 // middleware body-parser for req.body
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -53,19 +44,6 @@ app.use(bodyParser.json());
 var __dirname = path.resolve();
 
 app.use(express.static("uploads"));
-
-// lat xoa
-app.get("/createProduct", function (req, res) {
-  res.sendFile(__dirname + "/source/createProduct.html");
-});
-
-app.get("/updateProduct", function (req, res) {
-  res.sendFile(__dirname + "/source/updateProduct.html");
-});
-
-// app.get('/', (req, res) => {
-//   res.send('Hello World!')
-// })
 
 app.use("/api/product", productRoutes);
 app.use("/api/user", userRoutes);

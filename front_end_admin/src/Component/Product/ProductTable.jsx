@@ -1,5 +1,6 @@
 import { Box, styled, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material'
 import React from 'react'
+import { formatPrice } from '../../Utils/FormatPrice'
 import ErrorFetchData from '../Common/ErrorFetchData'
 import Loading from '../Common/Loading'
 
@@ -82,7 +83,7 @@ const ProductTable = (props) => {
                                         Price
                                     </CustomTableCellHeader>
                                     <CustomTableCellContent align='left'>
-                                        {price}
+                                        {formatPrice(price)}
                                     </CustomTableCellContent>
                                 </TableRow>
 
@@ -91,7 +92,7 @@ const ProductTable = (props) => {
                                         Price Discount
                                     </CustomTableCellHeader>
                                     <CustomTableCellContent align='left'>
-                                        {priceDiscount}
+                                        {formatPrice(priceDiscount)}
                                     </CustomTableCellContent>
                                 </TableRow>
 

@@ -18,7 +18,7 @@ const TableUser = (props) => {
     let email = userDetail.email ? userDetail.email : ''
     let gender = ''
     if (userDetail.gender !== undefined) {
-        gender = userDetail.gender ? 'Nam' : 'Nu'
+        gender = userDetail.gender ? 'Nam' : 'Nữ'
     }
     let address = userDetail.address ? userDetail.address : ''
     let role = userDetail.isAdmin ? 'Admin' : 'User'
@@ -92,7 +92,7 @@ const TableUser = (props) => {
                     </CustomTableCellContent>
                 </TableRow>
 
-                <TableRow>
+                {/* <TableRow>
                     <CustomTableCellHeader component="th" scope="row" sx={{borderBottom: 'none'}}>
 
                     </CustomTableCellHeader>
@@ -107,7 +107,7 @@ const TableUser = (props) => {
                             Cập nhật hồ sơ
                         </Button>
                     </CustomTableCellContent>
-                </TableRow>
+                </TableRow> */}
 
             </TableBody>
         </Table>

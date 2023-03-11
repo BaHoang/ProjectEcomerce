@@ -12,6 +12,7 @@ import Loading from '../Component/Common/Loading'
 import ProductUpdateModal from '../Component/Product/ProductUpdateModal'
 import { PRODUCT_UPDATE_RESET } from '../Constants/productConstant'
 import ProductCompareModal from '../Component/Product/ProductCompareModal'
+import { formatPrice } from '../Utils/FormatPrice'
 
 export const AdminProductScreen = () => {
 
@@ -106,8 +107,8 @@ export const AdminProductScreen = () => {
           name: product.name,
           brand: product.brand,
           countInStock: product.countInStock,
-          price: product.price,
-          priceDiscount: product.priceDiscount
+          price: formatPrice(product.price),
+          priceDiscount: formatPrice(product.priceDiscount)
         })
       })
       setPageState(old => ({ ...old, rows: tempRows, rowCountState: totalRow }))

@@ -18,6 +18,7 @@ import OrderUpdateError from '../Component/Order/OrderUpdateError'
 import OrderUpdateSuccess from '../Component/Order/OrderUpdateSuccess'
 import OrderUpdateLoading from '../Component/Order/OrderUpdateLoading'
 import { ORDER_UPDATE_RESET } from '../Constants/orderConstant'
+import { formatPrice } from '../Utils/FormatPrice'
 
 export const AdminOrderScreen = () => {
 
@@ -108,7 +109,7 @@ export const AdminOrderScreen = () => {
           name: order.orderProd.name,
           transportMethod: getNameTransportMethod(order.transportMethod),
           paymentMethod: getNamePaymentMethod(order.paymentMethod),
-          priceDiscount: order.orderProd.priceDiscount,
+          priceDiscount: formatPrice(order.orderProd.priceDiscount),
           orderStatus: getNameStatus(order.orderStatus),
           isPaid: getNamePaid(order.isPaid),
         })

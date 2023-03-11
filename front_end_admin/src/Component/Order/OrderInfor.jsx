@@ -11,6 +11,7 @@ import Loading from '../Common/Loading'
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh'
 import { useDispatch, useSelector } from 'react-redux'
 import { orderUpdateStatusAction } from '../../Actions/orderAction'
+import { formatPrice } from '../../Utils/FormatPrice'
 
 const CustomTableCell = styled(TableCell)(({ theme }) => ({
 
@@ -136,10 +137,10 @@ const OrderInfor = (props) => {
 
                     <TableRow>
                       <TableCell align="left" sx={{ color: '#1976d2', paddingLeft: '0px' }}>{orderInfor.orderProd.name}</TableCell>
-                      <TableCell align="left">{orderInfor.orderProd.price} đ</TableCell>
+                      <TableCell align="left">{formatPrice(orderInfor.orderProd.price)}</TableCell>
                       <TableCell align="left">{orderInfor.numOfProd}</TableCell>
                       <TableCell align="left">{orderInfor.orderProd.discount} %</TableCell>
-                      <TableCell align="left">{orderInfor.orderProd.priceDiscount * orderInfor.numOfProd} đ</TableCell>
+                      <TableCell align="left">{formatPrice(orderInfor.orderProd.priceDiscount * orderInfor.numOfProd)} </TableCell>
 
                     </TableRow>
 
@@ -155,7 +156,7 @@ const OrderInfor = (props) => {
                         Tạm tính
                       </CustomTableCell>
                       <CustomTableCell sx={{ paddingRight: '0px', color: 'black' }}>
-                        {orderInfor.orderProd.priceDiscount * orderInfor.numOfProd} đ
+                        {formatPrice(orderInfor.orderProd.priceDiscount * orderInfor.numOfProd)} 
                       </CustomTableCell>
                     </TableRow>
 
@@ -164,7 +165,7 @@ const OrderInfor = (props) => {
                         Phí vận chuyển
                       </CustomTableCell>
                       <CustomTableCell sx={{ paddingRight: '0px', color: 'black', }}>
-                        {orderInfor.transportFee} đ
+                        {formatPrice(orderInfor.transportFee)}
                       </CustomTableCell>
                     </TableRow>
 
@@ -173,7 +174,7 @@ const OrderInfor = (props) => {
                         Tổng cộng
                       </CustomTableCell>
                       <CustomTableCell sx={{ color: 'red', paddingRight: '0px', fontSize: '24px' }}>
-                        {orderInfor.orderProd.priceDiscount * orderInfor.numOfProd + orderInfor.transportFee} đ
+                        {formatPrice(orderInfor.orderProd.priceDiscount * orderInfor.numOfProd + orderInfor.transportFee)}
                       </CustomTableCell>
                     </TableRow>
 

@@ -7,8 +7,9 @@ const dataMatching = async (req, res, next) => {
     var idProduct = req.params.id
     try {
         await client.connect()
-        var dataMatchingList = await client.db('data_phone_db_clean').collection('data_matching').find({idProductShop: idProduct}).toArray()       
-        return res.status(200).json(dataMatchingList)
+        var dataMatchingList = await client.db('data_phone_db_clean').collection('data_matching_two').find({idProductShop: idProduct}).toArray()    
+
+        return res.status(200).json(dataMatchingList.sort((a, b) => Number(a.priceDiscount) - Number(b.priceDiscount)))
         
     } catch (error) {
         console.log(error)

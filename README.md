@@ -22,7 +22,7 @@ run: npm start
 ### crawl data
 install python\
 install scrapy\
-đi vào thư mục crawl_data_phone\
+đi vào thư mục CrawlDataPhone\
 run file main.py
 
 ### clean and maching data

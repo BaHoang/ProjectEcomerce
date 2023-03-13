@@ -111,7 +111,7 @@ export const AdminOrderScreen = () => {
           paymentMethod: getNamePaymentMethod(order.paymentMethod),
           priceDiscount: formatPrice(order.orderProd.priceDiscount),
           orderStatus: getNameStatus(order.orderStatus),
-          isPaid: getNamePaid(order.isPaid),
+          // isPaid: getNamePaid(order.isPaid),
         })
       })
       setPageState(old => ({ ...old, rows: tempRows, rowCountState: totalRow }))

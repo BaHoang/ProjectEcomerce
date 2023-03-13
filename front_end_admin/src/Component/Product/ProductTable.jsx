@@ -19,7 +19,7 @@ const ProductTable = (props) => {
     var { productInfor } = props
 
     if (productInfor && Object.keys(productInfor).length !== 0) {
-        
+
         var name = productInfor.name ? productInfor.name : ''
         var price = productInfor.price ? productInfor.price : ''
         var priceDiscount = productInfor.priceDiscount ? productInfor.priceDiscount : ''
@@ -128,7 +128,7 @@ const ProductTable = (props) => {
                                         Rom
                                     </CustomTableCellHeader>
                                     <CustomTableCellContent align='left'>
-                                        {rom}
+                                        {rom} GB
                                     </CustomTableCellContent>
                                 </TableRow>
 
@@ -137,7 +137,7 @@ const ProductTable = (props) => {
                                         Ram
                                     </CustomTableCellHeader>
                                     <CustomTableCellContent align='left'>
-                                        {ram}
+                                        {ram} GB
                                     </CustomTableCellContent>
                                 </TableRow>
 
@@ -161,7 +161,7 @@ const ProductTable = (props) => {
 
                                 <TableRow>
                                     <CustomTableCellHeader component="th" scope="row">
-                                        Man Hinh
+                                        Screen
                                     </CustomTableCellHeader>
                                     <CustomTableCellContent align='left'>
                                         {manHinh}
@@ -179,7 +179,7 @@ const ProductTable = (props) => {
 
                                 <TableRow>
                                     <CustomTableCellHeader component="th" scope="row">
-                                        Camera Truoc
+                                        Camera Trước
                                     </CustomTableCellHeader>
                                     <CustomTableCellContent align='left'>
                                         {cameraTruoc}

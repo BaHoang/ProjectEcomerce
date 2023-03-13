@@ -12,6 +12,7 @@ import PriorityHighIcon from '@mui/icons-material/PriorityHigh'
 import { useDispatch, useSelector } from 'react-redux'
 import { orderUpdateStatusAction } from '../../Actions/orderAction'
 import { formatPrice } from '../../Utils/FormatPrice'
+import { formatPercent } from '../../Utils/FormatPercent'
 
 const CustomTableCell = styled(TableCell)(({ theme }) => ({
 
@@ -128,7 +129,7 @@ const OrderInfor = (props) => {
                       <TableCell align="left" sx={{ paddingLeft: '0px' }}>Sản phẩm</TableCell>
                       <TableCell align="left">Giá</TableCell>
                       <TableCell align="left">Số lượng</TableCell>
-                      <TableCell align="left">Giảm giá</TableCell>
+                      <TableCell align="left">Giá giảm</TableCell>
                       <TableCell align="left">Tạm tính</TableCell>
                     </TableRow>
                   </TableHead>
@@ -139,7 +140,7 @@ const OrderInfor = (props) => {
                       <TableCell align="left" sx={{ color: '#1976d2', paddingLeft: '0px' }}>{orderInfor.orderProd.name}</TableCell>
                       <TableCell align="left">{formatPrice(orderInfor.orderProd.price)}</TableCell>
                       <TableCell align="left">{orderInfor.numOfProd}</TableCell>
-                      <TableCell align="left">{orderInfor.orderProd.discount} %</TableCell>
+                      <TableCell align="left">{formatPrice(orderInfor.orderProd.priceDiscount)}</TableCell>
                       <TableCell align="left">{formatPrice(orderInfor.orderProd.priceDiscount * orderInfor.numOfProd)} </TableCell>
 
                     </TableRow>

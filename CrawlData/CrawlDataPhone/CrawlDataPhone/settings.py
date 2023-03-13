@@ -7,10 +7,10 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'crawl_data_phone'
+BOT_NAME = 'CrawlDataPhone'
 
-SPIDER_MODULES = ['crawl_data_phone.spiders']
-NEWSPIDER_MODULE = 'crawl_data_phone.spiders'
+SPIDER_MODULES = ['CrawlDataPhone.spiders']
+NEWSPIDER_MODULE = 'CrawlDataPhone.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -64,7 +64,7 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'crawl_data_phone.pipelines.CrawlDataPhonePipeline': 300,
+   'CrawlDataPhone.pipelines.CrawlDataPhonePipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

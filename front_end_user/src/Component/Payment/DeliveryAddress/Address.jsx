@@ -7,6 +7,7 @@ import Loading from '../../Common/Loading'
 import DeliveryAddressAddModal from './DeliveryAddressAddModal'
 import DeliveryAddressListModal from './DeliveryAddressListModal'
 import DeliveryAddressUpdateModal from './Update/DeliveryAddressUpdateModal'
+import AddIcon from '@mui/icons-material/Add'
 
 const WrapBox = styled(Box)(({ theme }) => ({
     padding: '12px',
@@ -164,12 +165,25 @@ const Address = () => {
                     <Loading />
                 ) : error ? (
                     <Box>
-                        Hien khong co dia chi, ban hay thu tai lai
+                        Hiện không có địa chỉ, bạn hãy thử tại lại
                     </Box>
                 ) : (
                     (listAddress.length === 0) ? (
-                        <Box>
-                            Hiện không có địa chỉ
+                        <Box sx={{ color: 'red' }}>
+                            Hiện không có địa chỉ. Bạn hãy thêm địa chỉ giao hàng.
+                      
+                            <Button
+                                variant='contained'
+                                startIcon={<AddIcon />}
+                                onClick={handleOpenDeliveryAddressAddModal}
+                                sx={{
+                                    textTransform: 'capitalize',
+                                    backgroundColor: '#1c93fc',
+                                    marginLeft: '8px'
+                                }}
+                            >
+                                Thêm địa chỉ mới
+                            </Button>
                         </Box>
                     ) : (
                         (address && Object.keys(address).length !== 0) && (

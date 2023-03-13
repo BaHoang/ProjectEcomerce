@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { deleteManyItemCartAction } from '../Actions/cartAction'
 import { orderProductAction, resetOrderProductAction } from '../Actions/orderAction'
 import Loading from '../Component/Common/Loading'
+import DeliveryAddressInforNotEnoughError from '../Component/DeliveryAddressScreen/DeliveryAddressInforNotEnoughError'
 import NamePageBody from '../Component/Layout/NamePageBody'
 import Address from '../Component/Payment/DeliveryAddress/Address'
 
@@ -112,6 +113,7 @@ const PaymentScreen = () => {
     var { transportMethod, note, paymentMethod, listProduct } = paymentInfor
 
     const [totalPrice, setTotalPrice] = useState(0)
+    const [errorNotEnoughInfor, setErrorNotEnoughInfor] = useState(false)
 
     const placeOrder = () => {
 
@@ -150,7 +152,7 @@ const PaymentScreen = () => {
         if (checkData) {
             dispatch(orderProductAction(userInfor, listProductPlaceOrder, address, transportMethod, note, paymentMethod, shippingPrice))
         } else {
-            console.log("loi")
+            setErrorNotEnoughInfor(true)
         }
     }
 
@@ -186,6 +188,15 @@ const PaymentScreen = () => {
 
     }, [success])
 
+
+    // dan cho de sua navigate
+    useEffect(() => {
+        if (address && Object.keys(address).length !== 0) {
+            setErrorNotEnoughInfor(false)
+        }
+
+    }, [address])
+
     return (
         <Box
             sx={{
@@ -200,6 +211,10 @@ const PaymentScreen = () => {
 
             {
                 error && <Box>Order Product Fail. Try again</Box>
+            }
+
+            {
+                errorNotEnoughInfor && <DeliveryAddressInforNotEnoughError />
             }
             <Address />
             <TransportMethod />

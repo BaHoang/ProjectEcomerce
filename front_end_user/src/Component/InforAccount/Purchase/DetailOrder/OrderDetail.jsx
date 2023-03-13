@@ -7,6 +7,7 @@ import { getNameTransportMethod } from '../../../../Utils/GetNameTransportMethod
 import { getNamePaymentMethod } from '../../../../Utils/GetNamePaymentMethod'
 import { getNameStatus } from '../../../../Utils/GetNameStatus'
 import { formatPrice } from '../../../../Utils/FormatPrice'
+import { formatPercent } from '../../../../Utils/FormatPercent'
 
 const HeaderBox = styled(Box)(({ theme }) => ({
     borderBottom: '1px dotted rgba(0,0,0,0.09)',
@@ -48,7 +49,6 @@ const OrderDetail = (props) => {
     const navigate = useNavigate()
     const { order } = props
 
-    console.log("order", order)
     return (
         <Box sx={{ pt: '16px', pb: '8px', pl: { xs: '8px', sm: '16px', md: '32px' }, pr: { xs: '8px', sm: '16px', md: '32px' } }}>
 
@@ -123,10 +123,10 @@ const OrderDetail = (props) => {
                     <TableBody>
                         <TableRow>
                             <TableCell align="left" sx={{ color: '#1976d2', paddingLeft: '0px' }}>{order.orderProd.name}</TableCell>
-                            <TableCell align="left">{formatPrice(order.orderProd.price)} đ</TableCell>
+                            <TableCell align="left">{formatPrice(order.orderProd.price)}</TableCell>
                             <TableCell align="left">{order.numOfProd}</TableCell>
-                            <TableCell align="left">{order.orderProd.discount} %</TableCell>
-                            <TableCell align="left">{formatPrice(order.orderProd.priceDiscount * order.numOfProd)} đ</TableCell>
+                            <TableCell align="left">{formatPercent(order.orderProd.discount)} %</TableCell>
+                            <TableCell align="left">{formatPrice(order.orderProd.priceDiscount * order.numOfProd)}</TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>

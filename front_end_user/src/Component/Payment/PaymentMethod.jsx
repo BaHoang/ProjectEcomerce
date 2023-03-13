@@ -42,7 +42,10 @@ const PaymentMethod = () => {
     var { paymentMethod } = paymentInfor
 
     const handleChangePaymentMethod = (index) => {
-        dispatch(paymentMethodAction(index))
+        if (index == 0) {
+            dispatch(paymentMethodAction(index))
+        }
+
     }
     return (
         <WrapBox>
@@ -62,6 +65,7 @@ const PaymentMethod = () => {
                         <ItemBox
                             onClick={() => handleChangePaymentMethod(index)}
                             key={index}
+
                         >
                             <Box sx={{ paddingRight: '8px' }}>
                                 <Radio

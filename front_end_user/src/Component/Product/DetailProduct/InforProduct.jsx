@@ -454,7 +454,7 @@ const InforProduct = (props) => {
                     Thêm vào giỏ hàng
                   </Button>
 
-                  <Button
+                  {/* <Button
                     variant='contained'
                     sx={{
                       textTransform: 'capitalize',
@@ -463,7 +463,7 @@ const InforProduct = (props) => {
                     }}
                   >
                     Mua ngay
-                  </Button>
+                  </Button> */}
 
                 </Box>
 

@@ -151,7 +151,7 @@ const getNumOrderSuccesMonth = async (req, res, next) => {
         if (allOrders) {
             for (let index = 0; index < allOrders.length; index++) {
                 let monthIndex = allOrders[index].createdAt.getMonth()
-                console.log(allOrders[index].createdAt, allOrders[index].createdAt.getMonth())
+                
                 orderSuccMonth[monthIndex + 1] += allOrders[index].numOfProd
             }
             return res.status(200).json(orderSuccMonth)

@@ -54,12 +54,12 @@ export const columns = [
         align: 'center',
         headerAlign: 'center',
     },
-    {
-        field: 'isPaid',
-        headerName: 'Thanh toan',
-        flex: 2,
-        editable: true,
-        align: 'center',
-        headerAlign: 'center',
-    },
+    // {
+    //     field: 'isPaid',
+    //     headerName: 'Thanh toan',
+    //     flex: 2,
+    //     editable: true,
+    //     align: 'center',
+    //     headerAlign: 'center',
+    // },
 ]

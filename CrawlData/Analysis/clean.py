@@ -213,7 +213,7 @@ def main():
 
     uri_name = 'mongodb+srv://hoang:hoang@cluster0.vwzhu.mongodb.net/?retryWrites=true&w=majority'
     db_name = 'data_phone_db_clean'
-    collection_name = 'data_phone_items_clean'
+    collection_name = 'data_phone_items_clean_two'
 
     client = MongoClient(uri_name)
     db = client[db_name]

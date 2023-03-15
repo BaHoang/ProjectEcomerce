@@ -12,7 +12,7 @@ from CrawlDataPhone.items import CrawlDataPhoneItem
 
 class CrawlDataPhonePipeline:
  
-    collection = 'data_phone_items'
+    collection = 'data_phone_items_two'
     mongodb_uri = 'mongodb+srv://hoang:hoang@cluster0.vwzhu.mongodb.net/?retryWrites=true&w=majority'
     mongodb_db = 'data_phone_db'
 

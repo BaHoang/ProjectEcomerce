@@ -251,8 +251,7 @@ def main():
     client = MongoClient("mongodb+srv://hoang:hoang@cluster0.vwzhu.mongodb.net/?retryWrites=true&w=majority")
     
     list_product = client.get_database('test').products
-  
-    data_crawl_clean = client.get_database('data_phone_db_clean').data_phone_items_clean
+    data_crawl_clean = client.get_database('data_phone_db_clean').data_phone_items_clean_two
 
     list_product_shop_telephone = []
     for item in list(list_product.find()):
@@ -265,7 +264,7 @@ def main():
     for item in list(data_crawl_clean.find()):
         list_database_clean.append(item) 
     
-    collection_name = 'data_matching'
+    collection_name = 'data_matching_two'
     db = client.get_database('data_phone_db_clean')
     db[collection_name].delete_many({})
 

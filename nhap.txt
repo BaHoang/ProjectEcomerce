@@ -1,0 +1,24 @@
+3 service:
+    front_end_admin
+    front_end_user
+    backend
+
+service
+    front_end_admin:
+        port 3000: 3000
+        bind mount folder front_admin_user
+        npm i 
+        npm start
+    
+    front_end_user:
+        port 4200: 4200
+        bind mount: folder front_admin_user
+        npm i
+        npm start
+    backend
+        port 5000
+        bind mount folder backend
+        install image nodejs
+        install Nodejs
+        npm i
+        npm start
